@@ -9,6 +9,14 @@ class modelPhotobattle extends cmsModel {
                                 , $battle //массив который будем вставлять
                             );
     }
+    
+    //функция получения записи по id
+    public function getBattle($id){
+        
+        return $this->getItemById('photobattles'
+                                    ,$id
+        );
+    }
 }
 
 ?>
