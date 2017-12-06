@@ -33,7 +33,6 @@ class formPhotobattleBattle extends cmsForm{
                 )),
                 
                 new fieldList /* List - выпадающий список */('status', array(
-                    
                     'title' => LANG_PHOTOBATTLE_STATUS,
                     'items' => array( //элементы списка
                         0 => LANG_PHOTOBATTLE_STATUS_PENDING,
