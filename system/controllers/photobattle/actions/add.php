@@ -23,6 +23,21 @@ class actionPhotobattleAdd extends cmsAction{
         if ($is_submitted){
             
             $errors = $form->validate($this, $battle); //валидируем форму
+            
+            if (!$errors){
+                //добавляем форму в базу с помощью модели и метода этой модели addBattle 
+                $battle_id = $this->model->addBattle($battle);
+                //после добавлению битвы делаем редирект на экшен созданной битвы
+                $this->redirectToAction('battle' //имя экшена
+                                        ,array($battle_id) //массив передаваемых параметров
+                                        );
+            }
+            
+            if ($errors){
+                cmsUser::addSessionMessage(LANG_FORM_ERRORS//стандартная переменная с текстом ошибки
+                                            , 'error'// css класс который будет добалвен к сообщению может быть success info error 
+                                           );
+            }
         }
         
         $template->render('form_battle', array( //рендерим шаблон и передаем в него ряд параметров
