@@ -1,11 +1,16 @@
 <?php
-
-    if ($do == 'add') {$page_title = LANG_PHOTOBATTLE_ADD;}
-    if ($do == 'edit') {$page_title = LANG_PHOTOBATTLE_EDIT;}
     
-    $this->setPageTitle($page_title);
     //добавляем глубиномер самого компонента
     $this->addBreadcrumb(LANG_PHOTOBATTLE_CONTROLLER, href_to('photobattle', ''));
+    
+    if ($do == 'add') {$page_title = LANG_PHOTOBATTLE_ADD;}
+    if ($do == 'edit') {
+            $page_title = LANG_PHOTOBATTLE_EDIT;
+            $this->addBreadcrumb($battle['title'], $this->href_to('battle', $battle['id']));
+    }
+    
+    $this->setPageTitle($page_title);
+    
     //добавляем глубиномер действия
     $this->addBreadcrumb($page_title);
 
