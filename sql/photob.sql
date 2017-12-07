@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Дек 02 2017 г., 21:59
+-- Время создания: Дек 05 2017 г., 14:47
 -- Версия сервера: 5.6.37
 -- Версия PHP: 7.1.7
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `photob`
+-- База данных: `consultug`
 --
 
 -- --------------------------------------------------------
@@ -50,7 +50,7 @@ CREATE TABLE `cms_activity` (
 --
 
 INSERT INTO `cms_activity` (`id`, `type_id`, `user_id`, `group_id`, `subject_title`, `subject_id`, `subject_url`, `reply_url`, `images`, `images_count`, `date_pub`, `is_private`, `is_parent_hidden`, `is_pub`) VALUES
-(1, 8, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-12-02 18:56:23', 0, NULL, 1);
+(1, 8, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-26 12:57:54', 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +80,10 @@ INSERT INTO `cms_activity_types` (`id`, `is_enabled`, `controller`, `name`, `tit
 (11, 1, 'groups', 'leave', 'Выход из группы', 'выходит из группы %s'),
 (12, 1, 'users', 'status', 'Изменение статуса', '&rarr; %s'),
 (18, 1, 'photos', 'add.photos', 'Добавление фотографий', 'загружает фото в альбом %s'),
-(19, 1, 'users', 'avatar', 'Изменение аватара', 'изменяет аватар');
+(19, 1, 'users', 'avatar', 'Изменение аватара', 'изменяет аватар'),
+(20, 0, 'content', 'add.articles', 'Добавление статей', 'добавляет статью %s'),
+(22, 0, 'content', 'add.diploms', 'Добавление Дипломов', 'добавляет Диплом %s'),
+(23, 0, 'content', 'add.estimats', 'Добавление Оценок', 'добавляет Оценку %s');
 
 -- --------------------------------------------------------
 
@@ -167,6 +170,13 @@ CREATE TABLE `cms_content_datasets` (
   `max_count` smallint(5) UNSIGNED NOT NULL DEFAULT '0',
   `target_controller` varchar(32) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Наборы для типов контента';
+
+--
+-- Дамп данных таблицы `cms_content_datasets`
+--
+
+INSERT INTO `cms_content_datasets` (`id`, `ctype_id`, `name`, `title`, `description`, `ordering`, `is_visible`, `filters`, `sorting`, `index`, `groups_view`, `groups_hide`, `seo_keys`, `seo_desc`, `seo_title`, `cats_view`, `cats_hide`, `max_count`, `target_controller`) VALUES
+(1, 11, 'ocenka_kvart', 'Оценка квартиры', NULL, 1, 1, '---\n', '---\n', 'dataset_ocenka_kvart', '---\n- 0\n', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -260,7 +270,12 @@ CREATE TABLE `cms_content_types` (
 
 INSERT INTO `cms_content_types` (`id`, `title`, `name`, `description`, `is_date_range`, `is_premod_add`, `is_premod_edit`, `is_cats`, `is_cats_recursive`, `is_folders`, `is_in_groups`, `is_in_groups_only`, `is_comments`, `is_comments_tree`, `is_rating`, `is_rating_pos`, `is_tags`, `is_auto_keys`, `is_auto_desc`, `is_auto_url`, `is_fixed_url`, `url_pattern`, `options`, `labels`, `seo_keys`, `seo_desc`, `seo_title`, `item_append_html`, `is_fixed`) VALUES
 (1, 'Страницы', 'pages', 'Статичные страницы сайта', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, '{id}-{title}', '---\nis_cats_change: null\nis_cats_open_root: null\nis_cats_only_last: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: null\nprofile_on: null\nlist_show_filter: null\nlist_expand_filter: null\nitem_on: 1\n', '---\none: страница\ntwo: страницы\nmany: страниц\ncreate: страницу\n', NULL, NULL, NULL, NULL, 1),
-(7, 'Фотоальбомы', 'albums', 'Альбомы с фотографиями пользователей', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, NULL, 1, NULL, 1, 1, 1, 1, 1, '{id}-{title}', '---\nis_cats_change: null\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: 1\nis_rss: 1\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nitem_on: 1\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\n', '---\none: альбом\ntwo: альбома\nmany: альбомов\ncreate: фотоальбом\n', NULL, NULL, NULL, NULL, 1);
+(7, 'Фотоальбомы', 'albums', 'Альбомы с фотографиями пользователей', NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, NULL, 1, NULL, 1, 1, 1, 1, 1, '{id}-{title}', '---\nis_cats_change: null\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: 1\nis_rss: 1\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nitem_on: 1\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\n', '---\none: альбом\ntwo: альбома\nmany: альбомов\ncreate: фотоальбом\n', NULL, NULL, NULL, NULL, 1),
+(8, 'Статьи', 'articles', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '{id}-{title}', '---\nis_date_range_process: hide\nis_empty_root: null\nis_cats_multi: null\nis_cats_change: 1\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nlist_style: consult\nprivacy_type: hide\nlimit: 2\nitem_on: 1\nis_show_fields_group: null\nhits_on: null\nis_manual_title: null\nseo_title_pattern:\nseo_keys_pattern:\nseo_desc_pattern:\nis_cats_title: null\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\nis_collapsed: null\n', '---\none: статья\ntwo: статьи\nmany: статей\ncreate: статью\nlist: Тематические статьи\nprofile:\n', NULL, NULL, NULL, NULL, NULL),
+(11, 'Сканы документов', 'diploms', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '{id}-{title}', '---\nis_date_range_process: hide\nis_empty_root: null\nis_cats_multi: null\nis_cats_change: 1\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nlist_style:\nprivacy_type: hide\nlimit: 15\nitem_on: 1\nis_show_fields_group: null\nhits_on: null\nis_manual_title: null\nseo_title_pattern:\nseo_keys_pattern:\nseo_desc_pattern:\nis_cats_title: null\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\nis_collapsed: null\n', '---\none: Диплом\ntwo: Диплома\nmany: Дипломов\ncreate: Диплом\nlist: Дипломы\nprofile:\n', NULL, NULL, NULL, NULL, NULL),
+(12, 'Оценка', 'estimats', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, '{title}', '---\nis_date_range_process: hide\nis_empty_root: null\nis_cats_multi: null\nis_cats_change: 1\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nlist_style:\nprivacy_type: hide\nlimit: 15\nitem_on: 1\nis_show_fields_group: null\nhits_on: null\nis_manual_title: null\nseo_title_pattern:\nseo_keys_pattern:\nseo_desc_pattern:\nis_cats_title: null\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\nis_collapsed: null\n', '---\none: Оценка\ntwo: Оценки\nmany: Оценок\ncreate: Оценку\nlist:\nprofile:\n', NULL, NULL, NULL, NULL, NULL),
+(14, 'Контрагенты', 'partners', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '{id}-{title}', '---\nis_date_range_process: hide\nis_empty_root: null\nis_cats_multi: null\nis_cats_change: 1\nis_cats_open_root: 1\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nlist_style:\nprivacy_type: hide\nlimit: 15\nitem_on: 1\nis_show_fields_group: null\nhits_on: null\nis_manual_title: null\nseo_title_pattern:\nseo_keys_pattern:\nseo_desc_pattern:\nis_cats_title: null\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\nis_collapsed: null\n', NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 'Вопрос-ответ', 'answer', 'Страница с популярными вопросами и ответами', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '{id}-{title}', '---\nis_date_range_process: hide\nis_empty_root: null\nis_cats_multi: null\nis_cats_change: 1\nis_cats_open_root: null\nis_cats_only_last: null\nis_show_cats: null\nis_tags_in_list: null\nis_tags_in_item: null\nis_rss: null\nlist_on: 1\nprofile_on: 1\nlist_show_filter: null\nlist_expand_filter: null\nlist_style:\nprivacy_type: hide\nlimit: 15\nitem_on: 1\nis_show_fields_group: null\nhits_on: null\nis_manual_title: null\nseo_title_pattern:\nseo_keys_pattern:\nseo_desc_pattern:\nis_cats_title: null\nis_cats_keys: null\nis_cats_desc: null\nis_cats_auto_url: 1\nis_collapsed: null\n', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -304,12 +319,14 @@ INSERT INTO `cms_controllers` (`id`, `title`, `name`, `slug`, `is_enabled`, `opt
 (13, 'Модерация', 'moderation', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (14, 'Теги', 'tags', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (15, 'Генератор RSS', 'rss', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
-(16, 'Генератор карты сайта', 'sitemap', NULL, 1, '---\nsources:\n  users|profiles: 1\n  groups|profiles: 1\n  content|pages: 1\n  content|articles: 1\n  content|posts: 1\n  content|albums: 1\n  content|board: 1\n  content|news: 1\n', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
+(16, 'Генератор карты сайта', 'sitemap', NULL, 1, '---\nsources:\n  content|pages: 1\n  content|albums: 1\n  content|articles: 1\n  content|diploms: null\n  content|estimats: 1\n  content|partners: null\n  content|answer: null\n  groups|profiles: 1\n  users|profiles: 1\n', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (17, 'Поиск', 'search', NULL, 1, '---\nctypes:\n  - articles\n  - posts\n  - albums\n  - board\n  - news\nperpage: 15\n', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (18, 'Фотоальбомы', 'photos', NULL, 1, '---\nsizes:\n  - normal\n  - small\n  - big\nis_origs: 1\npreset: big\npreset_small: normal\ntypes: |\n  1 | Фото\r\n  2 | Векторы\r\n  3 | Иллюстрации\nordering: date_pub\norderto: desc\nlimit: 20\ndownload_view:\n  normal:\n    - 0\n  related_photos:\n    - 0\n  micro:\n    - 0\n  small:\n    - 0\n  big:\n    - 0\n  original:\n    - 0\ndownload_hide:\n  normal: null\n  related_photos: null\n  micro: null\n  small: null\n  big: null\n  original:\n    - 1\n    - 3\n    - 4\nurl_pattern: \'{id}-{title}\'\npreset_related: normal\nrelated_limit: 20\n', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (19, 'Загрузка изображений', 'images', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
 (20, 'Редиректы', 'redirect', NULL, 1, '---\nno_redirect_list:\nblack_list:\nis_check_link: null\nwhite_list:\nredirect_time: 10\n', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
-(21, 'География', 'geo', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL);
+(21, 'География', 'geo', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', 1, NULL, NULL, NULL),
+(22, 'Генератор компонентов', 'comgen', NULL, 1, NULL, 'InstantCMS Team', 'http://www.instantcms.ru', '1.0', 1, 1, NULL, NULL),
+(23, 'Форма обратной связи', 'feedback', NULL, 1, NULL, 'webmans', 'webmans.ru', '1.0.0', 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -481,6 +498,878 @@ CREATE TABLE `cms_con_albums_props_values` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `cms_con_answer`
+--
+
+CREATE TABLE `cms_con_answer` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `content` text,
+  `photo` text,
+  `slug` varchar(100) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `tags` varchar(1000) DEFAULT NULL,
+  `date_pub` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_last_modified` timestamp NULL DEFAULT NULL,
+  `date_pub_end` timestamp NULL DEFAULT NULL,
+  `is_pub` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `hits_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_type` varchar(32) DEFAULT NULL,
+  `parent_title` varchar(100) DEFAULT NULL,
+  `parent_url` varchar(255) DEFAULT NULL,
+  `is_parent_hidden` tinyint(1) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '1',
+  `folder_id` int(11) UNSIGNED DEFAULT NULL,
+  `is_comments_on` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `comments` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_approved` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `approved_by` int(11) UNSIGNED DEFAULT NULL,
+  `date_approved` timestamp NULL DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_answer`
+--
+
+INSERT INTO `cms_con_answer` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`) VALUES
+(4, 'Застрахована ли Ваша деятельность?', 'Да, консолидированная ответственность компании «Консалтинг-Юг» застрахована на общую сумму 160 млн. рублей.\r\nБолее подробно с данной информацией Вы можете ознакомиться на странице \"Аккредитация и партнеры\"', NULL, '4-zastrahovana-li-vasha-dejatelnost', 'консолидированная, общую, сумму, застрахована, «консалтингюг», ответственность, компании, рублей, подробно, аккредитация', 'Да, консолидированная ответственность компании «Консалтинг-Юг» застрахована на общую сумму 160 млн. рублей.  Более подробно с данной информацией Вы можете ознакомиться на странице \"Аккредитация и партнеры\"', NULL, NULL, '2017-11-15 13:10:14', '2017-11-15 13:10:14', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0),
+(5, 'Зачем осуществлять оценку для купли-продажи имущества?', 'Заключение независимого оценщика, подтвержденное соответствующими документами и расчетами, может помочь как продавцу, так и покупателю отстоять более объективную цену сделки в процессе переговоров о купле-продаже, либо пересмотреть условия осуществления сделки.', NULL, '5-zachem-osuschestvljat-ocenku-dlja-kupli-prodazhi-imuschestva', 'сделки, продавцу, расчетами, помочь, документами, соответствующими, независимого, оценщика, подтвержденное, покупателю', 'Заключение независимого оценщика, подтвержденное соответствующими документами и расчетами, может помочь как продавцу, так и покупателю отстоять более объективную цену сделки в процессе переговоров о купле-продаже, либо пересмотреть условия осуществле', NULL, NULL, '2017-11-15 13:11:39', '2017-11-15 13:13:46', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-15 13:11:44', 0),
+(6, 'Какие у Вас этапы взаимодействия Заказчика и Оценщика?', 'Процесс оценки предполагает несколько этапов, первый из которых - это желание Заказчика получить на руки профессионально подготовленный пакет документов, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш случай не предполагает выполнение такого отчета, то мы останавливаемся на этапе бесплатной консультации, иначе - Вы предоставляете все необходимые документы и мы в указанный в договоре срок отдаем Вам готовый результат.', NULL, '6-kakie-u-vas-etapy-vzaimodeistvija-zakazchika-i-ocenschika', 'предполагает, оценки, факторы, учтены, отчет, выполнен, котором, нормами, соответствии, документов', 'Процесс оценки предполагает несколько этапов, первый из которых - это желание Заказчика получить на руки профессионально подготовленный пакет документов, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федерал', NULL, NULL, '2017-11-15 13:12:17', '2017-11-15 13:12:17', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0),
+(7, 'Как оспорить кадастровую стоимость?', 'Существует 2 пути оспаривания кадастровой стоимости.\r\nДосудебный порядок: подача заявления в комиссию Управлении Росреестра по рассмотрению споров о результатах определения кадастровой стоимости. Обращение в комиссию Росреестра обязательное условие для юридических лиц, желающих оспорить кадастровую стоимость. Решение членами комиссии принимается в течении одного календарного месяца и может быть оспорено в суде.\r\nСудебный порядок: подача административного искового заявления в суд общей юрисдикции, согласно подведомственности, установленной п.15 ст. 20 КАС РФ и ст.26 ГПК РФ. Сроки рассмотрения заявления судом составляют в среднем от 3 до 5 календарных месяцев.', NULL, '7-kak-osporit-kadastrovuyu-stoimost', 'заявления, порядок, подача, росреестра, комиссию, кадастровой, стоимости, условие, обязательное, юридических', 'Существует 2 пути оспаривания кадастровой стоимости.  Досудебный порядок: подача заявления в комиссию Управлении Росреестра по рассмотрению споров о результатах определения кадастровой стоимости.', NULL, NULL, '2017-11-15 13:12:37', '2017-11-15 13:12:37', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0),
+(8, 'Что является основанием для проведения оценки?', 'Согласно 135-ФЗ \"Об оценочной деятельности в РФ\" основанием для проведения оценки \r\nявляется договор на проведение оценки для указанных объектов, \r\nзаключенный заказчиком с оценщиком.', NULL, '8-chto-javljaetsja-osnovaniem-dlja-provedenija-ocenki', 'оценки, проведения, согласно, основанием, деятельности, 135фз, оценочной, является, договор, заказчиком', 'Согласно 135-ФЗ \"Об оценочной деятельности в РФ\" основанием для проведения оценки   является договор на проведение оценки для указанных объектов,   заключенный заказчиком с оценщиком.', NULL, NULL, '2017-11-15 13:12:52', '2017-11-15 13:12:52', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0),
+(9, 'Когда оценка является обязательной?', 'Согласно 135-ФЗ \"Об оценочной деятельности в РФ\":\r\nпри ипотечном кредитовании физических лиц и юридических лиц в случаях возникновения споров о величине стоимости предмета ипотеки;\r\nпри составлении брачных контрактов и разделе имущества разводящихся супругов по требованию одной из сторон или обеих сторон в случае возникновения спора о стоимости этого имущества;\r\nпри проведении оценки объектов оценки в целях контроля за правильностью уплаты налогов в случае возникновения спора об исчислении налогооблагаемой базы.', NULL, '9-kogda-ocenka-javljaetsja-objazatelnoi', 'возникновения, сторон, стоимости, случае, оценки, спора, величине, предмета, составлении, ипотеки;', 'Согласно 135-ФЗ \"Об оценочной деятельности в РФ\":  при ипотечном кредитовании физических лиц и юридических лиц в случаях возникновения споров о величине стоимости предмета ипотеки;  при составлении брачных контрактов и разделе имущества разводящихся', NULL, NULL, '2017-11-15 13:13:11', '2017-11-15 13:13:11', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0),
+(10, 'Какие преимущества в работе есть у Вашей компании?', 'Мы работаем без предоплаты, выезжаем на осмотр бесплатно. Всегда проверяем необходимость оценки и\r\nесли оценка не требуется, либо не позволит достигнуть поставленного заказчиком результата,\r\nто мы остановимся на этапе бесплатной консультации. \r\nЗа счет такого подхода, мы гарантируем результат, а наш отчет имеет 100% одобрения.', NULL, '10-kakie-preimuschestva-v-rabote-est-u-vashei-kompanii', 'работаем, оценка, требуется, позволит, достигнуть, оценки, необходимость, предоплаты, выезжаем, осмотр', 'Мы работаем без предоплаты, выезжаем на осмотр бесплатно. Всегда проверяем необходимость оценки и  если оценка не требуется, либо не позволит достигнуть поставленного заказчиком результата,  то мы остановимся на этапе бесплатной консультации.', NULL, NULL, '2017-11-15 13:13:30', '2017-11-15 13:13:30', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_cats`
+--
+
+CREATE TABLE `cms_con_answer_cats` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` text,
+  `slug` varchar(255) DEFAULT NULL,
+  `slug_key` varchar(255) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `ns_left` int(11) UNSIGNED DEFAULT NULL,
+  `ns_right` int(11) UNSIGNED DEFAULT NULL,
+  `ns_level` int(11) UNSIGNED DEFAULT NULL,
+  `ns_differ` varchar(32) NOT NULL DEFAULT '',
+  `ns_ignore` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `allow_add` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_answer_cats`
+--
+
+INSERT INTO `cms_con_answer_cats` (`id`, `parent_id`, `title`, `description`, `slug`, `slug_key`, `seo_keys`, `seo_desc`, `seo_title`, `ordering`, `ns_left`, `ns_right`, `ns_level`, `ns_differ`, `ns_ignore`, `allow_add`) VALUES
+(1, 0, '---', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 0, '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_cats_bind`
+--
+
+CREATE TABLE `cms_con_answer_cats_bind` (
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_answer_cats_bind`
+--
+
+INSERT INTO `cms_con_answer_cats_bind` (`item_id`, `category_id`) VALUES
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_fields`
+--
+
+CREATE TABLE `cms_con_answer_fields` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `hint` varchar(200) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_list` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_item` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed_type` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_system` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text,
+  `groups_read` text,
+  `groups_edit` text,
+  `filter_view` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_answer_fields`
+--
+
+INSERT INTO `cms_con_answer_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
+(1, 15, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 1, 1, 1, NULL, 1, 1, 0, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 255\nis_required: true\n', NULL, NULL, NULL),
+(2, 15, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', 0, 0, 1, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nshow_time: true\n', NULL, NULL, NULL),
+(3, 15, 'user', 'Автор', NULL, 3, NULL, 'user', 0, 0, 0, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\n', NULL, NULL, NULL),
+(4, 15, 'photo', 'Изображение', NULL, 4, NULL, 'image', 0, 0, NULL, NULL, 1, NULL, NULL, NULL, '---\nsize_teaser: small\nsize_full: normal\nsizes:\n  - micro\n  - small\n  - normal\n  - big\n', NULL, NULL, NULL),
+(5, 15, 'content', 'Описание', NULL, 5, NULL, 'text', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\n', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_props`
+--
+
+CREATE TABLE `cms_con_answer_props` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_props_bind`
+--
+
+CREATE TABLE `cms_con_answer_props_bind` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `cat_id` int(11) UNSIGNED DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_answer_props_values`
+--
+
+CREATE TABLE `cms_con_answer_props_values` (
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles`
+--
+
+CREATE TABLE `cms_con_articles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `content` mediumtext,
+  `photo` text,
+  `slug` varchar(100) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `tags` varchar(1000) DEFAULT NULL,
+  `date_pub` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_last_modified` timestamp NULL DEFAULT NULL,
+  `date_pub_end` timestamp NULL DEFAULT NULL,
+  `is_pub` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `hits_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_type` varchar(32) DEFAULT NULL,
+  `parent_title` varchar(100) DEFAULT NULL,
+  `parent_url` varchar(255) DEFAULT NULL,
+  `is_parent_hidden` tinyint(1) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '1',
+  `folder_id` int(11) UNSIGNED DEFAULT NULL,
+  `is_comments_on` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `comments` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_approved` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `approved_by` int(11) UNSIGNED DEFAULT NULL,
+  `date_approved` timestamp NULL DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `teaser` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_articles`
+--
+
+INSERT INTO `cms_con_articles` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `teaser`) VALUES
+(6, 'Что влияет на оценку транспорта, недвижимости, оборудования, бизнеса и финансов?', '<p><strong>Оценка недвижимости. Оценка квартиры</strong></p><p><strong>Факторы, влияющие на оценку стоимости квартиры:</strong></p><ul> <li>год постройки дома</li><li>материал стен, перекрытий, пола</li><li>этажность, планировка</li><li>площадь квартиры</li><li>качество и состояние отделки квартиры</li><li>вид из окон и их ориентация по сторонам света</li><li>состояние дома, район расположения, степень застройки района</li><li>близость транспортной развязки, социальных строений</li><li>другие факторы</li></ul><p><strong>Случаи, когда необходимо проведение оценки квартиры:</strong></p><ul> <li>для продажи</li><li>для оформления ипотеки</li><li>для оформления страховки</li><li>для дарения</li><li>для составления брачного контракта</li><li>для оформления договора пожизненного содержания с иждивением</li><li>для оформления договора аренды с правом последующего выкупа</li><li>для оформления наследства</li><li>для определения ущерба</li></ul><p><strong><br></strong></p><p><strong>Оценка недвижимости. Оценка земельного участка</strong></p><p><strong>Виды земельных участков:</strong></p><ul> <li>земли сельскохозяйственного назначения</li><li>земли коммерческого и производственно-складского назначения</li><li>земли жилого назначения (под ИЖС, под малоэтажное и многоэтажное строительство, садовых и дачных участков)</li><li>земли лесного фонда</li><li>земли водного фонда</li><li>земли особо-охраняемых территорий</li><li>земли санаторно-курортного назначения</li><li>земли промышленности, связи и транспорта</li><li>земли под оценку месторождений и запасов сырья</li><li>земли под инвестиционные цели</li></ul><p><strong>Факторы, влияющие на оценку стоимости земельного участка:</strong></p><p>Главные:</p><ul> <li>дата, на которую осуществляется оценка</li><li>физические показатели</li><li>местоположение</li><li>функциональное назначение</li></ul><p>Дополнительные:</p><ul> <li>преобладающие способы землепользования в ближайшей окрестности</li><li>ожидаемые изменения на рынке сельскохозяйственных земель и земель поселений</li><li>ожидаемые условия эксплуатации и получения прибыли</li><li>количественный и качественный состав коммуникаций и возможность присоединения к существующим сетям, в случае если на земельном участке планируется строительство объектов недвижимости</li><li>данные инженерно-геологических и инженерно-геодезических изысканий, позволяющие определить состав, состояние и свойства грунтов и данные о ситуации и рельефе местности, необходимые для прогнозирования возможного строительства</li><li>конъюнктура рынка (характера конкуренции продавцов и покупателей)</li><li>факт изменения целевого назначения участка (разрешенного использования)</li><li>ставки арендной платы</li><li>сведения об объектах социально-бытового обслуживания</li><li>сведения о состоянии окружающей среды</li><li>сведения об исторической, архитектурно-эстетической, рекреационной ценности ландшафта</li><li>интенсивность транспортного сообщения</li><li>удаленность от основных центров инфраструктуры</li><li>фактическая урожайность основных сельскохозяйственных культур и цен их реализации</li><li>продуктивность пастбищ, многолетних насаждений</li><li>структуры посевных площадей</li></ul><p><strong>Случаи, когда необходимо проведение оценки земельного участка:</strong><strong></strong></p><ul> <li>для ипотечного кредитования или в качестве залога при получении кредита, в том числе с/х назначения</li><li>для выставления на аукцион</li><li>для сдачи в аренду и определения годовой арендной платы</li><li>при определении налоговой базы для исчисления налога на имущество</li><li>при заключении договора купли-продажи, дарения, мены, ренты, наследования или совершении разных сделок с одним и тем же объектом недвижимости</li><li>при определения начальной цены земли</li><li>при законном изъятия земельных участков</li><li>при внесения земельных участков в уставные капиталы компаний</li><li>при разработке и осуществлении бизнес-планов или инвестиционных проектов</li><li>при оценке права пользования</li><li>при ведении гражданских и судебных дел, либо для судебных приставов</li><li>земельный участок может фигурировать в качестве наследуемого имущества или объекта дарения, а также в ходе судебных процессов, связанных с разделом имущества</li><li>при проведении приватизации имущества</li><li>при страховании</li><li>при привлечении новых пайщиков и дополнительной эмиссии акций</li><li>при определении размера ущерба, нанесенного недвижимому имуществу третьими лицами</li><li>в некоторых иных случаях согласно ФЗ №135</li></ul><p><strong><br></strong></p><p><strong>Оценка недвижимости. Оценка домовладения</strong></p><p><strong>Факторы, влияющие на оценку стоимости домовладения:</strong></p><p>Территориальные:</p><ul> <li>местоположение домовладения</li><li>уровень престижности данного местоположения</li><li>близость водных акваторий и лесных насаждений</li><li>экологическая обстановка</li></ul><p>Инфраструктура:</p><ul> <li>транспортная доступность</li><li>близкое расположение магазинов, супермаркетов, аптек, мест для досуга и отдыха, объектов сферы услуг и пр.</li><li>быстрая доступность оперативных служб (МЧС, полиции, скорой помощи)</li><li>наличие охраны</li><li>наличие необходимых коммуникаций в населенном пункте (газ, вода, электричество)</li></ul><p>Физические параметры:</p><ul> <li>размер земельного участка</li><li>тип здания, архитектурное решение, использованные строительные материалы</li><li>год постройки</li><li>планировка, количество комнат и этажей</li><li>внешняя и внутренняя отделка</li><li>капитальный или косметический ремонт</li><li>инженерное оснащение, наличие собственной скважины</li><li>наличие телекоммуникаций</li><li>вид из окон</li><li>обустройство придомовой территории</li><li>ландшафтный дизайн</li><li>соблюдение санитарных условий</li><li>наличие гаража и хозяйственных построек</li><li>наличие и состояние сада и огорода</li><li>наличие надежного ограждения и ворот и т.д.</li></ul><p><strong> Случаи, когда необходимо проведение оценки домовладения:</strong></p><ul> <li>для продажи</li><li>для оформления ипотеки</li><li>для оформления страховки</li><li>для дарения</li><li>для составления брачного контракта</li><li>для оформления договора пожизненного содержания с иждивением</li><li>для оформления договора аренды с правом последующего выкупа</li><li>для оформления наследства</li><li>для определения ущерба</li></ul><p><strong><br></strong></p><p><strong>Оценка недвижимости. Оценка имущественного комплекса</strong></p><p><strong>Состав имущественных комплексов для оценки стоимости:</strong></p><ul> <li>оценка земельных участков</li><li>оценка объектов недвижимости</li><li>оценка установленного оборудования</li><li>оценка транспортного парка</li><li>оценка готовой продукции</li></ul><p><strong>Случаи, когда необходимо проведение оценки имущественного комплекса:</strong></p><ul> <li>для кредиторов, при принятии решения о предоставлении кредита и использовании имущественного комплекса, как залога</li><li>для арендодателей, при установлении арендной платы с учетом рыночной стоимости объектов аренды</li><li>для корректного отражения в отчетности</li><li>при определении обоснованной цены объектов сделки потенциального покупателя и продавца</li><li>при проведении приватизации</li><li>при проведении конкурсов, аукционов, торгов</li><li>при передаче объектов в доверительное управление и лизинг</li><li>при выкупе, конфискации, изъятии, ликвидации, слиянии, поглощении</li><li>при разрешении имущественных споров</li><li>при передаче прав собственности</li><li>при переуступке долговых обязательств</li><li>при внесении имущества в уставный капитал</li><li>при инвестиционном бизнес-проектировании и разработке бизнес-планов</li></ul><p><strong><br></strong></p><p><strong>Оценка недвижимости. Оценка зданий и сооружений</strong></p><p><strong>Тип и объем зданий и сооружений:</strong></p><p>Строения нежилого, ветхого фонда, подвалы:</p><ul> <li>до 200 куб.м</li><li>от 200 до 500 куб.м</li><li>от 500 до 4000 куб.м</li><li>от 4000 до 20000 куб.м</li><li>свыше 20000 куб.м</li></ul><p>Общественные и коммунальные здания:</p><ul> <li>до 300 куб.м</li><li>от 300 до 4500 куб.м</li><li>от 4500 до 30000 куб.м</li><li>свыше 30000 куб.м</li></ul><p>Объекты сферы торговли и услуг:</p><ul> <li>до 50 куб.м</li><li>от 50 до 500 куб.м</li><li>от 500 до 5000 куб.м</li><li>от 5000 до 30000 куб.м</li><li>свыше 30000 куб.м</li></ul><p>Производственные здания:</p><ul> <li>до 500 куб.м</li><li>от 500 до 4000 куб.м</li><li>от 4000 до 20000 куб.м</li><li>от 20000 до 50000 куб.м</li><li>свыше 50000 куб.м</li></ul><p>Склады закрытого типа:</p><ul> <li>до 500 куб.м</li><li>от 500 до 5000 куб.м</li><li>от 5000 до 20000 куб.м</li><li>свыше 20000 куб.м</li></ul><p>Склады открытого типа:</p><ul> <li>от 1000 куб.м</li><li>от 1000 до 5000 куб.м</li><li>свыше 50000 куб.м</li></ul><p><strong>Случаи, когда необходимо проведение оценки зданий и сооружений:</strong></p><ul> <li>при купли-продаже или сдаче в аренду</li><li>при кредитовании под залог объекта недвижимости</li><li>при акционировании и перераспределении имущественных долей</li><li>при привлечении новых пайщиков и эмиссии акций</li><li>при кадастровой оценке для целей налогообложения</li><li>при страховании</li><li>при внесении объекта в уставный капитал организации</li><li>при разработке инвестиционных проектов и бизнес-планов</li><li>при ликвидации объектов недвижимости</li></ul><p>при исполнении судебного приговора</p><p><strong><br></strong></p><p><strong>Оценка транспорта. Оценка автотранспорта</strong></p><p><strong>Типы автотранспорта:</strong></p><ul> <li>автомобили</li><li>прицепы</li><li>тракторы</li><li>комбайны</li></ul><p><strong>Факторы влияющие на оценку автотранспорта:</strong></p><ul> <li>год выпуска</li><li>пробег</li><li>марка и модель</li><li>объем и мощность двигателя</li><li>комплектация</li><li>внешний вид и техническое состояние</li><li>наличие дополнительных опций</li></ul><p><strong>Случаи, когда необходимо проведение оценки автотранспорта:</strong></p><ul> <li>при получение кредита под залог автотранспорта</li><li>при осуществлении сделки купли-продажи</li><li>при вступление в наследство</li><li>при разделе имущества супругами при разводе</li><li>при внесении автотранспортного средства в уставный фонд</li><li>при переоценке основных средств</li><li>при списании автотранспортного средства с баланса предприятия</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка транспорта. Оценка мототранспорта</strong></p><p><strong>Типы мототранспорта:</strong></p><ul> <li>мотоциклы</li><li>квадроциклы</li><li>мотороллеры</li><li>мопеды</li><li>скутеры</li></ul><p><strong>Факторы, влияющие на оценку мототранспорта:</strong></p><ul> <li>год выпуска</li><li>пробег</li><li>марка и модель</li><li>объем и мощность двигателя</li><li>комплектация</li><li>внешний вид и техническое состояние</li><li>наличие дополнительных опций</li></ul><p><strong>Случаи, когда необходимо проведение оценки мототранспорта:</strong></p><ul> <li>при получение кредита под залог мототранспорта</li><li>при осуществлении сделки купли-продажи</li><li>при вступление в наследство</li><li>при разделе имущества супругами при разводе</li><li>при внесении мототранспортного средства в уставный фонд</li><li>при переоценке основных средств</li><li>при списании мототранспортного средства с баланса предприятия</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка транспорта. Оценка воздушных и морских судов</strong></p><p><strong>Типы воздушных и морских судов:</strong></p><p>Воздушные суда:</p><ul> <li>самолеты</li><li>вертолеты</li><li>аэростаты</li><li>квадрокоптеры</li></ul><p>Морские суда:</p><ul> <li>пассажирские</li><li>грузовые</li><li>промысловые</li><li>буксирные</li><li>спортивные</li><li>специальные</li><li>военные</li></ul><p><strong>Факторы, влияющие на оценку воздушных и морских судов:</strong></p><p>Воздушные суда:</p><ul> <li>марка и модель</li><li>предприятие – изготовитель</li><li>даты выпуска и ввода в эксплуатацию</li><li>даты и суть модернизаций (ремонтов)</li><li>технического состояние</li><li>ограничения прав собственности на судно</li><li>местонахождение судна</li><li>назначенный (расчетный) и остаточный ресурс</li><li>гарантии изготовителя на судно</li><li>интенсивность, вид и особенности эксплуатации судна</li><li>основные летно-технические характеристики</li><li>характеристики, определяющие основные эксплуатационные расходы</li><li>условий хранения и обслуживания судна</li></ul><p>Морские суда:</p><ul> <li>год, место постройки судна</li><li>назначение</li><li>длина, ширина, высота борта, осадка судна</li><li>водоизмещение судна</li><li>дедвейт</li><li>вместимость судна</li><li>автономность плавания судна по запасам топлива</li><li>количество палуб и водонепроницаемых переборок на судне</li><li>назначение, температура, объем трюма судна</li><li>количество и размеры грузовых люков</li><li>судовые запасы</li><li>главный двигатель судна</li><li>вспомогательные и аварийные двигатели судна</li><li>движители судна</li><li>главный редуктор</li><li>котлы судна</li><li>краткие характеристики судовых устройств</li><li>спасательные средства на судне</li><li>промысловое оборудование на судне</li><li>источники энергии судовой сети</li><li>автоматизация судна</li><li>наличие обременений</li></ul><h3></h3><p><strong>Случаи, когда необходимо проведение оценки воздушных и морских судов:</strong></p><ul> <li>для оптимизации (снижения) налогообложения</li><li>для внесения судна в уставной капитал и отражения на балансе</li><li>для кредитования под залог судна</li><li>для оформлении сделки купли-продажи</li><li>для привлечения инвесторов и финансовых инвестиций</li><li>для разрешения судебных споров</li><li>при сдаче в аренду или лизинге</li><li>при передаче судна в доверительное управление</li><li>при определение стартовой аукционной цены</li><li>при переоценке стоимости, списании (утилизации)</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка транспорта. Оценка спецтехники</strong></p><p><strong>Типы спецтехники:</strong></p><ul> <li>бульдозеры</li><li>краны</li><li>грейдеры</li><li>экскаваторы</li><li>погрузчики</li><li>кары</li><li>катки</li><li>дорожные машины</li><li>снегоуборочная техника</li></ul><p><strong>Факторы, влияющие на оценку спецтехники:</strong></p><ul> <li>год выпуска</li><li>техническое состояние всех узлов и деталей</li><li>показатели физического и морального износа</li><li>комплектация</li><li>внешний вид и оснащение</li><li>товарный знак, степень новизны и уникальности</li></ul><p><strong>Случаи, когда необходимо проведение оценки спецтехники:</strong></p><ul> <li>для получение кредита под залог спецтехники</li><li>для получение кредита под залог спецтехники</li><li>при сдаче в аренду или лизинге</li><li>при вступление в наследство</li><li>при внесении спецтехники в уставный фонд</li><li>при переоценке основных средств</li><li>при списании спецтехники с баланса предприятия</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка транспорта. Оценка ж/д техники</strong></p><p><strong>Факторы, влияющие на оценку ж/д транспорта:</strong></p><ul> <li>уровень физического износа</li><li>остаточный эксплуатационный срок</li><li>периодичность проведения и количество текущих и капитальных ремонтов</li><li>время, оставшееся до очередного планового ремонта</li><li>оставшееся время эксплуатации транспорта</li><li>технические характеристики объекта</li><li>физическое состояние и материал оборудования или его отдельных частей</li><li>степень физического износа</li><li>дооборудование</li><li>полученные повреждения и поломки</li></ul><p><strong>Случаи, когда необходимо проведение оценки ж/д транспорта:</strong></p><ul> <li>для кредитной организации в качестве залога</li><li>для сдачи в аренду</li><li>для лизинга</li><li>для расчета налога на имущество</li><li>при совершении сделки купли-продажи</li><li>при исполнении решения суда</li><li>при внесении на баланс организации</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка оборудования. Оценка станков и механизмов</strong></p><p><strong>Типы станков и механизмов:</strong></p><ul> <li>агрегаты</li><li>станки</li><li>машины</li><li>механизмы</li><li>приборы КИПиА</li><li>установки</li></ul><p><strong>Случаи, когда необходимо проведение оценки станков и механизмов:</strong></p><ul> <li>для получения кредита под залог имущества организации</li><li>для получения кредита под залог имущества организации</li><li>для расчета налога на имущество</li><li>при постановке оборудования на баланс предприятия</li><li>при передаче в аренду или лизинге</li><li>при передаче в аренду или лизинге</li><li>при судебных разбирательствах</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка оборудования. Оценка технологических линий</strong></p><p><strong>Типы технологических линий:</strong></p><ul> <li>стендовые</li><li>агрегатно-поточные</li><li>конвейерные</li><li>кассетные установки</li></ul><p><strong>Случаи, когда необходимо проведение оценки технологических линий:</strong></p><ul> <li>для получения кредита под залог имущества организации</li><li>для проведения сделок купли-продажи, дарения, ренты</li><li>для расчета налога на имущество</li><li>при постановке оборудования на баланс предприятия</li><li>при передаче в аренду или лизинге</li><li>при утилизации</li><li>при судебных разбирательствах</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка оборудования. Оценка товаров</strong></p><p><strong>Типы товаров:</strong></p><ul> <li>инвентарь</li><li>сырье</li><li>готовая продукция</li><li>незавершенное производство</li><li>инструменты</li><li>мебель</li></ul><p><strong>Случаи, когда необходимо проведение оценки товаров:</strong></p><ul> <li>при расторжении договоров с подрядчиками</li><li>при привлечении инвесторов или разработке бизнес-плана</li><li>при расчете налогообложения в организации</li><li>при постановке товаров на баланс предприятия</li><li>при утилизации</li><li>при страховании</li></ul><p><strong><br></strong></p><p><strong>Оценка оборудования. Оценка оргтехники</strong></p><p><strong>Типы оргтехники:</strong></p><ul> <li>общего пользования</li><li>офисного назначения</li><li>банковского назначения</li></ul><p><strong>Случаи, когда необходимо проведение оценки оргтехники:</strong></p><ul> <li>при продаже, списании с баланса</li><li>при получении кредита под залог оргтехники</li><li>при оценки для страховых компаний</li><li>при банкротстве организации</li><li>при внесении в уставный капитал</li><li>при переоценке активов</li><li>для судебных разбирательств</li></ul><p><strong><br></strong></p><p><strong>Оценка бизнеса и финансов. Оценка интеллектуальной собственности</strong></p><p><strong>Виды интеллектуальной собственности:</strong></p><p>Объекты промышленной интеллектуальной собственности:</p><ul> <li>лицензия</li><li>товарный знак</li><li>деловая репутации</li><li>патент</li><li>бренд</li><li>ноу-хау</li><li>авторское право</li><li>изобретение</li><li>промышленные образец</li><li>полезная модель</li><li>фирменное наименование</li><li>место происхождения товара</li><li>Объекты, представляющие коммерческую тайну или ноу-хау:</li><li>знания технического, финансового или административно-управленческого характера приносящие или могущие приносить доход или иную пользу</li><li>результаты научно-исследовательских и опытно-конструкторских работ</li><li>не охраняемая патентами проектная, конструкторская и технологическая документация</li></ul><p>Объекты интеллектуальной собственности авторского права и смежных прав:</p><ul> <li>произведения науки, литературы и искусства</li><li>программы для ЭВМ и базы данных</li><li>топология интегральных микросхем</li></ul><p><strong>Случаи, когда необходимо проведение оценки интеллектуальной собственности:</strong></p><ul> <li>при выдаче кредита под залог исключительных прав</li><li>при передача во временное пользование</li><li>при уступке прав на объект интеллектуальной собственности</li><li>при выдаче лицензий на использование</li><li>при постановка на бухгалтерский баланс юридического лица</li><li>при приватизации объектов научно-технической сферы</li><li>при расчете вознаграждения авторам, создавших ИС</li><li>при определение доли прибыли от использования объектов ИС</li><li>для привлечения инвесторов и составления бизнес-планов</li><li>для оптимизации налогообложения</li></ul><p><strong><br></strong></p><p><strong>Оценка бизнеса и финансов. Оценка ценных бумаг </strong></p><p><strong>Виды ценных бумаг:</strong></p><ul> <li>долевые (акции)</li><li>долговые (облигации, векселя)</li><li>производные (опционы, фьючерсы)</li></ul><p><strong>Факторы, влияющие на оценку стоимости ценных бумаг</strong></p><ul> <li>соотношение спроса и предложения</li><li>ликвидность ценной бумаги</li><li>котировки аналогичных ценных бумаг</li><li>доходность или текущая стоимость будущего дохода</li><li>характеристики эмитента</li><li>инфляция</li><li>надежность ценной бумаги</li><li>риски неисполнения обязательств и инвестиционные риски</li><li>снижение или рост инвестиционной привлекательности ценной бумаги</li></ul><p><strong>Случаи, когда необходимо проведение оценки ценных бумаг:</strong></p><ul> <li>для получения кредита под залог ценных бумаг</li><li>для совершения сделок купли-продажи, мены, наследования, дарения</li><li>для дополнительной эмиссии акций</li><li>для выкупа акционерами</li><li>для привлечения внешнего финансирования</li><li>для внесения в уставный капитал</li><li>для определения стоимости компании</li><li>для снятия с налогового учета</li><li>для перехода на мсфо</li><li>для оценки благонадежности активов</li><li>для отчета перед вышестоящей организацией</li><li>для судебных органов</li><li>при принятии управленческих решений</li><li>при слиянии, поглощении, разделении предприятия</li><li>при передаче в доверительное управление</li><li>при уплате долгов</li></ul><p><strong><br></strong></p><p><strong>Оценка бизнеса и финансов. Оценка инвестиционных проектов</strong></p><p><strong>Факторы, влияющие на оценку инвестиционного проекта:</strong></p><ul> <li>масштабы проекта</li><li>наличие бизнес-плана или ТЭО по проекту</li><li>особые требования к проекту у кредитной организации или аудиторов</li><li>необходимость защиты отчета перед проверяющей структурой</li><li>скорость выполнения отчета</li></ul><p><strong>Случаи, когда необходимо проведение оценки инвестиционного проекта:</strong></p><ul> <li>при поиске инвесторов</li><li>при выборе эффективных условий инвестирования или кредитования</li><li>при выборе условий страхования рисков</li><li>при сравнении нескольких проектов (вариантов проекта) и выбора лучшего из них</li><li>при открытии нового бизнеса</li><li>при расширении бизнеса в ранее заданном либо новом направлении</li></ul>', '---\nbig: >\n  000/u2/df/3a/chto-vlijaet-na-ocenku-transporta-nedvizhimosti-oborudovanija-biz.png\nnormal: >\n  000/u2/eb/00/chto-vlijaet-na-ocenku-transporta-nedvizhimosti-oborudovanija-biz.png\nsmall: >\n  000/u2/df/9c/chto-vlijaet-na-ocenku-transporta-nedvizhimosti-oborudovanija-biz.png\nmicro: >\n  000/u2/b4/cc/chto-vlijaet-na-ocenku-transporta-nedvizhimosti-oborudovanija-biz.png\n', '6-chto-vlijaet-na-ocenku-transporta-nedvizhimosti-oborudovanija-biznesa-i-finansov', 'оценка, оценки, необходимо, проведение, кубмот, залог, кредита, оценку, влияющие, оформления', 'Оценка недвижимости.', NULL, NULL, '2017-11-15 20:23:53', '2017-11-16 11:09:52', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-15 20:36:04', 0, 'В данной статье максимально подробно рассмотрены все факторы и случаи оценки для всех видов и типов транспорта, недвижимости, оборудования, бизнеса и финансов. Приведена простая и понятная классификация.'),
+(5, 'Какие бывают документы-основания возникновения права собственности?', '<p><strong>Документами-основаниями</strong> возникновения права собственности на квартиру могут быть:</p><ul> \r\n<li>Договор передачи жилья в собственность </li></ul><ul>   \r\n<li>Договор с Застройщиком</li>  \r\n<li>Договор уступки прав требования</li>  \r\n<li>Договор купли-продажи</li>  \r\n<li>Договор мены</li>  \r\n<li>Справка о выплаченном пае</li>  \r\n<li>Свидетельство о праве на наследство</li>  \r\n<li>Договор дарения</li>  \r\n<li>Соглашение о разделе имущества </li>  \r\n<li>Решение суда</li>  \r\n<li>Договор купли-продажи и ипотеки</li>  \r\n<li>Договор пожизненного содержания с      иждивением<strong></strong></li></ul><p>Так как квартиру можно получить в собственность несколькими путями, то и оснований может быть несколько. Каждый такой Документ-основание показывает Покупателю, в какой области права была получена недвижимость.</p><p>Важно знать, что право собственности всегда имеет под собой какое-либо <strong>основание </strong>(источник) возникновения этого права у человека. На этот источник и  указывает <strong>Документ-основание</strong> права собственности, т.е. на основе какого события государством было зарегистрировано это право.</p><p><strong>Документ-основание</strong> называют <strong>правоустанавливающим документом </strong>потому как, именно он устанавливает право конкретного человека на конкретный объект недвижимости.</p><p>Свидетельство о праве собственности (иначе Титул), равно как и Выписка из ЕГРП на квартиру, являются <strong>правоподтверждающими</strong>документами, которые представляют собой выписку данных из базы Росреестра.&nbsp;</p><p>По отношению к Свидетельству о праве (выписке из ЕГРП), <strong>документ-основание</strong> первичен и Титул выдается на его основе. </p><p>Основание регистрации <strong>права собственности</strong> на квартиру позволяет установить историю возникновения прав и переходов прав на нее, точнее – является отправной точкой для изучения правовой истории квартиры. На самом Титуле всегда указано отдельной строкой – на каком основании он был получен.</p><p>Немаловажным фактом является то, что с <strong>июля 2016 года государство не выдает Свидетельства о праве собственности</strong>, однако  <strong>Документ-основание</strong> должен быть обязательно, иначе человек не является собственником квартиры.</p><p>В случае утери владельцем этого документа, его второй экземпляр хранится в архиве Росреестра, и всегда может быть восстановлен по заявлению владельца.</p>', '---\nbig: >\n  000/u2/b7/51/kakie-byvayut-dokumenty-osnovanija-vozniknovenija-prava-sobstvennos.gif\nnormal: >\n  000/u2/c7/6d/kakie-byvayut-dokumenty-osnovanija-vozniknovenija-prava-sobstvennos.gif\nsmall: >\n  000/u2/40/96/kakie-byvayut-dokumenty-osnovanija-vozniknovenija-prava-sobstvennos.gif\nmicro: >\n  000/u2/4f/6a/kakie-byvayut-dokumenty-osnovanija-vozniknovenija-prava-sobstvennos.gif\n', '5-kakie-byvayut-dokumenty-osnovanija-vozniknovenija-prava-sobstvennosti', 'договор, собственности, права, праве, документоснование, квартиру, является, возникновения, основе, основание', 'Документами-основаниями возникновения права собственности на квартиру могут быть:    Договор передачи жилья в собственность      Договор с Застройщиком    Договор уступки прав требования    Договор купли-продажи    Договор мены    Справка о выплаченн', NULL, NULL, '2017-11-15 19:20:32', '2017-11-15 19:21:46', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-15 19:21:46', 0, 'Что такое документ-основание, титул, чем отличается правоустанавливающий документ от правоподтверждающего, какой документ первичен, чем государство заменило свидетельство о праве на собственность? Ответы на эти вопросы Вы можете прочитать в данной статье'),
+(4, 'Что нужно знать из 135-ФЗ «Об оценочной деятельности в Российской Федерации»', '<p>\r\n	<strong>Понятия оценочной деятельности:</strong></p><p>\r\n	<strong></strong></p><p>\r\n	<strong>Оценочная деятельность</strong> - это профессиональная деятельность субъектов оценочной деятельности (оценщиков), направленная на установление в отношении объектов оценки рыночной, кадастровой, ликвидационной, инвестиционной или иной предусмотренной федеральными стандартами оценки стоимости.</p><p>\r\n	<strong>Рыночная стоимость</strong> объекта оценки - наиболее вероятная цена, по которой данный объект оценки может быть отчужден на открытом рынке в условиях конкуренции, когда стороны сделки действуют разумно, располагая всей необходимой информацией, а на величине цены сделки не отражаются какие-либо чрезвычайные обстоятельства, то есть когда:</p><ul>\r\n	<li>одна из сторон сделки не обязана отчуждать объект оценки, а другая сторона не обязана принимать исполнение;</li>	<li>стороны сделки хорошо осведомлены о предмете сделки и действуют в своих интересах;</li>	<li>объект оценки представлен на открытом рынке посредством публичной оферты, типичной для аналогичных объектов оценки;</li>	<li>цена сделки представляет собой разумное вознаграждение за объект оценки и принуждения к совершению сделки в отношении сторон сделки с чьей-либо стороны не было;</li>	<li>платеж за объект оценки выражен в денежной форме.</li></ul><p>\r\n	Устанавливается по-умолчанию, если иное не определено договором.&nbsp;</p><p>\r\n	<strong>Синонимы:</strong> «действительная стоимость», «разумная стоимость», «эквивалентная стоимость», «реальная стоимость»</p><p>\r\n	<strong>Кадастровая стоимость</strong> - стоимость, установленная в результате проведения государственной кадастровой оценки или в результате рассмотрения споров о результатах определения кадастровой стоимости либо определенная в случаях, предусмотренных статьей 24.19 данного ФЗ.</p><p>\r\n	<strong>Ликвидационная стоимость</strong> - расчетная величина, отражающая наиболее вероятную цену, по которой данный объект оценки может быть отчужден за срок экспозиции объекта оценки, меньший типичного срока экспозиции объекта оценки для рыночных условий, в условиях, когда продавец вынужден совершить сделку по отчуждению имущества.</p><p>\r\n	<strong>Инвестиционная стоимость</strong> - стоимость объекта оценки для конкретного лица или группы лиц при установленных данным лицом (лицами) инвестиционных целях использования объекта оценки.</p><p><strong><br></strong></p><p>\r\n	<strong>Субъекты оценочной деятельности (оценщики):</strong><strong></strong></p><p>\r\n	<u></u></p><p>\r\n	Оценщики - физические лица, являющиеся членами одной из саморегулируемых организаций оценщиков (СРО) и застраховавшие свою ответственность в соответствии с требованиями настоящего ФЗ .</p><p>\r\n	<strong></strong></p><p><strong><br></strong></p><p>\r\n	<strong>Объекты оценки:</strong></p><ul>\r\n	<li>отдельные материальные объекты (вещи);</li>	<li>совокупность вещей, составляющих имущество лица, в том числе имущество определенного вида (движимое или недвижимое, в том числе предприятия);</li>	<li>право собственности и иные вещные права на имущество или отдельные вещи из состава имущества;</li>	<li>права требования, обязательства (долги);</li>	<li>работы, услуги, информация;</li>	<li>иные объекты гражданских прав, в отношении которых законодательством РФ установлена возможность их участия в гражданском обороте.</li></ul><p>\r\n	 <u></u></p><p><strong><br></strong></p><p>\r\n	<strong>Случаи, в которых оценка является обязательной:</strong></p><p>\r\n	<strong>Для ФЛ и ЮЛ:</strong></p><ul>\r\n	<li>при ипотечном кредитовании физических лиц и юридических лиц в случаях возникновения споров о величине стоимости предмета ипотеки;</li>	<li>при составлении брачных контрактов и разделе имущества разводящихся супругов по требованию одной из сторон или обеих сторон в случае возникновения спора о стоимости этого имущества;</li>	<li>при проведении оценки объектов оценки в целях контроля за правильностью уплаты налогов в случае возникновения спора об исчислении налогооблагаемой базы.</li></ul><p>\r\n	<strong>Для РФ, субъектов РФ и МО:</strong></p><ul>\r\n	<li>при определении стоимости объектов оценки, принадлежащих РФ, субъектам РФ или МО, в целях их приватизации, передачи в доверительное управление либо передачи в аренду;</li>	<li>при использовании объектов оценки, принадлежащих РФ, субъектам РФ либо МО, в качестве предмета залога;</li>	<li>при продаже или ином отчуждении объектов оценки, принадлежащих РФ, субъектам РФ или МО;</li>	<li>при переуступке долговых обязательств, связанных с объектами оценки, принадлежащими РФ, субъектам РФ или МО;</li>	<li>при передаче объектов оценки, принадлежащих РФ, субъектам РФ или МО, в качестве вклада в уставные капиталы, фонды юридических лиц,</li>	<li>а также при возникновении спора о стоимости объекта оценки, в том числе:</li>	<li>при изъятии имущества для государственных или муниципальных нужд;</li>	<li>при национализации имущества.</li></ul><p>\r\n	<u></u></p><p><strong><br></strong></p><p>\r\n	<strong>Основания для проведения оценки:</strong><strong></strong></p><p>\r\n	Основанием для проведения оценки является договор на проведение оценки указанных в статье 5 настоящего ФЗ объектов, заключенный заказчиком с оценщиком.</p><p><strong><br></strong></p><p>\r\n	<strong>Договор на проведение оценки должен содержать</strong>:</p><ul>\r\n	<li>цель оценки;</li>	<li>описание объекта оценки, позволяющее осуществить их идентификацию;</li>	<li>вид определяемой стоимости объекта оценки;</li>	<li>размер денежного вознаграждения за проведение оценки;</li>	<li>дату определения стоимости объекта оценки;</li>	<li>сведения об обязательном страховании гражданской ответственности оценщика в соответствии с настоящим ФЗ;</li>	<li>наименование СРО, членом которой является оценщик, и место нахождения этой организации;</li>	<li>указание на стандарты оценочной деятельности, которые будут применяться при проведении оценки;</li>	<li>сведения об оценщике или оценщиках, которые будут проводить оценку, в том числе ФИО.</li></ul><p>\r\n	<strong></strong></p><p><strong><br></strong></p><p>\r\n	<strong>Права оценщика:</strong></p><ul>\r\n	<li>применять самостоятельно методы проведения оценки объекта оценки в соответствии со стандартами оценки;</li>	<li>требовать от заказчика при проведении обязательной оценки объекта оценки обеспечения доступа в полном объеме к документации, необходимой для осуществления этой оценки;</li>	<li>получать разъяснения и дополнительные сведения, необходимые для осуществления данной оценки;</li>	<li>запрашивать в письменной или устной форме у третьих лиц информацию, необходимую для проведения оценки объекта оценки, за исключением информации, являющейся государственной или коммерческой тайной; в случае, если отказ в предоставлении указанной информации существенным образом влияет на достоверность оценки объекта оценки, оценщик указывает это в отчете;</li>	<li>привлекать по мере необходимости на договорной основе к участию в проведении оценки объекта оценки иных оценщиков либо других специалистов;</li>	<li>отказаться от проведения оценки объекта оценки в случаях, если заказчик нарушил условия договора, не обеспечил предоставление необходимой информации об объекте оценки либо не обеспечил соответствующие договору условия работы;</li>	<li>требовать возмещения расходов, связанных с проведением оценки объекта оценки, и денежного вознаграждения за проведение оценки объекта оценки по определению суда, арбитражного суда или третейского суда;</li>	<li>добровольно приостанавливать право осуществления оценочной деятельности по личному заявлению, направленному в саморегулируемую организацию оценщиков, в порядке, который установлен внутренними документами саморегулируемой организации оценщиков.</li></ul><p>\r\n	<strong></strong></p><p><strong><br></strong></p><p>\r\n	<strong>Обязанности оценщика:</strong></p><ul>\r\n	<li>быть членом одной из саморегулируемых организаций оценщиков;</li>	<li>соблюдать требования настоящего Федерального закона, федеральных стандартов оценки, иных нормативных правовых актов Российской Федерации в области оценочной деятельности, а также требования стандартов и правил оценочной деятельности, утвержденных саморегулируемой организацией оценщиков, членом которой он является;</li>	<li>соблюдать правила деловой и профессиональной этики, установленные саморегулируемой организацией оценщиков (далее - правила деловой и профессиональной этики), членом которой он является, а также уплачивать взносы, установленные такой саморегулируемой организацией оценщиков;</li>	<li>сообщать заказчику или юридическому лицу, с которым он заключил трудовой договор, о невозможности своего участия в проведении оценки вследствие возникновения обстоятельств, препятствующих проведению объективной оценки;</li>	<li>обеспечивать сохранность документов, получаемых от заказчика и третьих лиц в ходе проведения оценки;</li>	<li>представлять заказчику информацию о членстве в саморегулируемой организации оценщиков;</li>	<li>представлять саморегулируемой организации оценщиков информацию о юридическом лице, с которым он заключил трудовой договор, в том числе информацию о соответствии такого юридического лица условиям, установленным статьей 15.1 настоящего Федерального закона, а также сведения о любых изменениях этой информации в течение десяти дней с даты заключения трудового договора и (или) возникновения изменений;</li>	<li>представлять ежеквартально в порядке, установленном внутренними документами саморегулируемой организации оценщиков, информацию о подписанных им в указанный период отчетах с указанием даты составления отчета и его порядкового номера, объекта оценки, вида определенной стоимости;</li>	<li>представлять по требованию заказчика страховой полис и подтверждающий получение профессиональных знаний в области оценочной деятельности документ об образовании;</li>	<li>не разглашать информацию, в отношении которой установлено требование об обеспечении ее конфиденциальности и которая получена от заказчика в ходе проведения оценки, за исключением случаев, предусмотренных законодательством Российской Федерации;</li>	<li>хранить копии подписанных им отчетов, а также копии документов и материалов, на основании которых проводилась оценка, на бумажных или электронных носителях либо в форме электронных документов в течение трех лет с даты составления отчета;</li>	<li>в случаях, предусмотренных законодательством Российской Федерации, предоставлять копии хранящихся отчетов или содержащуюся в них информацию правоохранительным, судебным, иным уполномоченным государственным органам по их требованию;</li>	<li>по требованию заказчика предоставлять заверенную саморегулируемой организацией оценщиков выписку из реестра членов саморегулируемой организации оценщиков, членом которой он является.</li></ul><p>\r\n	<strong></strong></p><p><strong><br></strong></p><p>\r\n	<strong>Права заказчика:</strong></p><ul>\r\n	<li>требовать и получать от оценочной компании, оценщика обоснование выводов по результатам оценки;</li>	<li>получать от оценочной компании, оценщика отчет об оценке в срок, установленный договором на проведение оценки;</li>	<li>осуществлять иные права, вытекающие из договора на проведение оценки.</li></ul><p><strong><br></strong></p><p>\r\n	<strong>Обязанности заказчика:</strong><strong></strong></p><p>\r\n	<strong></strong></p><ul>\r\n	<li>содействовать оценочной компании, оценщику в своевременном и полном проведении оценки, создавать для этого соответствующие условия, предоставлять необходимые информацию и документацию, давать по устному или письменному запросу оценочной компании, оценщика исчерпывающие разъяснения и подтверждения в устной и письменной форме, а также запрашивать необходимые для проведения оценки сведения у третьих лиц;</li>	<li>не предпринимать каких бы то ни было действий, направленных на сокрытие (ограничение доступа) информации и документации, запрашиваемых оценочной компанией, оценщиком. Наличие в запрашиваемых оценочной компанией, оценщиком для проведения оценки информации и документации сведений, содержащих коммерческую тайну, не может являться основанием для отказа в их предоставлении;</li>	<li>своевременно оплачивать услуги оценочной компании, оценщика в соответствии с договором на проведение оценки, в том числе в случае, если результаты проведения оценки не согласуются с позицией заказчика оценки;</li>	<li>исполнять требования настоящего Федерального закона, федеральных стандартов оценки и иные обязанности, вытекающие из договора на проведение оценки.&nbsp;</li></ul>', '---\nbig: >\n  000/u2/1a/87/chto-nuzhno-znat-iz-fz-ob-ocenochnoi-dejatelnosti-v-rossiiskoi-fe.jpg\nnormal: >\n  000/u2/c6/1e/chto-nuzhno-znat-iz-fz-ob-ocenochnoi-dejatelnosti-v-rossiiskoi-fe.jpg\nsmall: >\n  000/u2/db/e9/chto-nuzhno-znat-iz-fz-ob-ocenochnoi-dejatelnosti-v-rossiiskoi-fe.jpg\nmicro: >\n  000/u2/99/16/chto-nuzhno-znat-iz-fz-ob-ocenochnoi-dejatelnosti-v-rossiiskoi-fe.jpg\n', '4-chto-nuzhno-znat-iz-135-fz-ob-ocenochnoi-dejatelnosti-v-rossiiskoi-federacii', 'оценки, объекта, оценочной, оценщиков, проведения, саморегулируемой, заказчика, объектов, информацию, стоимости', 'Понятия оценочной деятельности:    Оценочная деятельность - это профессиональная деятельность субъектов оценочной деятельности (оценщиков), направленная на установление в отношении объектов оценки рыночной, кадастровой, ликвидационной, инвести', NULL, NULL, '2017-11-14 10:48:29', '2017-11-14 12:10:20', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-14 11:34:44', 0, 'В данной статье рассматриваются: понятия оценки, виды стоимости (рыночная, кадастровая, ликвидационная, инвестиционная), объекты и субъекты оценки, случаи и основания проведения оценки, содержание договора оценки, права и обязанности оценщика и заказчика.');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_cats`
+--
+
+CREATE TABLE `cms_con_articles_cats` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` text,
+  `slug` varchar(255) DEFAULT NULL,
+  `slug_key` varchar(255) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `ns_left` int(11) UNSIGNED DEFAULT NULL,
+  `ns_right` int(11) UNSIGNED DEFAULT NULL,
+  `ns_level` int(11) UNSIGNED DEFAULT NULL,
+  `ns_differ` varchar(32) NOT NULL DEFAULT '',
+  `ns_ignore` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `allow_add` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_articles_cats`
+--
+
+INSERT INTO `cms_con_articles_cats` (`id`, `parent_id`, `title`, `description`, `slug`, `slug_key`, `seo_keys`, `seo_desc`, `seo_title`, `ordering`, `ns_left`, `ns_right`, `ns_level`, `ns_differ`, `ns_ignore`, `allow_add`) VALUES
+(1, 0, '---', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 0, '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_cats_bind`
+--
+
+CREATE TABLE `cms_con_articles_cats_bind` (
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_articles_cats_bind`
+--
+
+INSERT INTO `cms_con_articles_cats_bind` (`item_id`, `category_id`) VALUES
+(5, 1),
+(6, 1),
+(4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_fields`
+--
+
+CREATE TABLE `cms_con_articles_fields` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `hint` varchar(200) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_list` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_item` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed_type` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_system` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text,
+  `groups_read` text,
+  `groups_edit` text,
+  `filter_view` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_articles_fields`
+--
+
+INSERT INTO `cms_con_articles_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
+(1, 8, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 1, 1, 1, NULL, 1, 1, 0, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 255\nis_required: true\n', NULL, NULL, NULL),
+(2, 8, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', 0, 0, 1, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nshow_time: true\n', NULL, NULL, NULL),
+(3, 8, 'user', 'Автор', NULL, 3, NULL, 'user', 0, 0, 0, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\n', NULL, NULL, NULL),
+(4, 8, 'photo', 'Изображение', NULL, 4, NULL, 'image', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nsize_teaser: normal\nsize_full: normal\nsize_modal:\nsizes:\n  - normal\n  - micro\n  - small\n  - big\nallow_import_link: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(5, 8, 'content', 'Описание', NULL, 6, NULL, 'html', NULL, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: 1\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(6, 8, 'teaser', 'Анонс', NULL, 5, NULL, 'string', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_props`
+--
+
+CREATE TABLE `cms_con_articles_props` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_props_bind`
+--
+
+CREATE TABLE `cms_con_articles_props_bind` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `cat_id` int(11) UNSIGNED DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_articles_props_values`
+--
+
+CREATE TABLE `cms_con_articles_props_values` (
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms`
+--
+
+CREATE TABLE `cms_con_diploms` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `content` text,
+  `photo` text,
+  `slug` varchar(100) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `tags` varchar(1000) DEFAULT NULL,
+  `date_pub` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_last_modified` timestamp NULL DEFAULT NULL,
+  `date_pub_end` timestamp NULL DEFAULT NULL,
+  `is_pub` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `hits_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_type` varchar(32) DEFAULT NULL,
+  `parent_title` varchar(100) DEFAULT NULL,
+  `parent_url` varchar(255) DEFAULT NULL,
+  `is_parent_hidden` tinyint(1) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '1',
+  `folder_id` int(11) UNSIGNED DEFAULT NULL,
+  `is_comments_on` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `comments` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_approved` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `approved_by` int(11) UNSIGNED DEFAULT NULL,
+  `date_approved` timestamp NULL DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_diploms`
+--
+
+INSERT INTO `cms_con_diploms` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`) VALUES
+(7, 'Договор страхования ответственности ООО Консалтинг-Юг', 'Договор страхования ответственности ООО Консалтинг-Юг', '---\noriginal: 000/u2/5e/47/9a5d9cf7.jpg\nbig: >\n  000/u2/a3/ff/dogovor-strahovanija-otvetstvennosti-ooo-konsalting-yug-photo-big.jpg\nnormal: >\n  000/u2/3b/57/dogovor-strahovanija-otvetstvennosti-ooo-konsalting-yug-photo-norm.jpg\nsmall: >\n  000/u2/bc/86/dogovor-strahovanija-otvetstvennosti-ooo-konsalting-yug-photo-smal.jpg\nmicro: >\n  000/u2/6b/a6/dogovor-strahovanija-otvetstvennosti-ooo-konsalting-yug-photo-micr.jpg\n', '7-dogovor-strahovanija-otvetstvennosti-ooo-konsalting-yug', 'договор, страхования, ответственности, консалтингюг', 'Договор страхования ответственности ООО Консалтинг-Юг', NULL, NULL, '2017-11-09 12:00:16', '2017-11-09 14:22:34', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:22:34', 0),
+(8, 'Договор страхования ответственности Шарунов И.В', 'Договор страхования ответственности Шарунов И.В', '---\noriginal: 000/u2/39/08/c2407daf.jpg\nbig: >\n  000/u2/ce/ff/dogovor-strahovanija-otvetstvennosti-sharunov-i-v-photo-big.jpg\nnormal: >\n  000/u2/5d/4d/dogovor-strahovanija-otvetstvennosti-sharunov-i-v-photo-normal.jpg\nsmall: >\n  000/u2/22/36/dogovor-strahovanija-otvetstvennosti-sharunov-i-v-photo-small.jpg\nmicro: >\n  000/u2/dc/b2/dogovor-strahovanija-otvetstvennosti-sharunov-i-v-photo-micro.jpg\n', '8-dogovor-strahovanija-otvetstvennosti-sharunov-i-v', 'договор, страхования, ответственности, шарунов', 'Договор страхования ответственности Шарунов И.В', NULL, NULL, '2017-11-09 12:00:52', '2017-11-09 14:22:22', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:22:22', 0),
+(9, 'Договор страхования ответственности Бондарь А.В.', 'Договор страхования ответственности Бондарь А.В.', '---\noriginal: 000/u2/21/a7/2d4094b0.jpg\nbig: >\n  000/u2/57/72/dogovor-strahovanija-otvetstvennosti-bondar-a-v-photo-big.jpg\nnormal: >\n  000/u2/d5/6d/dogovor-strahovanija-otvetstvennosti-bondar-a-v-photo-normal.jpg\nsmall: >\n  000/u2/df/f1/dogovor-strahovanija-otvetstvennosti-bondar-a-v-photo-small.jpg\nmicro: >\n  000/u2/7e/76/dogovor-strahovanija-otvetstvennosti-bondar-a-v-photo-micro.jpg\n', '9-dogovor-strahovanija-otvetstvennosti-bondar-a-v', 'договор, страхования, ответственности, бондарь', 'Договор страхования ответственности Бондарь А.В.', NULL, NULL, '2017-11-09 12:01:15', '2017-11-09 14:22:07', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 4, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:22:07', 0),
+(10, 'Диплом Шарунов И.В.', 'Диплом Шарунов И.В.', '---\noriginal: 000/u2/e1/32/6660a11d.jpg\nbig: >\n  000/u2/4f/8a/diplom-sharunov-i-v-photo-big.jpg\nnormal: >\n  000/u2/db/7a/diplom-sharunov-i-v-photo-normal.jpg\nsmall: >\n  000/u2/2e/17/diplom-sharunov-i-v-photo-small.jpg\nmicro: >\n  000/u2/c0/c5/diplom-sharunov-i-v-photo-micro.jpg\n', '10-diplom-sharunov-i-v', 'диплом, шарунов', 'Диплом Шарунов И.В.', NULL, NULL, '2017-11-09 12:02:04', '2017-11-09 14:21:48', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 5, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:21:48', 0),
+(11, 'Диплом Бондарь А.В.', 'Диплом Бондарь А.В.', '---\noriginal: 000/u2/d0/19/cadb3797.jpg\nbig: >\n  000/u2/7c/c1/diplom-bondar-a-v-photo-big.jpg\nnormal: >\n  000/u2/ab/00/diplom-bondar-a-v-photo-normal.jpg\nsmall: >\n  000/u2/82/6b/diplom-bondar-a-v-photo-small.jpg\nmicro: >\n  000/u2/ae/51/diplom-bondar-a-v-photo-micro.jpg\n', '11-diplom-bondar-a-v', 'диплом, бондарь', 'Диплом Бондарь А.В.', NULL, NULL, '2017-11-09 12:02:18', '2017-11-09 14:21:35', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 5, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:21:35', 0),
+(12, 'Свидетельство членства в СРО Бондарь А.В.', 'Свидетельство членства в СРО Бондарь А.В.', '---\noriginal: 000/u2/a1/3e/0c0c5fcb.jpg\nbig: >\n  000/u2/fd/0a/svidetelstvo-chlenstva-v-sro-bondar-a-v-photo-big.jpg\nnormal: >\n  000/u2/58/fa/svidetelstvo-chlenstva-v-sro-bondar-a-v-photo-normal.jpg\nsmall: >\n  000/u2/8e/1f/svidetelstvo-chlenstva-v-sro-bondar-a-v-photo-small.jpg\nmicro: >\n  000/u2/7f/52/svidetelstvo-chlenstva-v-sro-bondar-a-v-photo-micro.jpg\n', '12-svidetelstvo-chlenstva-v-sro-bondar-a-v', 'свидетельство, членства, бондарь', 'Свидетельство членства в СРО Бондарь А.В.', NULL, NULL, '2017-11-09 12:02:40', '2017-11-09 14:21:20', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 6, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:21:20', 0),
+(13, 'Свидетельство членства в СРО Шарунов И.В.', 'Свидетельство членства в СРО Шарунов И.В.', '---\noriginal: 000/u2/24/4f/6898e92a.jpg\nbig: >\n  000/u2/26/0f/svidetelstvo-chlenstva-v-sro-sharunov-i-v-photo-big.jpg\nnormal: >\n  000/u2/a5/fb/svidetelstvo-chlenstva-v-sro-sharunov-i-v-photo-normal.jpg\nsmall: >\n  000/u2/ef/c2/svidetelstvo-chlenstva-v-sro-sharunov-i-v-photo-small.jpg\nmicro: >\n  000/u2/51/a7/svidetelstvo-chlenstva-v-sro-sharunov-i-v-photo-micro.jpg\n', '13-svidetelstvo-chlenstva-v-sro-sharunov-i-v', 'свидетельство, членства, шарунов', 'Свидетельство членства в СРО Шарунов И.В.', NULL, NULL, '2017-11-09 12:02:56', '2017-11-09 14:21:05', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 6, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:21:05', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_cats`
+--
+
+CREATE TABLE `cms_con_diploms_cats` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` text,
+  `slug` varchar(255) DEFAULT NULL,
+  `slug_key` varchar(255) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `ns_left` int(11) UNSIGNED DEFAULT NULL,
+  `ns_right` int(11) UNSIGNED DEFAULT NULL,
+  `ns_level` int(11) UNSIGNED DEFAULT NULL,
+  `ns_differ` varchar(32) NOT NULL DEFAULT '',
+  `ns_ignore` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `allow_add` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_diploms_cats`
+--
+
+INSERT INTO `cms_con_diploms_cats` (`id`, `parent_id`, `title`, `description`, `slug`, `slug_key`, `seo_keys`, `seo_desc`, `seo_title`, `ordering`, `ns_left`, `ns_right`, `ns_level`, `ns_differ`, `ns_ignore`, `allow_add`) VALUES
+(1, 0, '---', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 8, 0, '', 0, NULL),
+(4, 1, 'Полисы страхования ответственности', NULL, 'polisy-strahovanija-otvetstvennosti', NULL, NULL, NULL, NULL, 1, 2, 3, 1, '', 0, NULL),
+(5, 1, 'Дипломы', NULL, 'diplomy', NULL, NULL, NULL, NULL, 2, 4, 5, 1, '', 0, NULL),
+(6, 1, 'Свидетельства', NULL, 'svidetelstva', NULL, NULL, NULL, NULL, 3, 6, 7, 1, '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_cats_bind`
+--
+
+CREATE TABLE `cms_con_diploms_cats_bind` (
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_diploms_cats_bind`
+--
+
+INSERT INTO `cms_con_diploms_cats_bind` (`item_id`, `category_id`) VALUES
+(12, 6),
+(13, 6),
+(10, 5),
+(11, 5),
+(7, 4),
+(8, 4),
+(9, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_fields`
+--
+
+CREATE TABLE `cms_con_diploms_fields` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `hint` varchar(200) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_list` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_item` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed_type` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_system` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text,
+  `groups_read` text,
+  `groups_edit` text,
+  `filter_view` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_diploms_fields`
+--
+
+INSERT INTO `cms_con_diploms_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
+(1, 11, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 0, 0, 1, NULL, 1, 1, 0, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 255\nis_required: true\n', NULL, NULL, NULL),
+(2, 11, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', 0, 0, 1, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nshow_time: true\n', NULL, NULL, NULL),
+(3, 11, 'user', 'Автор', NULL, 3, NULL, 'user', 0, 0, 0, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\n', NULL, NULL, NULL),
+(4, 11, 'photo', 'Изображение', NULL, 4, NULL, 'image', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nsize_teaser: small\nsize_full: normal\nsize_modal:\nsizes:\n  - normal\n  - micro\n  - small\n  - big\n  - original\nallow_import_link: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(5, 11, 'content', 'Описание', NULL, 5, NULL, 'text', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\n', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_props`
+--
+
+CREATE TABLE `cms_con_diploms_props` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_props_bind`
+--
+
+CREATE TABLE `cms_con_diploms_props_bind` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `cat_id` int(11) UNSIGNED DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_diploms_props_values`
+--
+
+CREATE TABLE `cms_con_diploms_props_values` (
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats`
+--
+
+CREATE TABLE `cms_con_estimats` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `content` text,
+  `photo` text,
+  `slug` varchar(100) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `tags` varchar(1000) DEFAULT NULL,
+  `date_pub` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_last_modified` timestamp NULL DEFAULT NULL,
+  `date_pub_end` timestamp NULL DEFAULT NULL,
+  `is_pub` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `hits_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_type` varchar(32) DEFAULT NULL,
+  `parent_title` varchar(100) DEFAULT NULL,
+  `parent_url` varchar(255) DEFAULT NULL,
+  `is_parent_hidden` tinyint(1) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '1',
+  `folder_id` int(11) UNSIGNED DEFAULT NULL,
+  `is_comments_on` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `comments` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_approved` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `approved_by` int(11) UNSIGNED DEFAULT NULL,
+  `date_approved` timestamp NULL DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `services_options` varchar(255) DEFAULT NULL,
+  `services_options_end` varchar(255) DEFAULT NULL,
+  `services_options_shadow` varchar(255) DEFAULT NULL,
+  `services_options_shadow_end` varchar(255) DEFAULT NULL,
+  `services_options_title` mediumtext,
+  `services_options_table` varchar(255) DEFAULT NULL,
+  `services_options_table_end` varchar(255) DEFAULT NULL,
+  `services_options_docs` varchar(255) DEFAULT NULL,
+  `services_options_docs_end` varchar(255) DEFAULT NULL,
+  `services_options_docs_list` mediumtext,
+  `services_options_cost` varchar(255) DEFAULT NULL,
+  `services_options_cost_end` varchar(255) DEFAULT NULL,
+  `services_options_cost_text` mediumtext,
+  `service_button` mediumtext,
+  `services_options_docs_title` mediumtext,
+  `service_short_bg` varchar(255) DEFAULT NULL,
+  `service_short_bg_end` varchar(255) DEFAULT NULL,
+  `service_short_w` varchar(255) DEFAULT NULL,
+  `service_short_w_end` varchar(255) DEFAULT NULL,
+  `service_short_title` mediumtext,
+  `service_short_text` mediumtext,
+  `service_short_advantage` mediumtext,
+  `services_lists_bg` varchar(255) DEFAULT NULL,
+  `services_lists_bg_end` varchar(255) DEFAULT NULL,
+  `services_lists_w` varchar(255) DEFAULT NULL,
+  `services_lists_w_end` varchar(255) DEFAULT NULL,
+  `services_lists_report_block` varchar(255) DEFAULT NULL,
+  `services_lists_report_block_end` varchar(255) DEFAULT NULL,
+  `services_lists_report_title` mediumtext,
+  `services_lists_report_list` mediumtext,
+  `services_lists_stages_block` varchar(255) DEFAULT NULL,
+  `services_lists_stages_block_end` varchar(255) DEFAULT NULL,
+  `services_lists_stages_title` mediumtext,
+  `services_lists_stages_list` mediumtext,
+  `services_lists_factors_block` varchar(255) DEFAULT NULL,
+  `services_lists_factors_block_end` varchar(255) DEFAULT NULL,
+  `services_lists_factors_title` mediumtext,
+  `services_lists_factors_list` mediumtext,
+  `services_lists_events_block` varchar(255) DEFAULT NULL,
+  `services_lists_events_block_end` varchar(255) DEFAULT NULL,
+  `services_lists_events_title` mediumtext,
+  `services_lists_events_list` mediumtext,
+  `services_lists_types_block` varchar(255) DEFAULT NULL,
+  `services_lists_types_block_end` varchar(255) DEFAULT NULL,
+  `services_lists_types_title` mediumtext,
+  `services_lists_types_list` mediumtext
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_estimats`
+--
+
+INSERT INTO `cms_con_estimats` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `services_options`, `services_options_end`, `services_options_shadow`, `services_options_shadow_end`, `services_options_title`, `services_options_table`, `services_options_table_end`, `services_options_docs`, `services_options_docs_end`, `services_options_docs_list`, `services_options_cost`, `services_options_cost_end`, `services_options_cost_text`, `service_button`, `services_options_docs_title`, `service_short_bg`, `service_short_bg_end`, `service_short_w`, `service_short_w_end`, `service_short_title`, `service_short_text`, `service_short_advantage`, `services_lists_bg`, `services_lists_bg_end`, `services_lists_w`, `services_lists_w_end`, `services_lists_report_block`, `services_lists_report_block_end`, `services_lists_report_title`, `services_lists_report_list`, `services_lists_stages_block`, `services_lists_stages_block_end`, `services_lists_stages_title`, `services_lists_stages_list`, `services_lists_factors_block`, `services_lists_factors_block_end`, `services_lists_factors_title`, `services_lists_factors_list`, `services_lists_events_block`, `services_lists_events_block_end`, `services_lists_events_title`, `services_lists_events_list`, `services_lists_types_block`, `services_lists_types_block_end`, `services_lists_types_title`, `services_lists_types_list`) VALUES
+(1, 'Оценка квартиры', NULL, NULL, 'ocenka-kvartiry', NULL, NULL, NULL, NULL, '2017-10-25 13:04:19', '2017-11-15 08:55:33', NULL, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-10-30 16:29:20', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-apartment g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">  Оценка квартиры в Краснодаре и крае</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающий документ на квартиру\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"Свидетельство о регистрации права или выписка из ЕГРН/ЕГРП\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Технический паспорт или технический план на квартиру\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"До 2013 - Технический паспорт, с 2013 – Технический план квартиры\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документ-основание возникновения права собственности\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Договор передачи жилья в собственность (в случае, если квартира была приватизирована); - Договор с Застройщиком, или Договор уступки прав требования (если квартира приобреталась на первичном рынке); - Договор купли-продажи, или Договор мены (если квартира была куплена на вторичном рынке); - Справка о выплаченном пае (если квартира приобреталась через кооператив); - Свидетельство о праве на наследство (если квартира получена в наследство); - Договор дарения (если квартира получена в дар); - Соглашение о разделе имущества (если квартира была получена в результате добровольного дележа общего имущества супругов); - Решение суда (если имущество супругов, наследников или других претендентов делили по суду); - Договор купли-продажи и ипотеки (если квартира приобреталась на заемные средства банка); - Договор пожизненного содержания с иждивением (если квартира была получена под обязательство ренты)\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	<span class=\"g-fw_b g-c_red \">\r\n	3500 руб.</span>\r\n	- Для банка КубаньКредит\r\n	<br>\r\n	<span class=\"g-fw_b g-c_red \">\r\n	4000 руб.</span>\r\n	- В остальных случаях</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок:\r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            2 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r g-lh_2_6r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке квартиры</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки квартиры предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a>, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы через 2 дня отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки квартиры:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку стоимости квартиры:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>год постройки дома</li>	<li>материал стен, перекрытий, пола</li>	<li>этажность, планировка</li>	<li>площадь квартиры</li>	<li>качество и состояние отделки квартиры</li>	<li>вид из окон и их ориентация по сторонам света</li>	<li>состояние дома, район расположения, степень застройки района</li>	<li>близость транспортной развязки, социальных строений </li>	<li>другие факторы</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки квартиры:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для продажи</li>	<li>для оформления ипотеки</li>	<li>для оформления страховки</li>	<li>для дарения</li>	<li>для составления брачного контракта</li>	<li>для оформления договора пожизненного содержания с иждивением</li>	<li>для оформления договора аренды с правом последующего выкупа</li>	<li>для оформления наследства</li>	<li>для определения ущерба</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL),
+(3, 'Оценка домовладения', NULL, NULL, 'ocenka-domovladenija', NULL, NULL, NULL, NULL, '2017-11-07 10:58:18', '2017-11-15 09:12:04', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 11:00:01', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-house g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка домовладения в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающий документ на дом и земельный участок\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"Свидетельство о регистрации права или выписка из ЕГРН/ЕГРП\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документ-основание возникновения права собственности \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Договор передачи жилья в собственность; - договор купли-продажи; - договор мены; - справка о выплаченном пае; - свидетельство о праве на наследство; - договор дарения; - соглашение о разделе имущества; - решение суда; - договор ренты.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Технический паспорт или технический план на дом\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"До 2013 - Технический паспорт, с 2013 – Технический план\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Кадастровый паспорт на земельный участок\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	6 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	15 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            2 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке домовладения</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки дома с земельным участком предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a>, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы через 2 дня отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки домовладения:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку стоимости домовладения:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10\">Территориальные:</li>	\r\n<li>местоположение домовладения</li>	\r\n<li>уровень престижности данного местоположения</li>	\r\n<li>близость водных акваторий и лесных насаждений</li>	\r\n<li>экологическая обстановка</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">Инфраструктура:</li>	\r\n<li>транспортная доступность</li>	\r\n<li>близкое расположение магазинов, супермаркетов, аптек, мест для досуга и отдыха, объектов сферы услуг и пр.</li>	\r\n<li>быстрая доступность оперативных служб (МЧС, полиции, скорой помощи)</li>	\r\n<li>наличие охраны</li>	\r\n<li>наличие необходимых коммуникаций в населенном пункте (газ, вода, электричество)</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">Физические параметры:</li>	\r\n<li>размер земельного участка</li>	\r\n<li>тип здания, архитектурное решение, использованные строительные материалы</li>	\r\n<li>год постройки</li>	\r\n<li>планировка, количество комнат и этажей</li>	\r\n<li>внешняя и внутренняя отделка</li>	\r\n<li>капитальный или косметический ремонт</li>	\r\n<li>инженерное оснащение, наличие собственной скважины</li>	\r\n<li>наличие телекоммуникаций</li>	\r\n<li>вид из окон</li>	\r\n<li>обустройство придомовой территории</li>	\r\n<li>ландшафтный дизайн</li>	\r\n<li>соблюдение санитарных условий</li>	\r\n<li>наличие гаража и хозяйственных построек</li>	\r\n<li>наличие и состояние сада и огорода</li>	\r\n<li>наличие надежного ограждения и ворот и т.д.</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки домовладения:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>для продажи</li>	\r\n<li>для оформления ипотеки</li>	\r\n<li>для оформления страховки</li>	\r\n<li>для дарения</li>	\r\n<li>для составления брачного контракта</li>	\r\n<li>для оформления договора пожизненного содержания с иждивением</li>	\r\n<li>для оформления договора аренды с правом последующего выкупа</li>	\r\n<li>для оформления наследства</li>	\r\n<li>для определения ущерба</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL),
+(2, 'Оценка земельного участка', NULL, NULL, 'ocenka-zemelnogo-uchastka', NULL, NULL, NULL, NULL, '2017-11-06 13:50:49', '2017-11-15 09:12:14', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-06 13:54:26', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-land g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка земельного участка в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающий документ на земельный участок\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Свидетельство о госрегистрации права собственности; - акт о предоставлении земли; - свидетельство о праве на наследство; - договор аренды; - судебное решение\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Кадастровый паспорт на земельный участок\r\n	</li>	\r\n<li class=\"g-c_dim_dk_blue g-pb_10 g-pt_10 g-lis_n g-fz_1_8r g-pl_0 g-ml_0\">\r\n	Дополнительно (при наличии):\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документы об обременениях\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Залог; - долговые обязательства; - наличие арендаторов, юридических оговорок, соглашений, контрактов, договоров, специальных налоговых обложений и иных ограничений по использованию\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Иные документально-подтвержденные данные \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Категория участка; -  разрешенное применение; - данные о проложенных через участок инженерных коммуникациях; - данные о присутствии зданий, строений и других изменений\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от вида земельного участка и факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	400 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	50 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 - 3 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке земельного участка</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки земельного участка предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a>, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 1 до 3 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки земельного участка:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку стоимости земельного участка:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10\">Главные:</li>	<li>дата, на которую осуществляется оценка</li>	<li>физические показатели</li>	<li>местоположение</li>	<li>функциональное назначение</li>	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">Дополнительные:</li>	<li>преобладающие способы землепользования в ближайшей окрестности</li>	<li>ожидаемые изменения на рынке сельскохозяйственных земель и земель поселений</li>	<li>ожидаемые условия эксплуатации и получения прибыли</li>	<li>количественный и качественный состав коммуникаций и возможность присоединения к существующим сетям, в случае если на земельном участке планируется строительство объектов недвижимости</li>	<li>данные инженерно-геологических и инженерно-геодезических изысканий, позволяющие определить состав, состояние и свойства грунтов и данные о ситуации и рельефе местности, необходимые для прогнозирования возможного строительства</li>	<li>конъюнктура рынка (характера конкуренции продавцов и покупателей)</li>	<li>факт изменения целевого назначения участка (разрешенного использования)</li>	<li>ставки арендной платы</li>	<li>сведения об объектах социально-бытового обслуживания</li>	<li>сведения о состоянии окружающей среды</li>	<li>сведения об исторической, архитектурно-эстетической, рекреационной ценности ландшафта</li>	<li>интенсивность транспортного сообщения</li>	<li>удаленность от основных центров инфраструктуры</li>	<li>фактическая урожайность основных сельскохозяйственных культур и цен их реализации</li>	<li>продуктивность пастбищ, многолетних насаждений</li>	<li>структуры посевных площадей</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки земельного участка:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для ипотечного кредитования или в качестве залога при получении кредита, в том числе с/х назначения</li>	<li>для выставления на аукцион</li>	<li>для сдачи в аренду и определения годовой арендной платы</li>	<li>при определении налоговой базы для исчисления налога на имущество</li>	<li>при заключении договора купли-продажи, дарения, мены, ренты, наследования или совершении разных сделок с одним и тем же объектом недвижимости</li>	<li>при определения начальной цены земли</li>	<li>при законном изъятия земельных участков</li>	<li>при внесения земельных участков в уставные капиталы компаний</li>	<li>при разработке и осуществлении бизнес-планов или инвестиционных проектов</li>	<li>при оценке права пользования</li>	<li>при ведении гражданских и судебных дел, либо для судебных приставов</li>	<li>земельный участок может фигурировать в качестве наследуемого имущества или объекта дарения, а также в ходе судебных процессов, связанных с разделом имущества</li>	<li>при проведении приватизации имущества</li>	<li>при страховании</li>	<li>при привлечении новых пайщиков и дополнительной эмиссии акций</li>	<li>при определении размера ущерба, нанесенного недвижимому имуществу третьими лицами</li>	<li>в некоторых иных случаях согласно ФЗ №135</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nВиды земельных участков:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>земли сельскохозяйственного назначения</li>	<li>земли коммерческого и производственно-складского назначения</li>	<li>земли жилого назначения (под ИЖС, под малоэтажное и многоэтажное строительство, садовых и дачных участков)</li>	<li>земли лесного фонда</li>	<li>земли водного фонда</li>	<li>земли особо-охраняемых территорий</li>	<li>земли санаторно-курортного назначения</li>	<li>земли промышленности, связи и транспорта</li>	<li>земли под оценку месторождений и запасов сырья</li>	<li>земли под инвестиционные цели</li></ul>'),
+(4, 'Оценка имущественного комплекса', NULL, NULL, 'ocenka-imuschestvennogo-kompleksa', NULL, NULL, NULL, NULL, '2017-11-07 12:12:33', '2017-11-15 09:11:51', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 13:47:39', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-complexes g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка имущественного комплекса в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Реквизиты юридического лица</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающие документы на объекты оценки</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документы-основания приобретения прав</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Технические и кадастровые паспорта</li>	\r\n<li class=\"g-c_dim_dk_blue g-pb_10 g-pt_10 g-lis_n g-fz_1_8r g-pl_0 g-ml_0\">\r\n	Дополнительно (при наличии):</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документы об обременениях</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Иные документально-подтвержденные данные </li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от состава имущества предприятия\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	50 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	150 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            3 - 6 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке имущественного комплекса</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки имущественного комплекса (имущества предприятия) предполагает несколько\r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> в зависимости от  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	состава</a> имущественного комплекса, в котором учтено все движимое и недвижимое имущество предприятия, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 3 до 6 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки имущественного комплекса:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки имущественного комплекса:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>для кредиторов, при принятии решения о предоставлении кредита и использовании имущественного комплекса, как залога</li>	\r\n<li>для арендодателей, при установлении арендной платы с учетом рыночной стоимости объектов аренды</li>	\r\n<li>для корректного отражения в отчетности</li>	\r\n<li>при определении обоснованной цены объектов сделки потенциального покупателя и продавца</li>	\r\n<li>при проведении приватизации</li>	\r\n<li>при проведении конкурсов, аукционов, торгов</li>	\r\n<li>при передаче объектов в доверительное управление и лизинг</li>	\r\n<li>при выкупе, конфискации, изъятии, ликвидации, слиянии, поглощении</li>	\r\n<li>при разрешении имущественных споров</li>	\r\n<li>при передаче прав собственности</li>	\r\n<li>при переуступке долговых обязательств</li>	\r\n<li>при внесении имущества в уставный капитал</li>	\r\n<li>при инвестиционном бизнес-проектировании и разработке бизнес-планов</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСостав имущественных комплексов для оценки стоимости:\r\n</h3>', '<ul class=\"services-lists-types services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>оценка земельных участков</li>	\r\n<li>оценка объектов недвижимости</li>	\r\n<li>оценка установленного оборудования</li>	\r\n<li>оценка транспортного парка</li>	\r\n<li>оценка готовой продукции</li></ul>');
+INSERT INTO `cms_con_estimats` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `services_options`, `services_options_end`, `services_options_shadow`, `services_options_shadow_end`, `services_options_title`, `services_options_table`, `services_options_table_end`, `services_options_docs`, `services_options_docs_end`, `services_options_docs_list`, `services_options_cost`, `services_options_cost_end`, `services_options_cost_text`, `service_button`, `services_options_docs_title`, `service_short_bg`, `service_short_bg_end`, `service_short_w`, `service_short_w_end`, `service_short_title`, `service_short_text`, `service_short_advantage`, `services_lists_bg`, `services_lists_bg_end`, `services_lists_w`, `services_lists_w_end`, `services_lists_report_block`, `services_lists_report_block_end`, `services_lists_report_title`, `services_lists_report_list`, `services_lists_stages_block`, `services_lists_stages_block_end`, `services_lists_stages_title`, `services_lists_stages_list`, `services_lists_factors_block`, `services_lists_factors_block_end`, `services_lists_factors_title`, `services_lists_factors_list`, `services_lists_events_block`, `services_lists_events_block_end`, `services_lists_events_title`, `services_lists_events_list`, `services_lists_types_block`, `services_lists_types_block_end`, `services_lists_types_title`, `services_lists_types_list`) VALUES
+(5, 'Оценка зданий и сооружений', NULL, NULL, 'ocenka-zdanii-i-sooruzhenii', NULL, NULL, NULL, NULL, '2017-11-07 12:26:30', '2017-11-15 09:11:40', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 12:31:46', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-production g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка зданий и сооружений в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Реквизиты юридического лица</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Правоустанавливающие документы на объекты оценки</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документы-основания приобретения прав</li>	\r\n<li class=\"g-c_dim_dk_blue g-pb_10 g-pt_10 g-lis_n g-fz_1_8r g-pl_0 g-ml_0\">\r\n	Дополнительно (при наличии):</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Документы об обременениях</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Иные документально-подтвержденные данные </li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа и объема зданий и сооружений\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n    от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	3 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-pb_10 g-fz_1_6r g-lh_15 \">\r\n	- cтроения нежилого, ветхого фонда, подвалы</span>\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	5 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-pb_10 g-fz_1_6r g-lh_15 \">\r\n	- общественные и коммунальные здания\r\n	<br>\r\n    - объекты сферы торговли и услуг\r\n	<br>\r\n    - производственные сооружения\r\n	</span>\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	10 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-pb_10 g-fz_1_6r g-lh_15 \">\r\n	- производственные здания\r\n	<br>\r\n    - склады закрытого типа\r\n	</span>\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	15 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-fz_1_6r g-lh_15 \">\r\n	- склады открытого типа</span></p><p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n	<span class=\"g-fw_b g-c_red \"> \r\n                            от 3 дней\r\n	</span></p>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке зданий и сооружений</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n    	Процесс оценки зданий и сооружений предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> в зависимости от \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типа</a> и профильного назначения здания или сооружения, в котором учтены все нюансы подобного рода оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 3 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки зданий и сооружений:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки зданий и сооружений:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>при купли-продаже или сдаче в аренду</li>	\r\n<li>при кредитовании под залог объекта недвижимости</li>	\r\n<li>при акционировании и перераспределении имущественных долей</li>	\r\n<li>при привлечении новых пайщиков и эмиссии акций</li>	\r\n<li>при кадастровой оценке для целей налогообложения</li>	\r\n<li>при страховании</li>	\r\n<li>при внесении объекта в уставный капитал организации</li>	\r\n<li>при разработке инвестиционных проектов и бизнес-планов</li>	\r\n<li>при ликвидации объектов недвижимости</li>	\r\n<li>при исполнении судебного приговора</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТип и объем зданий и сооружений:\r\n</h3>', '<ul class=\"services-lists-types services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10\">\r\n	Строения нежилого, ветхого фонда, подвалы:</li>	\r\n<li>до 200 куб.м</li>	\r\n<li>от 200 до 500 куб.м</li>	\r\n<li>от 500 до 4000 куб.м</li>	\r\n<li>от 4000 до 20000 куб.м</li>	\r\n<li>свыше 20000 куб.м</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Общественные и коммунальные здания:</li>	\r\n<li>до 300 куб.м</li>	\r\n<li>от 300 до 4500 куб.м</li>	\r\n<li>от 4500 до 30000 куб.м</li>	\r\n<li>свыше 30000 куб.м</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Объекты сферы торговли и услуг:</li>	\r\n<li>до 50 куб.м</li>	\r\n<li>от 50 до 500 куб.м</li>	\r\n<li>от 500 до 5000 куб.м</li>	\r\n<li>от 5000 до 30000 куб.м</li>	\r\n<li>свыше 30000 куб.м</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Производственные здания:</li>	\r\n<li>до 500 куб.м</li>	\r\n<li>от 500 до 4000 куб.м</li>	\r\n<li>от 4000 до 20000 куб.м</li>	\r\n<li>от 20000 до 50000 куб.м</li>	\r\n<li>свыше 50000 куб.м</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Склады закрытого типа:</li>	\r\n<li>до 500 куб.м</li>	\r\n<li>от 500 до 5000 куб.м</li>	\r\n<li>от 5000 до 20000 куб.м</li>	\r\n<li>свыше 20000 куб.м</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Склады открытого типа:</li>	\r\n<li>от 1000 куб.м</li>	\r\n<li>от 1000 до 5000 куб.м</li>	\r\n<li>свыше 50000 куб.м</li></ul>'),
+(6, 'Оценка автотранспорта', NULL, NULL, 'ocenka-avtotransporta', NULL, NULL, NULL, NULL, '2017-11-07 14:39:02', '2017-11-15 09:11:28', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 18:56:49', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-auto g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка автотранспорта в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Свидетельство о регистрации автотранспортного средств</li>	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт транспортного средства (ПТС)</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа автотранспорта и факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	800 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	5000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 - 3 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке автотранспорта</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки автотранспорта предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному <a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> автотранспорта, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 1 до 3 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки автотранспорта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы влияющие на оценку автотранспорта:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>год выпуска</li>	<li>пробег</li>	<li>марка и модель</li>	<li>объем и мощность двигателя</li>	<li>комплектация</li>	<li>внешний вид и техническое состояние</li>	<li>наличие дополнительных опций</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки автотранспорта:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>при получение кредита под залог автотранспорта</li>	<li>при осуществлении сделки купли-продажи</li>	<li>при вступление в наследство</li>	<li>при разделе имущества супругами при разводе</li>	<li>при внесении автотранспортного средства в уставный фонд</li>	<li>при переоценке основных средств</li>	<li>при списании автотранспортного средства с баланса предприятия</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы автотранспорта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>автомобили</li>	<li>прицепы</li>	<li>тракторы</li>	<li>комбайны</li></ul>'),
+(7, 'Оценка мототранспорта', NULL, NULL, 'ocenka-mototransporta', NULL, NULL, NULL, NULL, '2017-11-07 14:39:21', '2017-11-15 09:11:07', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 19:12:19', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-moto g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка мототранспорта в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Свидетельство о регистрации мототранспортного средств</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт транспортного средства (ПТС)</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа мототранспорта и факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	400 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	2000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 - 3 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке мототранспорта</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки мототранспорта предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> мототранспорта, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 1 до 3 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки мототранспорта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку мототранспорта:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>год выпуска</li>	<li>пробег</li>	<li>марка и модель</li>	<li>объем и мощность двигателя</li>	<li>комплектация</li>	<li>внешний вид и техническое состояние</li>	<li>наличие дополнительных опций</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки мототранспорта:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>при получение кредита под залог мототранспорта</li>	<li>при осуществлении сделки купли-продажи</li>	<li>при вступление в наследство</li>	<li>при разделе имущества супругами при разводе</li>	<li>при внесении мототранспортного средства в уставный фонд</li>	<li>при переоценке основных средств</li>	<li>при списании мототранспортного средства с баланса предприятия</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы мототранспорта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>мотоциклы</li>	<li>квадроциклы</li>	<li>мотороллеры</li>	<li>мопеды</li>	<li>скутеры</li></ul>'),
+(8, 'Оценка воздушных и морских судов', NULL, NULL, 'ocenka-vozdushnyh-i-morskih-sudov', NULL, NULL, NULL, NULL, '2017-11-07 14:39:36', '2017-11-15 09:10:56', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 19:49:39', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-air g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка воздушных и морских судов в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорта и сертификаты\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Паспорт судна; - книга осмотров; - маршрутный журнал; - сертификат типа; - сертификат летной годности\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Свидетельства на судно\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- О государственной регистрации; - о праве собственности; - о праве плавания под флагом; - о годности к плаванию; - о безопасности пассажирского судна; - о экологичности судна; - о санитарном состоянии судна; - свидетельство на оборудование и снабжение; - пассажирское свидетельство.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Акты приемки, освидетельствования, дефектации\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Технического состояния судна; - приемки судна в эксплуатацию; - ежегодного освидетельствования судна; - очередного освидетельствования судна; - очередного освидетельствования корпуса, в т.ч. докового; - очередного освидетельствования механизмов; - очередного освидетельствования электрического оборудования; - классификационного освидетельствования судна; - внутреннего освидетельствования (гидравлического испытания) парового котла; - внутреннего освидетельствования (гидравлического испытания) сосудов под давлением; - освидетельствования холодильной установки; - освидетельствования грузоподъемного устройства; - внеочередного освидетельствования судна; - дефектации (корпуса судна, судовых механизмов и т.д.)\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Иная документальная информация\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Балансовая стоимость (первоначальная и остаточная); - информация по эксплуатационным расходам; - информация по фрахтованию, лизингу, чартеру; - сведения по ремонтам судна, силовых установок. затраты на докование; - расходы на страхование; - справка о расходах по эксплуатации судна; - особенности использования судна; - условий хранения и обслуживания судна.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа судна и факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	3 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	25 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            10 - 30 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке воздушных и морских судов</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n   	Процесс оценки воздушных и морских судов предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> судна, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Оценка воздушных и морских судов считается самой сложной среди всех оценок транспортных средств. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 10 до 30 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки воздушных и морских судов:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку воздушных и морских судов:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10\">Воздушные суда:</li>	<li>марка и модель</li>	<li>предприятие – изготовитель</li>	<li>даты выпуска и ввода в эксплуатацию</li>	<li>даты и суть модернизаций (ремонтов)</li>	<li>технического состояние</li>	<li>ограничения прав собственности на судно</li>	<li>местонахождение судна</li>	<li>назначенный (расчетный) и остаточный ресурс</li>	<li>гарантии изготовителя на судно</li>	<li>интенсивность, вид и особенности эксплуатации судна</li>	<li>основные летно-технические характеристики</li>	<li>характеристики, определяющие основные эксплуатационные расходы </li>	<li>условий хранения и обслуживания судна</li>	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">Морские суда:</li>	<li>год, место постройки судна</li>	<li>назначение</li>	<li>длина, ширина, высота борта, осадка судна</li>	<li>водоизмещение судна</li>	<li>дедвейт</li>	<li>вместимость судна</li>	<li>автономность плавания судна по запасам топлива</li>	<li>количество палуб и водонепроницаемых переборок на судне</li>	<li>назначение, температура, объем трюма судна</li>	<li>количество и размеры грузовых люков</li>	<li>судовые запасы</li>	<li>главный двигатель судна</li>	<li>вспомогательные и аварийные двигатели судна</li>	<li>движители судна</li>	<li>главный редуктор</li>	<li>котлы судна</li>	<li>краткие характеристики судовых устройств </li>	<li>спасательные средства на судне</li>	<li>промысловое оборудование на судне</li>	<li>источники энергии судовой сети</li>	<li>автоматизация судна</li>	<li>наличие обременений</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки воздушных и морских судов:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для оптимизации (снижения) налогообложения</li>	<li>для внесения судна в уставной капитал и отражения на балансе</li>	<li>для кредитования под залог судна</li>	<li>для оформлении сделки купли-продажи</li>	<li>для привлечения инвесторов и финансовых инвестиций</li>	<li>для разрешения судебных споров</li>	<li>при сдаче в аренду или лизинге</li>	<li>при передаче судна в доверительное управление</li>	<li>при определение стартовой аукционной цены</li>	<li>при переоценке стоимости, списании (утилизации)</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы воздушных и морских судов:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10\">Воздушные суда:</li>	<li>самолеты</li>	<li>вертолеты</li>	<li>аэростаты</li>	<li>квадрокоптеры</li>	<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">Морские суда:</li>	<li>пассажирские</li>	<li>грузовые</li>	<li>промысловые</li>	<li>буксирные</li>	<li>спортивные</li>	<li>специальные</li>	<li>военные</li></ul>');
+INSERT INTO `cms_con_estimats` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `services_options`, `services_options_end`, `services_options_shadow`, `services_options_shadow_end`, `services_options_title`, `services_options_table`, `services_options_table_end`, `services_options_docs`, `services_options_docs_end`, `services_options_docs_list`, `services_options_cost`, `services_options_cost_end`, `services_options_cost_text`, `service_button`, `services_options_docs_title`, `service_short_bg`, `service_short_bg_end`, `service_short_w`, `service_short_w_end`, `service_short_title`, `service_short_text`, `service_short_advantage`, `services_lists_bg`, `services_lists_bg_end`, `services_lists_w`, `services_lists_w_end`, `services_lists_report_block`, `services_lists_report_block_end`, `services_lists_report_title`, `services_lists_report_list`, `services_lists_stages_block`, `services_lists_stages_block_end`, `services_lists_stages_title`, `services_lists_stages_list`, `services_lists_factors_block`, `services_lists_factors_block_end`, `services_lists_factors_title`, `services_lists_factors_list`, `services_lists_events_block`, `services_lists_events_block_end`, `services_lists_events_title`, `services_lists_events_list`, `services_lists_types_block`, `services_lists_types_block_end`, `services_lists_types_title`, `services_lists_types_list`) VALUES
+(9, 'Оценка спецтехники', NULL, NULL, 'ocenka-spectehniki', NULL, NULL, NULL, NULL, '2017-11-07 14:39:47', '2017-11-15 09:10:46', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 20:05:31', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-spec g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка спецтехники в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Свидетельство о регистрации спецтехники	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт транспортного средства (ПТС)</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Технический паспорт</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Документы об обременениях</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа спецтехники\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	3 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	5 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            2 - 3 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке спецтехники</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n    	Процесс оценки спецтехники предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> спецтехники, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 2 до 3 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки спецтехники:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку спецтехники:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>год выпуска</li>	<li>техническое состояние всех узлов и деталей </li>	<li>показатели физического и морального износа</li>	<li>комплектация </li>	<li>внешний вид и оснащение</li>	<li>товарный знак, степень новизны и уникальности</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки спецтехники:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для получение кредита под залог спецтехники</li>	<li>для получение кредита под залог спецтехники</li>	<li>при сдаче в аренду или лизинге</li>	<li>при вступление в наследство</li>	<li>при внесении спецтехники в уставный фонд</li>	<li>при переоценке основных средств</li>	<li>при списании спецтехники  с баланса предприятия</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы спецтехники:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>бульдозеры </li>	<li>краны</li>	<li>грейдеры</li>	<li>экскаваторы </li>	<li>погрузчики </li>	<li>кары </li>	<li>катки</li>	<li>дорожные машины </li>	<li>снегоуборочная техника </li></ul>'),
+(10, 'Оценка ж/д транспорта', NULL, NULL, 'ocenka-zhd-transporta', NULL, NULL, NULL, NULL, '2017-11-07 14:40:03', '2017-11-15 09:10:35', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 20:33:12', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-railway g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка ж/д транспорта в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Правоустанавливающие документы</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Технический паспорт\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Информация об объекте\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Наименование, марка и модель; - страна и компания-производитель; - дата производства и начало эксплуатации; - норма амортизации; - сумма первоначальной балансовой стоимости.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n    от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	3 000 </span> до \r\n	<span class=\"g-fw_b g-c_red \">\r\n	5 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-pb_10 g-fz_1_6r g-lh_15 \">\r\n	- городской электротранспорт</span>\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	5 000 </span> до \r\n	<span class=\"g-fw_b g-c_red \">\r\n	25 000 </span> рублей\r\n	<br>\r\n	<span class=\"g-d_b g-bxz_bb g-pl_15 g-pb_10 g-fz_1_6r g-lh_15 \">\r\n	- ж/д транспорт</span></p><p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n	<span class=\"g-fw_b g-c_red \"> \r\n                            3 - 5 дней\r\n	</span></p>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div></div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div></div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке ж/д транспорта</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n   	Процесс оценки ж/д транспорта предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a>, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 3 до 5 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки ж/д транспорта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку ж/д транспорта:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>уровень физического износа </li>	<li>остаточный эксплуатационный срок </li>	<li>периодичность проведения и количество текущих и капитальных ремонтов</li>	<li>время, оставшееся до очередного планового ремонта</li>	<li>оставшееся время эксплуатации транспорта</li>	<li>технические характеристики объекта</li>	<li>физическое состояние и материал оборудования или его отдельных частей</li>	<li>степень физического износа</li>	<li>дооборудование</li>	<li>полученные повреждения и поломки</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки ж/д транспорта:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для кредитной организации в качестве залога</li>	<li>для сдачи в аренду </li>	<li>для лизинга</li>	<li>для расчета налога на имущество</li>	<li>при совершении сделки купли-продажи</li>	<li>при исполнении решения суда</li>	<li>при внесении на баланс организации</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL),
+(11, 'Оценка станков и механизмов', NULL, NULL, 'ocenka-stankov-i-mehanizmov', NULL, NULL, NULL, NULL, '2017-11-07 14:40:18', '2017-11-15 09:10:23', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 20:49:40', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-tools g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка станков и механизмов в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Паспорт на технику</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Паспорт собственника\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Техническая информация\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Используемые узлы и агрегаты; - функциональные возможности и технические характеристики; - наименование, марка, модель, серия; дата и страна выпуска, фирма-изготовитель; - дата ввода и интенсивность эксплуатации, сведения о консервации и ремонтах полная и остаточная балансовая стоимость\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа станков и механизмов\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	1 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	7 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 - 4 дня\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке станков и механизмов</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n    	Процесс оценки станков и механизмов предполагает несколько  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному <a class=\"g-td_n g-c_blue\" href=\"#services-lists-type\">\r\n	типу</a> станков и механизмов, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 1 до 4 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки станков и механизмов:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки станков и механизмов:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>для получения кредита под залог имущества организации </li>	<li>для получения кредита под залог имущества организации </li>	<li>для расчета налога на имущество </li>	<li>при постановке оборудования на баланс предприятия</li>	<li>при передаче в аренду или лизинге</li>	<li>при передаче в аренду или лизинге</li>	<li>при судебных разбирательствах</li>	<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы станков и механизмов:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>агрегаты</li>	<li>станки</li>	<li>машины</li>	<li>механизмы</li>	<li>приборы КИПиА</li>	<li>установки</li></ul>'),
+(12, 'Оценка технологических линий', NULL, NULL, 'ocenka-tehnologicheskih-linii', NULL, NULL, NULL, NULL, '2017-11-07 14:40:31', '2017-11-15 09:10:12', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 07:22:40', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-lines g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка технологических линий в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт на технику</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Техническая информация <span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Функциональное назначение (описание); - из каких узлов или агрегатов состоит; - марка и номер модели; - фирма изготовитель, страна; - новые или бывшие в употреблении; - местонахождение: на складе (адрес склада), действующее в производстве (адрес производства), планируется закупить (адрес поставщика или склада), выбывшее из эксплуатации (ликвидируемое) (адрес производства или склада).\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа технологических линий\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	5 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	20 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            7 - 10 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке технологических линий</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки технологических линий предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> технологических линий, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 7 до 10 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки технологических линий:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки технологических линий:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>для получения кредита под залог имущества организации </li>	\r\n<li>для проведения сделок купли-продажи, дарения, ренты</li>	\r\n<li>для расчета налога на имущество </li>	\r\n<li>при постановке оборудования на баланс предприятия</li>	\r\n<li>при передаче в аренду или лизинге</li>	\r\n<li>при утилизации</li>	\r\n<li>при судебных разбирательствах</li>	\r\n<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы технологических линий:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>стендовые</li>	\r\n<li>агрегатно-поточные</li>	\r\n<li>конвейерные</li>	\r\n<li>кассетные установки</li></ul>'),
+(13, 'Оценка товаров', NULL, NULL, 'ocenka-tovarov', NULL, NULL, NULL, NULL, '2017-11-07 14:40:44', '2017-11-15 09:10:01', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 07:33:28', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-inventory g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка товаров в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Документ на товар</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Техническая информация о товаре</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа товаров\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	100 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	1000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 день\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке товаров</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки товаров предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> товаров, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы по истечении 1 дня отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки товаров:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки товаров:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>при расторжении договоров с подрядчиками</li>	\r\n<li>при привлечении инвесторов или разработке бизнес-плана</li>	\r\n<li>при расчете налогообложения в организации</li>	\r\n<li>при постановке товаров на баланс предприятия</li>	\r\n<li>при утилизации</li>	\r\n<li>при страховании</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы товаров:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>инвентарь</li>	\r\n<li>сырье</li>	\r\n<li>готовая продукция</li>	\r\n<li>незавершенное производство</li>	\r\n<li>инструменты</li>	\r\n<li>мебель</li></ul>');
+INSERT INTO `cms_con_estimats` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `services_options`, `services_options_end`, `services_options_shadow`, `services_options_shadow_end`, `services_options_title`, `services_options_table`, `services_options_table_end`, `services_options_docs`, `services_options_docs_end`, `services_options_docs_list`, `services_options_cost`, `services_options_cost_end`, `services_options_cost_text`, `service_button`, `services_options_docs_title`, `service_short_bg`, `service_short_bg_end`, `service_short_w`, `service_short_w_end`, `service_short_title`, `service_short_text`, `service_short_advantage`, `services_lists_bg`, `services_lists_bg_end`, `services_lists_w`, `services_lists_w_end`, `services_lists_report_block`, `services_lists_report_block_end`, `services_lists_report_title`, `services_lists_report_list`, `services_lists_stages_block`, `services_lists_stages_block_end`, `services_lists_stages_title`, `services_lists_stages_list`, `services_lists_factors_block`, `services_lists_factors_block_end`, `services_lists_factors_title`, `services_lists_factors_list`, `services_lists_events_block`, `services_lists_events_block_end`, `services_lists_events_title`, `services_lists_events_list`, `services_lists_types_block`, `services_lists_types_block_end`, `services_lists_types_title`, `services_lists_types_list`) VALUES
+(14, 'Оценка оргтехники', NULL, NULL, 'ocenka-orgtehniki', NULL, NULL, NULL, NULL, '2017-11-07 14:40:57', '2017-11-15 09:09:48', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 07:44:00', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-office g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка оргтехники в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Документ на оргтехнику</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Техническая информация об оргтехнике</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от типа оргтехники\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	150 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	600 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            1 день\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке оргтехники</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки оргтехники предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> по предоставленному \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	типу</a> оргтехники, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы по истечении 1 дня отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки оргтехники:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки оргтехники:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>при продаже, списании с баланса</li>	<li>при получении кредита под залог оргтехники</li>	<li>при оценки для страховых компаний</li>	<li>при банкротстве организации</li>	<li>при внесении в уставный капитал</li>	<li>при переоценке активов</li>	<li>для судебных разбирательств</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nТипы оргтехники:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>общего пользования</li>	\r\n<li>офисного назначения</li>	\r\n<li>банковского назначения</li></ul>'),
+(15, 'Оценка интеллектуальной собственности', NULL, NULL, 'ocenka-intellektualnoi-sobstvennosti', NULL, NULL, NULL, NULL, '2017-11-07 14:41:11', '2017-11-15 09:09:38', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 07:59:28', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-intellectual g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка интеллектуальной собственности в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающие документы на объект ИС \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"Патенты, свидетельства, лицензионные договора, авторские договора\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Подтверждающие финансовые документы\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- О затратах на приобретение имущественных прав на ОИС; - о затратах на НИОКР; - о затратах на маркетинговые исследования, рекламу; - о размере пошлины и авторского вознаграждения; - о затратах на подготовку производства и внедрение; - о затратах на правовую охрану и страхование\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от вида интеллектуальной собственности\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	3 000 </span> до\r\n	<span class=\"g-fw_b g-c_red \">\r\n	90 000 </span>\r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            от 2 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке интеллектуальной собственности</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n        Процесс оценки интеллектуальной собственности предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> на предоставленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	вид</a> интеллектуальной собственности, в котором учтены все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Особую важность имеет тот факт, что любой объект интеллектуальной собственности является уникальным и включает в себя значительное количество специфических особенностей. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 2 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки интеллектуальной собственности:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>предоставление заказчиком необходимых документов</li>	\r\n<li>проведение осмотра и фотосъемки объекта оценки</li>	\r\n<li>расчет рыночной стоимости объекта оценки</li>	\r\n<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL, 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки интеллектуальной собственности:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>при выдаче кредита под залог исключительных прав</li>	\r\n<li>при передача во временное пользование</li>	\r\n<li>при уступке прав на объект интеллектуальной собственности</li>	\r\n<li>при выдаче лицензий на использование</li>	\r\n<li>при постановка на бухгалтерский баланс юридического лица</li>	\r\n<li>при приватизации объектов научно-технической сферы</li>	\r\n<li>при расчете вознаграждения авторам, создавших ИС</li>	\r\n<li>при определение доли прибыли от использования объектов ИС</li>	\r\n<li>для привлечения инвесторов и составления бизнес-планов</li>	\r\n<li>для оптимизации налогообложения</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nВиды интеллектуальной собственности:\r\n</h3>', '<ul class=\"services-lists-types services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pb_10 g-pl_0 g-ml_0\">\r\n	Объекты промышленной интеллектуальной собственности:</li>	\r\n<li>лицензия</li>	\r\n<li>товарный знак</li>	\r\n<li>деловая репутации</li>	\r\n<li>патент</li>	\r\n<li>бренд</li>	\r\n<li>ноу-хау</li>	\r\n<li>авторское право</li>	\r\n<li>изобретение</li>	\r\n<li>промышленные образец</li>	\r\n<li>полезная модель</li>	\r\n<li>фирменное наименование</li>	\r\n<li>место происхождения товара</li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Объекты, представляющие коммерческую тайну или ноу-хау:</li>	\r\n<li>знания технического, финансового или административно-управленческого характера приносящие или могущие приносить доход или иную пользу</li>	\r\n<li>результаты научно-исследовательских и опытно-конструкторских работ</li>	\r\n<li>не охраняемая патентами проектная, конструкторская и технологическая документация  </li>	\r\n<li class=\"g-ff_reg g-lis_n g-c_dk_blue g-pt_10 g-pb_10\">\r\n	Объекты интеллектуальной собственности авторского права и смежных прав:</li>	\r\n<li>произведения науки, литературы и искусства</li>	\r\n<li>программы для ЭВМ и базы данных</li>	\r\n<li>топология интегральных микросхем</li></ul>'),
+(16, 'Оценка ценных бумаг', NULL, NULL, 'ocenka-cennyh-bumag', NULL, NULL, NULL, NULL, '2017-11-07 14:41:27', '2017-11-15 09:09:28', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 09:13:42', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-securities g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка ценных бумаг в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающие документы на ценные бумаги</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Копии учредительных документов \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Устав; - учредительный договор; - свидетельство о регистрации.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Бухгалтерскую отчетность за последние 3-5 лет\r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Бухгалтерский баланс; - отчет о прибылях и убытках.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Данные о всех активах предприятия \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Недвижимость; - запасы; - акция сторонних обществ; - вексели; - нематериальные активы.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Бизнес-план на ближайшие 3-5 лет\r\n	</li>	\r\n<li class=\"g-c_dim_dk_blue g-pb_10 g-pt_10 g-lis_n g-fz_1_8r g-pl_0 g-ml_0\">\r\n	Дополнительно:\r\n	</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Заключения аудитора</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Копии проспектов эмиссии</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Отчеты об итогах выпуска ценных бумаг</li>	\r\n<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Расшифровки кредиторской и дебиторской задолженности</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от вида ценных бумаг и факторов оценки\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	15 000 </span> \r\n	рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            от 5 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке ценных бумаг</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n    	Процесс оценки ценных бумаг предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a> на предоставленный  \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-types\">\r\n	вид</a> ценных бумаг, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> \r\n    не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 5 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>задание на оценку</li>	<li>применяемые стандарты оценки</li>	<li>принятые при проведении оценки объекта оценки допущения</li>	<li>сведения о заказчике оценки и об оценщике</li>	<li>информация обо всех привлеченных к проведению оценки</li>	<li>основные факты и выводы</li>	<li>описание объекта оценки</li>	<li>анализ рынка объекта оценки</li>	<li>описание процесса оценки в части применения подхода к оценке</li>	<li>описание процедуры согласования результатов оценки</li>	<li>сертификат качества оценки</li>	<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки ценных бумаг:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n\">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>проведение осмотра и фотосъемки объекта оценки</li>	<li>расчет рыночной стоимости объекта оценки</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку стоимости ценных бумаг\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n    \r\n<li>соотношение спроса и предложения</li>    \r\n<li>ликвидность ценной бумаги</li>    \r\n<li>котировки аналогичных ценных бумаг</li>    \r\n<li>доходность или текущая стоимость будущего дохода</li>    \r\n<li>характеристики эмитента </li>    \r\n<li>инфляция</li>    \r\n<li>надежность ценной бумаги</li>    \r\n<li>риски неисполнения обязательств и инвестиционные риски</li>    \r\n<li>снижение или рост инвестиционной привлекательности ценной бумаги</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки ценных бумаг:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n    \r\n<li>для получения кредита под залог ценных бумаг</li>    \r\n<li>для совершения сделок купли-продажи, мены, наследования, дарения</li>    \r\n<li>для дополнительной эмиссии акций</li>    \r\n<li>для выкупа акционерами</li>    \r\n<li>для привлечения внешнего финансирования</li>    \r\n<li>для внесения в уставный капитал</li>    \r\n<li>для определения стоимости компании </li>    \r\n<li>для снятия с налогового учета</li>    \r\n<li>для перехода на мсфо</li>    \r\n<li>для оценки благонадежности активов</li>    \r\n<li>для отчета перед вышестоящей организацией</li>    \r\n<li>для судебных органов</li>    \r\n<li>при принятии управленческих решений</li>    \r\n<li>при слиянии, поглощении, разделении предприятия</li>    \r\n<li>при передаче в доверительное управление</li>    \r\n<li>при уплате долгов</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-types\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nВиды ценных бумаг:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n    \r\n<li>долевые (акции)</li>    \r\n<li>долговые (облигации, векселя)</li>    \r\n<li>производные (опционы, фьючерсы)</li></ul>'),
+(17, 'Оценка инвестиционного проекта', NULL, NULL, 'ocenka-investicionnogo-proekta', NULL, NULL, NULL, NULL, '2017-11-07 14:41:50', '2017-11-15 09:09:18', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 09:34:02', 0, 'm-services-options  services-options g-pl_1p g-pr_1p g-pt_65 g-pb_80 g-bxz_bb g-bd_trans', 'empty', 'm-services-options-shadow services-options-shadow services-options-bg-investments g-bxz_bb g-pt_40 g-pl_5p g-pb_35 g-w_1170 g-mt_100 g-bdrs_5', 'empty', '<h2 class=\"m-services-options-title g-fz_2_4r g-lh_3_5r g-ff_lt g-c_blue g-pb_45\">\r\nОценка инвестиционного проекта в Краснодаре и крае\r\n</h2>', 'm-services-options-table  g-d_tb g-w_100p', 'empty', 'm-services-options-docs  services-options-docs  g-d_tbc g-d_ib g-ff_lt g-va_t', 'empty', '<ul class=\"services-options-docs-list g-lh_2_6r g-fz_1_6r \">\r\n	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Паспорт собственника</li>	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Правоустанавливающие документы организации</li>	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">Бухгалтерская отчетность \r\n	<span class=\"m-services-options-docs-list-hint services-options-docs-list-hint g-d_ib g-c_blue g-cur_p g-pos_r\" data-hint=\"- Бухгалтерский баланс; - отчет о прибылях и убытках.\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"выноска\"></span>\r\n	</li>	<li class=\"g-c_dk_blue g-ml_20 g-pl_15\">\r\n	Копия инвестиционного проекта и материалы к нему</li></ul>', 'm-services-options-cost  services-options-cost g-pos_r g-d_tbc g-whs_nw g-d_ib g-ff_lt g-fz_1_8r g-va_t', 'empty', '<p class=\"g-c_dim_dk_blue g-pb_20 g-d_ib\">\r\n                        Стоимость:  \r\n	<span class=\"m-services-options-cost-hint services-options-cost-hint g-d_ib g-c_blue g-cur_p g-pos_r g-fz_1_8r\" data-hint=\"Зависит от факторов оценки инвестиционного проекта\">\r\n	<img class=\"g-pos_r\" src=\"/upload/consultug/ico_callout2.png \" alt=\"доп.информация\">\r\n	</span></p><p class=\"g-c_dk_blue g-lh_19 g-pb_30\">\r\n	от \r\n	<span class=\"g-fw_b g-c_red \">\r\n	20 000 </span> рублей</p>\r\n<div class=\"g-pos_a g-b_0 g-w_100p\">\r\n	<p class=\"services-options-term g-d_b g-c_dk_blue g-pt_15 g-pos_r\">\r\n                            Срок: \r\n		<span class=\"g-fw_b g-c_red \"> \r\n                            5 дней\r\n		</span>\r\n	</p>\r\n</div>', '<div class=\"g-pt_80\">\r\n	<div class=\"js-form-show m-p-button-order_report p-button-order_report g-bxz_bb g-mr_5 g-bdrs_5 g-first g-pos_r g-bgc_bt_blue g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Заказать отчет об оценке\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_red g-fz_10 g-c_white \">\r\n			cкидка 5%</span>\r\n		</div>\r\n</div>\r\n	<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n		<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14\">\r\n                        Получить консультацию\r\n		</p>\r\n		<div class=\"p-button-wrap g-pos_a g-w_100p g-fs_i\">\r\n			<span class=\"p-button-ribbon g-pos_a g-ta_c g-ff_lt g-bgc_white g-fz_10 g-c_blue \">\r\n			бесплатно</span>\r\n		</div>\r\n</div></div>', '<h3 id=\"services-options-docs\" class=\"g-c_dim_dk_blue g-pb_20 g-fw_n g-fz_1_8r\">\r\nНеобходимые документы:\r\n</h3>', 'empty', 'empty', 'g-w_1170 g-pt_40 g-bxz_bb g-pb_50', 'empty', '<h3 class=\"g-ta_c g-fz_3_6r g-lh_5_3r g-ff_reg g-c_dk_blue g-pb_60\">\r\nКоротко об оценке инвестиционного проекта</h3>', '<p class=\"g-pl_8p g-pr_8p g-ta_c g-c_dim_dk_blue g-fz_1_8r g-ff_lt g-lh_3_5r g-pb_40\">\r\n    	Процесс оценки инвестиционного проекта предполагает несколько \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-stages\">\r\n	этапов</a>, первый из которых - это Ваше желание получить на руки профессионально подготовленный \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-report\">\r\n	пакет документов</a>, в котором учтены все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-factors\">\r\n	факторы</a> оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ. Если мы понимаем, что Ваш \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-lists-events\">\r\n	случай</a> не предполагает выполнение такого отчета, то мы останавливаемся на этапе \r\n	<a class=\"js-form-show g-td_n g-c_blue\" href=\"#\">\r\n	бесплатной консультации</a>, иначе - Вы предоставляете все \r\n	<a class=\"g-td_n g-c_blue\" href=\"#services-options-docs\">\r\n	необходимые документы</a> и мы в срок от 5 дней отдаем Вам готовый результат.</p>', '<div class=\"m-services-adv services-adv g-ta_c g-va_t g-pb_40 g-fz_1_8r g-ff_reg g-lh_15\">\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img1 services-adv-img1\">\r\n		</div><p class=\"g-c_white\">\r\n			Работаем\r\n			<br class=\"m-services-adv-br\">\r\n			без предоплаты\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img2 services-adv-img2 \">\r\n		</div><p class=\"g-c_white\">\r\n			Выезд на осмотр\r\n			<br class=\"m-services-adv-br\">\r\n			бесплатно\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img3 services-adv-img3 \">\r\n		</div><p class=\"g-c_white\">\r\n			Целевой подход - \r\n			<br class=\"m-services-adv-br\">\r\n			проверяем необходимость\r\n			<br class=\"m-services-adv-br\">\r\n			оценки\r\n		</p></div>\r\n	<div class=\"m-services-adv-bg services-adv-bg g-va_t g-wos_0 g-d_ib g-ta_c g-bxz_bb g-bdrs_5\">\r\n		<div class=\"m-services-adv-img4 services-adv-img4 \">\r\n		</div><p class=\"g-c_white\">\r\n			Гарантия результата\r\n			<br class=\"m-services-adv-br\">\r\n			наш отчет имеет 100%\r\n			<br class=\"m-services-adv-br\">\r\n			одобрения\r\n		</p></div></div>', 'm-services-lists services-lists', 'empty', 'g-w_1170 g-pl_1p g-bxz_bb g-pb_80', 'empty', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-report\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nПакет документов (отчет об оценке) включает в себя:\r\n</h3>', '<ul class=\"services-lists-report services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>задание на оценку</li>	\r\n<li>применяемые стандарты оценки</li>	\r\n<li>принятые при проведении оценки объекта оценки допущения</li>	\r\n<li>сведения о заказчике оценки и об оценщике</li>	\r\n<li>информация обо всех привлеченных к проведению оценки</li>	\r\n<li>основные факты и выводы</li>	\r\n<li>описание объекта оценки</li>	\r\n<li>анализ рынка объекта оценки</li>	\r\n<li>описание процесса оценки в части применения подхода к оценке</li>	\r\n<li>описание процедуры согласования результатов оценки</li>	\r\n<li>сертификат качества оценки</li>	\r\n<li>используемые законодательные и нормативные правовые акты </li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-bxz_bb', 'empty', '<h3 id=\"services-lists-stages\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nЭтапы оценки инвестиционного проекта:\r\n</h3>', '<ul class=\"services-lists-stages services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	<li>предоставление заказчиком необходимых документов</li>	<li>анализ инвестиционного проекта</li>	<li>расчет оценки эффективности проекта</li>	<li>оформление отчета оценки и передача его заказчику</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-factors\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nФакторы, влияющие на оценку инвестиционного проекта:\r\n</h3>', '<ul class=\"services-lists-factors services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n    \r\n<li>масштабы проекта</li>    \r\n<li>наличие бизнес-плана или ТЭО по проекту</li>    \r\n<li>особые требования к проекту у кредитной организации или аудиторов</li>    \r\n<li>необходимость защиты отчета перед проверяющей структурой</li>    \r\n<li>скорость выполнения отчета</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb', 'empty', '<h3 id=\"services-lists-events\" class=\"title g-ff_reg g-fz_1_8r g-lh_2_6r g-c_dk_blue g-pb_10\">\r\nСлучаи, когда необходимо проведение оценки инвестиционного проекта:\r\n</h3>', '<ul class=\"services-lists-events services-lists-ul g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_2_6r g-lis_n \">\r\n	\r\n<li>при поиске инвесторов</li>	\r\n<li>при выборе эффективных условий инвестирования или кредитования</li>	\r\n<li>при выборе условий страхования рисков</li>	\r\n<li>при сравнении нескольких проектов (вариантов проекта) и выбора лучшего из них</li>	\r\n<li>при открытии нового бизнеса</li>	\r\n<li>при расширении бизнеса в ранее заданном либо новом направлении</li></ul>', 'm-services-lists-div services-lists-div g-wos_0 g-d_ib g-va_t g-pt_60 g-bxz_bb g-d_n', 'empty', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_cats`
+--
+
+CREATE TABLE `cms_con_estimats_cats` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` text,
+  `slug` varchar(255) DEFAULT NULL,
+  `slug_key` varchar(255) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `ns_left` int(11) UNSIGNED DEFAULT NULL,
+  `ns_right` int(11) UNSIGNED DEFAULT NULL,
+  `ns_level` int(11) UNSIGNED DEFAULT NULL,
+  `ns_differ` varchar(32) NOT NULL DEFAULT '',
+  `ns_ignore` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `allow_add` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_estimats_cats`
+--
+
+INSERT INTO `cms_con_estimats_cats` (`id`, `parent_id`, `title`, `description`, `slug`, `slug_key`, `seo_keys`, `seo_desc`, `seo_title`, `ordering`, `ns_left`, `ns_right`, `ns_level`, `ns_differ`, `ns_ignore`, `allow_add`) VALUES
+(1, 0, '---', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 0, '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_cats_bind`
+--
+
+CREATE TABLE `cms_con_estimats_cats_bind` (
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_estimats_cats_bind`
+--
+
+INSERT INTO `cms_con_estimats_cats_bind` (`item_id`, `category_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_fields`
+--
+
+CREATE TABLE `cms_con_estimats_fields` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `hint` varchar(200) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_list` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_item` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed_type` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_system` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text,
+  `groups_read` text,
+  `groups_edit` text,
+  `filter_view` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_estimats_fields`
+--
+
+INSERT INTO `cms_con_estimats_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
+(1, 12, 'title', 'Заголовок', NULL, 1, NULL, 'caption', NULL, NULL, 1, NULL, 1, 1, 0, NULL, '---\nmin_length: 3\nmax_length: 255\nin_fulltext_search: 1\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: 1\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(2, 12, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', 0, 0, 1, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nshow_time: true\n', NULL, NULL, NULL),
+(3, 12, 'user', 'Автор', NULL, 3, NULL, 'user', 0, 0, 0, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\n', NULL, NULL, NULL),
+(4, 12, 'photo', 'Изображение', NULL, 4, NULL, 'image', 0, 0, NULL, NULL, 1, NULL, NULL, NULL, '---\nsize_teaser: small\nsize_full: normal\nsizes:\n  - micro\n  - small\n  - normal\n  - big\n', NULL, NULL, NULL),
+(5, 12, 'content', 'Описание', NULL, 5, NULL, 'text', 0, 0, NULL, NULL, 1, NULL, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\n', NULL, NULL, NULL),
+(23, 12, 'service_button', 'Блок кнопок', NULL, 18, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(21, 12, 'services_options_cost_end', 'container_end', NULL, 12, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(22, 12, 'services_options_cost_text', 'Блок цен и сроков', NULL, 11, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(20, 12, 'services_options_cost', 'container_start', NULL, 10, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(10, 12, 'services_options', 'container_start', NULL, 6, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(11, 12, 'services_options_end', 'container_end', NULL, 20, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(12, 12, 'services_options_shadow', 'container_start', NULL, 7, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(13, 12, 'services_options_shadow_end', 'container_end', NULL, 19, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(14, 12, 'services_options_title', 'Заголовок для страницы оценки', NULL, 8, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(15, 12, 'services_options_table', 'container_start', NULL, 9, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(16, 12, 'services_options_table_end', 'container_end', NULL, 17, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(17, 12, 'services_options_docs', 'container_start', NULL, 13, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(18, 12, 'services_options_docs_end', 'container_end', NULL, 16, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(19, 12, 'services_options_docs_list', 'Список необходимых документов', NULL, 15, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(24, 12, 'services_options_docs_title', 'Наименования списка с документами', NULL, 14, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(25, 12, 'service_short_bg', 'container_start', NULL, 21, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(26, 12, 'service_short_bg_end', 'container_end', NULL, 27, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(27, 12, 'service_short_w', 'container_start', NULL, 22, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(28, 12, 'service_short_w_end', 'container_end', NULL, 26, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(29, 12, 'service_short_title', 'Заголовок для \"Коротко\"', NULL, 23, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(30, 12, 'service_short_text', 'Текст для блока \"Коротко\"', NULL, 24, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(31, 12, 'service_short_advantage', 'Преимущества', NULL, 25, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(32, 12, 'services_lists_bg', 'container_start', NULL, 28, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(33, 12, 'services_lists_bg_end', 'container_end', NULL, 51, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(34, 12, 'services_lists_w', 'container_start', NULL, 29, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(35, 12, 'services_lists_w_end', 'container_end', NULL, 50, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(36, 12, 'services_lists_report_block', 'container_start', NULL, 30, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(37, 12, 'services_lists_report_block_end', 'container_end', NULL, 33, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(38, 12, 'services_lists_report_title', 'Наименование списка с \"пакетом документов\"', NULL, 31, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(39, 12, 'services_lists_report_list', 'Список с пакетом документов', NULL, 32, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(40, 12, 'services_lists_stages_block', 'container_start', NULL, 34, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(41, 12, 'services_lists_stages_block_end', 'container_end', NULL, 37, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(42, 12, 'services_lists_stages_title', 'Наименования списка \"Этапов\"', NULL, 35, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(43, 12, 'services_lists_stages_list', 'Список Этапов', NULL, 36, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(52, 12, 'services_lists_types_block', 'container_start', NULL, 42, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(44, 12, 'services_lists_factors_block', 'container_start', NULL, 38, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(45, 12, 'services_lists_factors_block_end', 'container_end', NULL, 41, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(46, 12, 'services_lists_factors_title', 'Наименование списка \"Факторов\"', NULL, 39, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(47, 12, 'services_lists_factors_list', 'Список \"Факторов\"', NULL, 40, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(54, 12, 'services_lists_types_title', 'Наименование списка \"Видов, Типов\"', NULL, 43, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(48, 12, 'services_lists_events_block', 'container_start', NULL, 46, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(49, 12, 'services_lists_events_block_end', 'container_end', NULL, 49, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(50, 12, 'services_lists_events_title', 'Наименование списка \"Случаев\"', NULL, 47, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(51, 12, 'services_lists_events_list', 'Список \"Случаев\"', NULL, 48, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(55, 12, 'services_lists_types_list', 'Список \"Видов, Типов\"', NULL, 44, NULL, 'html', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nbuild_redirect_link: null\nteaser_len:\nin_fulltext_search: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(53, 12, 'services_lists_types_block_end', 'container_end', NULL, 45, NULL, 'string', NULL, 1, NULL, NULL, NULL, NULL, NULL, 'empty', '---\nmin_length: 0\nmax_length: 255\nshow_symbol_count: null\nis_autolink: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_props`
+--
+
+CREATE TABLE `cms_con_estimats_props` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_props_bind`
+--
+
+CREATE TABLE `cms_con_estimats_props_bind` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `cat_id` int(11) UNSIGNED DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_estimats_props_values`
+--
+
+CREATE TABLE `cms_con_estimats_props_values` (
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `cms_con_pages`
 --
 
@@ -516,6 +1405,21 @@ CREATE TABLE `cms_con_pages` (
   `is_private` tinyint(1) NOT NULL DEFAULT '0',
   `attach` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_pages`
+--
+
+INSERT INTO `cms_con_pages` (`id`, `title`, `content`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `attach`) VALUES
+(4, 'Банкротство физического лица', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"arbitration-one g-pb_60\">\r\n			<h2 class=\"g-pt_80 g-pb_55 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n			Процедура банкротства физического лица</h2>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 1. </span>Заявление.\r\n				</p>\r\n				<p class=\"g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Процедура банкротства начинается с обращения в суд с заявлением о признании банкротом.\r\n				</p>\r\n				<p class=\"g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Заявление могут подать:\r\n					<br>\r\n                    - сам должник;\r\n					<br>\r\n                    - кредитор;\r\n					<br>\r\n                    - уполномоченный орган.\r\n					<br>\r\n				</p>\r\n				<p class=\"g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        После подачи заявления о признании гражданина банкротом суд \r\n                        проверяет обоснованность данного заявления. Если суд выносит \r\n                        решение о признании заявления обоснованным, то вводится \r\n                        процедура реструктуризации и назначается финансовый управляющий. \r\n                        Требования к финансовому управляющему те же, что и для арбитражных \r\n                        управляющих.\r\n				</p>\r\n			</div>			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 2. </span>Реструктуризация долга\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        С этого этапа процедурой банкротства гражданина занимается \r\n                        финансовый управляющий. Он собирает информацию об имуществе \r\n                        гражданина, проводит собрание кредиторов, ведет реестр требований \r\n                        кредиторов, а также представляет на утверждение кредиторам \r\n                        предложенный кредиторами и (или) должником план реструктуризации. \r\n                        Если кредиторы одобряют план, он выносится на утверждение суда. \r\n                        Если же такой план не представлен или не принят кредиторами &mdash; \r\n                        решается вопрос о признании гражданина банкротом и введении \r\n                        процедуры реализации имущества.\r\n				</p>\r\n			</div>			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 3. </span>Реализация имущества должника\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Финансовый управляющий распоряжается счетами, движимым и \r\n                        недвижимым имуществом должника от его имени. Оценка имущества \r\n                        должника проводится управляющим самостоятельно, по решению \r\n                        собрания кредиторов может привлекаться оценщик. Если по истечении \r\n                        установленного срока реализации имущества должника, имущество не \r\n                        было реализовано, а кредиторы отказались от его принятия, \r\n                        гражданин восстанавливается в правах на распоряжение таким \r\n                        имуществом. Финансовый управляющий готовит отчёт о результатах \r\n                        реализации имущества, после рассмотрения которого, суд выносит \r\n                        определение о завершении реализации имущества гражданина.\r\n                        После завер шения реализации имущества не погашенные долги считаются \r\n                        «списанными», в том числе даже те долги, которые не были заявлены на \r\n                        стадиях реструктуризации или реализации, за исключением требований \r\n                        неразрывно связанных с личностью кредитора.\r\n				</p>\r\n			</div></div></div></div>\r\n<div class=\"banner-main m-banner-main g-w_100p g-pos_a\">\r\n	<div class=\"g-w_1170 g-ta_r\">\r\n		<div class=\"m-banner-content banner-content g-bxz_bb g-pos_r g-ta_c g-d_ib g-pt_35 g-pb_20 g-pr_10 g-pl_10 g-bgc_white\">\r\n			<div class=\"g-ta_c\">\r\n				<p class=\"g-pb_20 g-ff_lt g-fz_1_8r g-c_dk_blue\">\r\n                        Стоимость услуги\r\n				</p>\r\n				<p class=\"g-pb_20 g-ff_reg g-fz_2_4r g-c_dk_blue\">\r\n                        от 100 000 руб.\r\n				</p>\r\n			</div>			<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-ta_c g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n				<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14 g-pl_10 g-pr_10\">\r\n                            Получить консультацию\r\n				</p>\r\n			</div></div></div></div>', 'bankrotstvo-fizicheskih-lic', 'имущества, реализации, гражданина, должника, признании, управляющий, финансовый, процедура, банкротства, реструктуризации', 'Процедура банкротства физического лица   Этап 1. Заявление.   Процедура банкротства начинается с обращения в суд с заявлением о признании банкротом.', NULL, NULL, '2017-11-08 13:16:54', '2017-11-15 09:18:33', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-08 13:17:58', 0, NULL),
+(3, 'История компании', '<div class=\"g-bgc_white\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"m-history-title history-title g-ta_c g-pt_60 g-pb_60 g-va_m\">\r\n			<p class=\"g-va_m g-d_ib g-p_0 g-ff_reg g-c_dk_blue g-fz_3_6r\">\r\n                    История компании\r\n			</p>\r\n		</div>		<div class=\"history-main g-pb_60 g-ta_c\">\r\n			<div class=\"history-one_left g-ta_c\">\r\n				<div class=\"m-history-one-text history-one-text history-one-text_first g-bxz_bb g-c_dk_blue g-pl_20 g-pr_20 g-pt_20 g-pb_20 g-ta_l g-d_ib g-bgc_lt_blue\">\r\n					<p class=\"m-history-one-text-year g-d_n g-ff_lt g-fz_3_6r g-c_dk_blue g-pt_30 g-pb_20\">\r\n                           2017\r\n					</p>\r\n					<p class=\"g-ff_lt g-fz_1_8r g-lh_2_6r\">\r\n                        Создание собственного корпоративного сайта.\r\n						<br>\r\n						Страхование консолидированной ответственности компании «Консалтинг-Юг» на общую сумму 160 млн. рублей. \r\n						<br>\r\n						Выполнение отчета об оценке для банкротства юридических лиц \r\n						<br>\r\n						Получение аккредитации в качестве оценочной организации в ОАО «ЮГ-Инвестбанк».\r\n					</p>\r\n				</div>				<div class=\"history-one-year m-history-one-year g-pt_20 g-bxz_bb g-pos_r g-ta_c g-d_ib g-va_t g-pl_45\">\r\n					<p class=\"g-d_ib g-ff_lt g-c_blue\">\r\n                            2017\r\n					</p>\r\n					<img class=\"g-d_ib\" src=\"/upload/consultug/ico_history_2017.png\" alt=\"Иконка истории 2017 года\">\r\n					<div class=\"history-one-point g-d_ib g-pos_a\">\r\n					</div></div></div>\r\n			<div class=\"history-one_right g-ta_c\">\r\n				<div class=\"history-one-year m-history-one-year g-pt_20 g-bxz_bb g-pos_r g-ta_c g-d_ib g-va_t g-pr_45\">\r\n					<img class=\"g-d_ib\" src=\"/upload/consultug/ico_history_2015.png\" alt=\"Иконка истории 2015 года\">\r\n					<p class=\"g-d_ib g-ff_lt g-c_blue\">\r\n                            2015 - 2016\r\n					</p>\r\n					<div class=\"history-one-point g-d_ib g-pos_a\">\r\n					</div></div>\r\n				<div class=\"m-history-one-text history-one-text g-bxz_bb g-c_dk_blue g-pl_20 g-pr_20 g-pt_20 g-pb_20 g-ta_l g-d_ib g-bgc_lt_blue\">\r\n					<p class=\"m-history-one-text-year g-d_n g-ff_lt g-fz_3_6r g-c_dk_blue g-pt_30 g-pb_20\">\r\n                           2015 - 2016\r\n					</p>\r\n					<p class=\"g-ff_lt g-fz_1_8r g-lh_2_6r\">\r\n                        Открытие представительства в городе Краснодаре по адресу: ул.Рождественская набережная 3, оф.92. \r\n						<br>\r\n						Получение аккредитации в качестве оценочной организации в таких крупных банках, как ОАО «Россельхозбанк» и КБ «КубаньКредит» ООО.\r\n					</p>\r\n				</div></div>\r\n			<div class=\"history-one_left g-ta_c\">\r\n				<div class=\"m-history-one-text history-one-text g-bxz_bb g-c_dk_blue g-pl_20 g-pr_20 g-pt_20 g-pb_20 g-ta_l g-d_ib g-bgc_lt_blue\">\r\n					<p class=\"m-history-one-text-year g-d_n g-ff_lt g-fz_3_6r g-c_dk_blue g-pt_30 g-pb_20\">\r\n                           2013 - 2014\r\n					</p>\r\n					<p class=\"g-ff_lt g-fz_1_8r g-lh_2_6r\">\r\n                        Получение аккредитации в качестве оценочной организации в таких крупных банках, как ОАО КБ «Центр-инвест» и ОАО «Всероссийский банк развития регионов (ВБРР)»\r\n					</p>\r\n				</div>				<div class=\"history-one-year m-history-one-year g-pt_20 g-bxz_bb g-pos_r g-ta_c g-d_ib g-va_t g-pl_45\">\r\n					<p class=\"g-d_ib g-ff_lt g-c_blue\">\r\n                            2013 - 2014\r\n					</p>\r\n					<img class=\"g-d_ib\" src=\"/upload/consultug/ico_history_2013.png\" alt=\"Иконка истории 2017 года\">\r\n					<div class=\"history-one-point g-d_ib g-pos_a\">\r\n					</div></div></div>\r\n			<div class=\"history-one_right g-ta_c\">\r\n				<div class=\"history-one-year m-history-one-year g-pt_20 g-bxz_bb g-pos_r g-ta_c g-d_ib g-va_t g-pr_45\">\r\n					<img class=\"g-d_ib\" src=\"/upload/consultug/ico_history_2011.png\" alt=\"Иконка истории 2017 года\">\r\n					<p class=\"g-d_ib g-ff_lt g-c_blue\">\r\n                            2011 - 2012\r\n					</p>\r\n					<div class=\"history-one-point g-d_ib g-pos_a\">\r\n					</div></div>\r\n				<div class=\"m-history-one-text history-one-text g-bxz_bb g-c_dk_blue g-pl_20 g-pr_20 g-pt_20 g-pb_20 g-ta_l g-d_ib g-bgc_lt_blue\">\r\n					<p class=\"m-history-one-text-year g-d_n g-ff_lt g-fz_3_6r g-c_dk_blue g-pt_30 g-pb_20\">\r\n                           2011 - 2012\r\n					</p>\r\n					<p class=\"g-ff_lt g-fz_1_8r g-lh_2_6r\">\r\n                      				Начало сотрудничества компании с ОАО «Туапсинский морской торговый порт».\r\n						<br>\r\n						Получение аккредитации в качестве оценочной организации в ПАО «Липецккомбанк». \r\n						<br>\r\n						Впервые выполнены отчеты об оценке для сложных причальных сооружений.\r\n					</p>\r\n				</div></div>\r\n			<div class=\"history-one_left g-ta_c\">\r\n				<div class=\"m-history-one-text history-one-text history-one-text_last g-bxz_bb g-c_dk_blue g-pl_20 g-pr_20 g-pt_20 g-pb_20 g-ta_l g-d_ib g-bgc_lt_blue\">\r\n					<p class=\"m-history-one-text-year g-d_n g-ff_lt g-fz_3_6r g-c_dk_blue g-pt_30 g-pb_20\">\r\n                           2007 - 2010\r\n					</p>\r\n					<p class=\"g-ff_lt g-fz_1_8r g-lh_2_6r\">\r\n                        Компания «Консалтинг-Юг» зарегистрирована в 2007 году в г. Туапсе. \r\n						<br>\r\n						Цель создания – выполнение отчетов оценки любой сложности, умение слушать и слышать заказчиков, информировать об имеющихся альтернативах оценки. \r\n						<br>\r\n						За данный период нами в качестве оценочной организации была получена аккредитация в ОАО «Сбербанк», началось сотрудничество с ООО «РН-Туапсенефтепродукт».\r\n					</p>\r\n				</div>				<div class=\"history-one-year m-history-one-year g-pt_20 g-bxz_bb g-pos_r g-ta_c g-d_ib g-va_t g-pl_45\">\r\n					<p class=\"g-d_ib g-ff_lt g-c_blue\">\r\n                            2007 - 2010\r\n					</p>\r\n					<img class=\"g-d_ib\" src=\"/upload/consultug/ico_history_2007.png\" alt=\"Иконка истории 2017 года\">\r\n					<div class=\"history-one-point g-d_ib g-pos_a\">\r\n					</div></div></div></div></div></div>', 'history', 'оценочной, качестве, организации, получение, аккредитации, компании, таких, выполнение, крупных, оценки', 'История компании   2017   Создание собственного корпоративного сайта.', NULL, NULL, '2017-11-07 12:54:22', '2017-11-10 09:07:20', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-07 12:54:51', 0, NULL),
+(7, 'Реквизиты и контакты', '<div class=\"g-w_100p\">\r\n	<div class=\"g-pos_r g-w_1170\">\r\n		<div class=\"requisites-main g-pb_60 g-pt_60 g-pl_8p\">\r\n			<h1 class=\"g-wos_0 g-pb_40 g-ff_reg g-c_blue g-fz_2_4r\">\r\n			Реквизиты:</h1>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">Наименование: </span>ООО «Консалтинг-Юг»\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">ИНН: </span>2322022027\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">КПП: </span>236501001\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">р/с: </span>40702810530050000177\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">к/с: </span>30101810600000000602\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">БИК: </span>046015602\r\n			</p>\r\n			<p class=\"g-pb_10 g-ff_lt g-fz_1_8r g-lh_2_6r g-c_dk_blue\">\r\n				<span class=\"g-ff_reg g-fz_1_8r g-c_dk_blue\">Банк получатель: </span>Юго-Западный Банк ПАО «Сбербанк» г.Ростов-на-Дону\r\n			</p>\r\n		</div></div></div>\r\n<div class=\"ls-background g-w_100p g-first g-pos_r\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"g-ta_l g-pb_60 g-pl_8p\">\r\n			<h1 class=\"g-wos_0 g-pb_20 g-ff_reg g-c_blue g-fz_2_4r\">\r\n			Ведущие специалисты:</h1>\r\n			<div class=\"ls-one g-d_b g-va_b g-pt_20\">\r\n				<div>\r\n					<img src=\"/upload/consultug/person_1.png\" alt=\"Сотрудник 1\">\r\n				</div><p class=\"js-ls-name g-ta_l g-lh_22 g-ff_reg g-fz_1_8r g-c_dk_blue\">\r\n					Шарунов Игорь Владленович\r\n				</p>\r\n				<div>\r\n					<p class=\"ls-one-phone g-ta_l g-lh_15 g-ff_lt g-fz_1_6r g-c_dk_blue\">\r\n						<img class=\"g-pr_10 g-va_t\" src=\"/upload/consultug/ico_phone.png\" alt=\"Телефон\">\r\n						8-918-443-99-03\r\n					</p>\r\n					<a href=\"mailto:sharunov_iv@antispam.ru?subject=Консультация\" class=\"js-email ls-one-email g-ta_l g-lh_15 g-ff_lt g-fz_1_6r g-c_dk_blue g-cur_p g-td_n\">\r\n					<img class=\"g-pr_10 g-va_t\" src=\"/upload/consultug/ico_mail.png\" alt=\"Почта\">\r\n					sharunov_iv@antispam.ru\r\n					</a>\r\n				</div></div>\r\n			<div class=\"ls-one g-d_b g-va_b g-pt_20\">\r\n				<div>\r\n					<img src=\"/upload/consultug/person_2.png\" alt=\"Сотрудник 2\">\r\n				</div><p class=\"g-ta_l g-lh_22 g-ff_reg g-fz_1_8r g-c_dk_blue\">\r\n					Бондарь Анна Викторовна\r\n				</p>\r\n				<div>\r\n					<p class=\"ls-one-phone g-ta_l g-lh_15 g-ff_lt g-fz_1_6r g-c_dk_blue\">\r\n						<img class=\"g-pr_10 g-va_t\" src=\"/upload/consultug/ico_phone.png\" alt=\"Телефон\">\r\n						8-918-999-96-13\r\n					</p>\r\n					<a href=\"mailto:bondar_av@antispam.ru?subject=Консультация\" class=\"js-email ls-one-email g-ta_l g-lh_15 g-ff_lt g-fz_1_6r g-c_dk_blue g-cur_p g-td_n\">\r\n					<img class=\"g-pr_10 g-va_t\" src=\"/upload/consultug/ico_mail.png\" alt=\"Почта\">\r\n					bondar_av@antispam.ru\r\n					</a>\r\n				</div></div></div></div></div>', 'rekvizity-i-kontakty', 'реквизиты, 046015602, получатель, югозападный, «сбербанк», 30101810600000000602, 40702810530050000177, наименование, «консалтингюг», 2322022027', 'Реквизиты:   Наименование: ООО «Консалтинг-Юг»   ИНН: 2322022027   КПП: 236501001   р/с: 40702810530050000177   к/с: 30101810600000000602   БИК: 046015602', NULL, NULL, '2017-11-09 07:28:42', '2017-11-15 10:59:04', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 07:32:58', 0, NULL),
+(5, 'Банкротство юридического лица', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"arbitration-one g-pb_60\">\r\n			<h2 class=\"g-pt_80 g-pb_55 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n			Процедура банкротства юридического лица</h2>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 1. </span>Инициирование процедуры банкротства\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Инициирование процедуры банкротства заключается в составлении заявления о банкротстве организации.\r\n                        Перед составлением заявления о признании банкротом\r\n                        целесообразно провести мероприятия по подготовке организации \r\n                        к банкротству, чтобы снизить риски при проведении банкротства.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 2. </span>Введение процедуры банкротства арбитражным судом\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Арбитражный суд рассматривает заявление о банкротстве в судебном заседании. \r\n                        В случае, если обстоятельства, изложенные в заявлении о банкротстве, будут \r\n                        признаны судом обоснованными, то будет введена процедура банкротства – \r\n                        наблюдение или конкурсное производство (при упрощенной процедуре).\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 3. </span>Проведение процедуры банкротства\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Порядок проведения процедуры банкротства регулируется Законом о банкротстве. \r\n                        В самом общем виде он заключается в проведении инвентаризации, оценки \r\n                        имущества должника, а также его последующей реализации на торгах. \r\n                        Процедуру банкротства проводит арбитражный управляющий, который в зависимости \r\n                        от конкретной процедуры банкротства может называться временным, административным, \r\n                        конкурсным или внешним управляющим.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 4. </span>Завершение конкурсного производства\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        О завершении конкурсного производства арбитражным судом выносится определение \r\n                        по итогам рассмотрения отчета конкурсного управляющего о результатах проведения \r\n                        процедуры банкротства.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 5. </span>Исключение юридического лица из ЕГРЮЛ\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        В соответствии со статьей 149 Закона о банкротстве определение арбитражного суда \r\n                        о завершении конкурсного производства является основанием для внесения в единый \r\n                        государственный реестр юридических лиц записи о ликвидации должника.\r\n				</p>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n<div class=\"banner-main m-banner-main g-w_100p g-pos_a\">\r\n	<div class=\"g-w_1170 g-ta_r\">\r\n		<div class=\"m-banner-content banner-content g-bxz_bb g-pos_r g-ta_c g-d_ib g-pt_35 g-pb_20 g-pr_10 g-pl_10 g-bgc_white\">\r\n			<div class=\"g-ta_c\">\r\n				<p class=\"g-pb_20 g-ff_lt g-fz_1_8r g-c_dk_blue\">\r\n                        Стоимость услуги\r\n				</p>\r\n				<p class=\"g-pb_20 g-ff_reg g-fz_2_4r g-c_dk_blue\">\r\n                        от 30 000 руб.\r\n				</p>\r\n			</div>\r\n			<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-ta_c g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n				<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14 g-pl_10 g-pr_10\">\r\n                            Получить консультацию\r\n				</p>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>', 'bankrotstvo-yuridicheskogo-lica', 'банкротства, процедуры, банкротстве, конкурсного, судом, производства, завершении, арбитражным, должника, определение', 'Процедура банкротства юридического лица   Этап 1.', NULL, NULL, '2017-11-08 13:39:44', '2017-11-15 09:19:37', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-10 20:43:17', 0, NULL),
+(6, 'Взыскание задолженности через банкротство', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"arbitration-one g-pb_60\">\r\n			<h2 class=\"g-pt_80 g-pb_55 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n			Взыскание задолженности через банкротство</h2>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 1. </span>Изучаем все необходимые документы и проводим предварительную оценку проекта.\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Оцениваем перспективы и составить план кампании по возврату долга\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 2. </span> Переговоры\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Избегаем напрасные потери и убеждаем должника заплатить. В отличие от остальных этапов, \r\n                        это в какой-то степени процесс постоянный, т.к. переговоры не альтернатива войне, а \r\n                        скорее ее составная часть.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 3. </span>«Просуживаем задолженность» (Арбитраж, Третейский суд)\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Это обязательный этап, необходимый для подачи заявления о введении процедуры банкротства.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 4. </span>Вводим процедуру наблюдения. Проводим финансовый анализ.\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Обеспечиваем сохранность имущества до решения судьбы должника и проводим анализ его финансового состояния.\r\n				</p>\r\n			</div>\r\n			<div class=\"g-pl_8p\">\r\n				<p class=\"g-pb_15 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\">\r\n					<span class=\"g-ff_lt\">Этап 5. </span>Признаем компанию банкротом, открываем конкурсное производство\r\n				</p>\r\n				<p class=\" g-pb_30 g-ff_lt g-fz_1_6r g-lh_2_3r g-c_dk_blue\">\r\n                        Сформируем конкурсную массу из активов должника, которые удалось сохранить, и активов, которые удалось вернуть.\r\n				</p>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n<div class=\"banner-main m-banner-main g-w_100p g-pos_a\">\r\n	<div class=\"g-w_1170 g-ta_r\">\r\n		<div class=\"m-banner-content banner-content g-bxz_bb g-pos_r g-ta_c g-d_ib g-pt_35 g-pb_20 g-pr_10 g-pl_10 g-bgc_white\">\r\n			<div class=\"g-ta_c\">\r\n				<p class=\"g-pb_20 g-ff_lt g-fz_1_8r g-c_dk_blue\">\r\n                        Стоимость услуги\r\n				</p>\r\n				<p class=\"g-pb_20 g-ff_reg g-fz_2_4r g-c_dk_blue\">\r\n                        от 100 000 руб.\r\n				</p>\r\n			</div>\r\n			<div class=\"js-form-show m-p-button-get_consult p-button-get_consult g-ta_c g-pt_10 g-bxz_bb g-bdrs_5 g-pos_r g-bgc_white g-d_ib \">\r\n				<p class=\"g-whs_nw g-ta_c g-c_white g-ff_lt g-fz_14 g-pl_10 g-pr_10\">\r\n                            Получить консультацию\r\n				</p>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>', 'vzyskanie-zadolzhennosti-bankrotstvo', 'проводим, должника, активов, удалось, анализ, переговоры, какойто, этапов, остальных, отличие', 'Взыскание задолженности через банкротство   Этап 1. Изучаем все необходимые документы и проводим предварительную оценку проекта.', NULL, NULL, '2017-11-08 13:41:40', '2017-11-15 09:19:47', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-10 09:07:05', 0, NULL),
+(11, 'Карта сайта', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n		<h2 class=\"g-pt_45 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n		Карта сайта</h2>\r\n		<ul class=\"g-pl_8p g-pt_15 g-d_b g-bxz_bb g-ff_lt g-fz_18 g-td_n g-lis_n\">\r\n			<li class=\"g-pb_20 g-pt_20 g-pl_30\">\r\n			<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n			Оценка\r\n			</a>\r\n			<ul class=\"g-pl_15 g-ff_lt g-fz_14 g-lis_n g-lh_22\">\r\n				<li class=\"\">\r\n				<div class=\"g-cur_p\">\r\n					<p class=\"g-d_ib g-va_m g-c_dk_blue\">\r\n                                    Недвижимость\r\n					</p>\r\n				</div><ul class=\"g-pl_15 g-lis_n g-lh_17\">\r\n					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Квартиры</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Земельные участки</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Домовладения</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Имущественные комплексы</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Здания и сооружения</a>\r\n					</li>				</ul></li>\r\n				\r\n<li class=\"\">\r\n				<div class=\"g-cur_p\">\r\n					<p class=\"p-mobile-second-menu-title g-d_ib g-va_m g-c_dk_blue\">\r\n                                    Транспорт\r\n					</p>\r\n				</div><ul class=\"g-pl_15 g-lis_n g-lh_15\">\r\n					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Автотранспорт</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Мототранспорт</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Воздушные и морские суда</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Спецтехника</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Ж/д транспорт</a>\r\n					</li>				</ul></li>\r\n				\r\n<li class=\"\">\r\n				<div class=\"g-cur_p\">\r\n					<p class=\"g-d_ib g-va_m g-c_dk_blue \">\r\n                                    Оборудование\r\n					</p>\r\n				</div><ul class=\"g-pl_15 g-lis_n g-lh_15\">\r\n					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Станки и механизмы</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Технологические линии</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Товары</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Оргтехника</a>\r\n					</li>				</ul></li>\r\n				\r\n<li class=\"\">\r\n				<div class=\"g-cur_p\">\r\n					<p class=\"g-d_ib g-va_m g-c_dk_blue\">\r\n                                    Бизнес и финансы\r\n					</p>\r\n				</div><ul class=\"g-pl_15 g-lis_n g-lh_15\">\r\n					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Интеллектуальная собственность</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Ценные бумаги</a>\r\n					</li>					\r\n<li>\r\n					<a class=\"g-td_n g-c_dk_blue\" href=\"#\">Инвестиционные проекты</a>\r\n					</li>				</ul></li>			</ul></li>			\r\n<li class=\"g-pb_20 g-pt_20 g-pl_30\">\r\n			<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n			Арбитражное управление\r\n			</a>\r\n			\r\n<ul class=\"g-pl_15 g-ff_lt g-fz_14 g-lis_n g-lh_19\">\r\n				\r\n<li class=\"\">\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Физическим лицам\r\n				</a>\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Юридическим лицам\r\n				</a>\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Кредиторам\r\n				</a>\r\n				</li>			</ul></li>\r\n			\r\n<li class=\"g-pb_20 g-pt_20 g-pl_30\">\r\n			<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n			О нас\r\n			</a>\r\n			\r\n<ul class=\"g-pl_15 g-ff_lt g-fz_14 g-lis_n g-lh_19\">\r\n				\r\n<li class=\"\">\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">                           \r\n                                История\r\n				</a>\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Реквизиты\r\n				</a>\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Аккредитация и партнеры\r\n				</a>\r\n				<a class=\"g-d_b g-td_n g-c_dk_blue\" href=\"#\">\r\n				Статьи\r\n				</a>\r\n				<a class=\"g-d_ib g-td_n g-c_dk_blue\" href=\"#\">\r\n				Прайс</a>\r\n				<div class=\"g-d_ib g-va_m g-ta_r\">\r\n					<img class=\"g-d_b\" src=\"upload/images/ico_pdf_black.png \" alt=\"PDF\">\r\n				</div></li>			</ul></li>			\r\n<li class=\"g-pb_20 g-pt_20 g-pl_30\">\r\n			<a class=\"g-d_b g-pb_10 g-td_n g-c_dk_blue\" href=\"#\">\r\n			Вопрос - ответ\r\n			</a>\r\n			</li>		</ul></div></div>', 'karta-sajta', 'лицам, транспорт, воздушные, мототранспорт, автотранспорт, морские, спецтехника, технологические, механизмы, станки', 'Карта сайта   Оценка   Недвижимость   Квартиры   Земельные участки   Домовладения', NULL, NULL, '2017-11-10 19:40:29', '2017-11-15 09:25:22', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-15 09:23:52', 0, NULL),
+(9, 'Аккредитация и партнеры', '<div class=\"g-bgc_lt_blue\">\r\n	<div class=\"g-w_1170\">\r\n		<div class=\"g-ta_c g-pt_40 g-va_m\">\r\n			<div class=\"m-accreditation-title accreditation-title\">\r\n				<p class=\"g-va_m g-d_ib g-p_0 g-ff_reg g-c_dk_blue g-fz_3_6r g-lh_5_3r\">\r\n                        Лицензии и сертификаты\r\n				</p>\r\n			</div>\r\n			<div>\r\n				<p class=\"g-pt_40 g-lh_15 g-pr_8p g-pl_8p g-ta_c g-ff_lt g-c_dk_blue g-fz_1_8r\">\r\n                    Наша компания осуществляет свою деятельность в рамках закона Российской Федерации и имеет соответствующий пакет документов: лицензии, свидетельства, профессиональные страховки, документы о профильном образовании сотрудников и другие разрещающие документы.\r\n				</p>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>', 'akkreditaciya-i-partnery', 'лицензии, документы, закона, российской, имеет, федерации, рамках, деятельность, сертификаты, компания', 'Лицензии и сертификаты   Наша компания осуществляет свою деятельность в рамках закона Российской Федерации и имеет соответствующий пакет документов: лицензии, свиде', NULL, NULL, '2017-11-09 12:10:01', '2017-11-14 13:37:40', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 14:10:28', 0, NULL),
+(10, 'Вопрос-ответ', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n			<h2 class=\"g-pt_80 g-pb_55 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n			Ответы на популярные вопросы</h2>\r\n	</div></div>', 'answer', 'ответы, популярные, вопросы', 'Ответы на популярные вопросы', NULL, NULL, '2017-11-09 20:41:40', '2017-11-10 09:15:04', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-09 20:53:04', 0, NULL),
+(12, 'Политика конфидициальности', '<div class=\"g-w_100p\">\r\n	<div class=\"g-w_1170\">\r\n		<h2 class=\"g-pt_45 g-pb_20 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_2_4r g-lh_3_5r\">\r\n		ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</h2>\r\n		<p class=\"g-pb_45 g-lh_21 g-pl_8p g-ff_lt g-fz_14 g-c_dk_blue\">\r\nНастоящая Политика конфиденциальности персональных данных (далее – Политика конфиденциальности) действует в отношении всей информации, которую сайт общества с ограниченной ответственностью «Консалтинг-Юг» (далее – ООО «Консалтинг-Юг»), расположенный на доменном имени consult-ug.ru, может получить о Пользователе во время использования сайта при заполнении ими форм обратной связи для получения консультаций по вопросам проведения экспертизы, оценки, предоставления юридических услуг.\r\n			<br>\r\n			<br>\r\n			<strong>1. ОПРЕДЕЛЕНИЕ ТЕРМИНОВ</strong>\r\n			<br>\r\n			1.1. В настоящей Политике конфиденциальности используются следующие термины:\r\n			<br>\r\n			1.1.1. «Администрация сайта» – уполномоченные на управления сайтом сотрудники, действующие от имени ООО «Консалтинг-Юг», которые организуют и (или) осуществляют обработку персональных данных, а также определяют цели обработки персональных данных, состав персональных данных, подлежащих обработке, действия (операции), совершаемые с персональными данными.\r\n			<br>\r\n			1.1.2. «Персональные данные» &mdash; любая информация, относящаяся к прямо или косвенно определенному, или определяемому физическому лицу (субъекту персональных данных).\r\n			<br>\r\n			1.1.3. «Обработка персональных данных» &mdash; любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без использования таких средств с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных.\r\n			<br>\r\n			1.1.4. «Конфиденциальность персональных данных» &mdash; обязательное для соблюдения Оператором или иным получившим доступ к персональным данным лицом требование не допускать их распространения без согласия субъекта персональных данных или наличия иного законного основания.\r\n			<br>\r\n			1.1.5. «Пользователь сайта» (далее &mdash; «Пользователь») – лицо, имеющее доступ к Сайту, посредством сети Интернет и использующее Сайт.\r\n			<br>\r\n			1.1.6. «Cookies» &mdash; небольшой фрагмент данных, отправленный веб-сервером и хранимый на компьютере пользователя, который веб-клиент или веб-браузер каждый раз пересылает веб-серверу в HTTP-запросе при попытке открыть страницу соответствующего сайта.\r\n			<br>\r\n			1.1.7. «IP-адрес» &mdash; уникальный сетевой адрес узла в компьютерной сети, построенной по протоколу IP.\r\n			<br>\r\n			<br>\r\n			<strong>2. ОБЩИЕ ПОЛОЖЕНИЯ</strong>\r\n			<br>\r\n			2.1. Использование Пользователем сайта ООО «Консалтинг-Юг» означает согласие с настоящей Политикой конфиденциальности и условиями обработки персональных данных Пользователя.\r\n			<br>\r\n			2.2. В случае несогласия с условиями Политики конфиденциальности Пользователь должен прекратить использование сайта.\r\n			<br>\r\n			2.3. Настоящая Политика конфиденциальности применяется только к сайту ООО «Консалтинг-Юг». Сайт не контролирует и не несет ответственность за сайты третьих лиц, на которые Пользователь может перейти по ссылкам, доступным на сайте.\r\n			<br>\r\n			2.4. Администрация сайта не проверяет достоверность персональных данных, предоставляемых Пользователем сайта.\r\n			<br>\r\n			<br>\r\n			<strong>3. ПРЕДМЕТ ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ</strong>\r\n			<br>\r\n			3.1. Настоящая Политика конфиденциальности устанавливает обязательства Администрации сайта по неразглашению и обеспечению режима защиты конфиденциальности персональных данных, которые Пользователь предоставляет по запросу Администрации сайта при заполнении форм обратной связи для получения консультаций по вопросам проведения экспертизы, оценки, предоставления юридических услуг.\r\n			<br>\r\n			3.2. Персональные данные, разрешённые к обработке в рамках настоящей Политики конфиденциальности, предоставляются Пользователем путём заполнения форм заявок на получение консультаций по вопросам проведения экспертизы, оценки, предоставления юридических услуг на Сайте ООО «Консалтинг-Юг» и включают в себя следующую информацию:\r\n			<br>\r\n			3.2.1. имя Пользователя;\r\n			<br>\r\n			3.2.2. контактный телефон Пользователя;\r\n			<br>\r\n			3.3. Сайт защищает Данные, которые автоматически передаются в процессе посещении страниц, на которых установлен статистический скрипт системы:\r\n			<br>\r\n			IP адрес;\r\n			<br>\r\n			информация из cookies;\r\n			<br>\r\n			информация о браузере;\r\n			<br>\r\n			время доступа;\r\n			<br>\r\n			адрес страницы, на которой расположен рекламный блок;\r\n			<br>\r\n			реферер (адрес предыдущей страницы).\r\n			<br>\r\n			3.4. Любая иная персональная информация, неоговоренная выше (используемые браузеры и операционные системы и т.д.) подлежит надежному хранению и нераспространению, за исключением случаев, предусмотренных в п.п. 5.2. и 5.3. настоящей Политики конфиденциальности.\r\n			<br>\r\n			<br>\r\n			<strong>4. ЦЕЛИ СБОРА ПЕРСОНАЛЬНОЙ ИНФОРМАЦИИ ПОЛЬЗОВАТЕЛЯ</strong>\r\n			<br>\r\n			4.1. Персональные данные Пользователя Администрация сайта может использовать в целях:\r\n			<br>\r\n			4.1.1. Идентификации Пользователя для предоставления ему консультаций по вопросам экспертизы, оценки, рецензирования, оказания юридических услуг, описанным при заполнении форм обратной связи на Сайте.\r\n			<br>\r\n			4.1.2. Предоставления Пользователю доступа к персонализированным ресурсам Сайта.\r\n			<br>\r\n			4.1.3. Установления с Пользователем обратной связи, включая направление уведомлений, запросов, касающихся использования Сайта, оказания услуг, обработка запросов и заявок от Пользователя.\r\n			<br>\r\n			4.1.4. Определения места нахождения Пользователя для обеспечения безопасности, предотвращения мошенничества.\r\n			<br>\r\n			4.1.5. Подтверждения достоверности и полноты персональных данных, предоставленных Пользователем.\r\n			<br>\r\n			4.1.6. Уведомления Пользователя Сайта о состоянии рассмотрения обращения.\r\n			<br>\r\n			4.1.7. Предоставления Пользователю эффективной клиентской и технической поддержки при возникновении проблем, связанных с использованием Сайта.\r\n			<br>\r\n			4.1.8. Предоставления Пользователю с его согласия, специальных предложений, информации о ценах, новостной рассылки и иных сведений от имени Сайта или от имени партнеров Сайта.\r\n			<br>\r\n			4.1.9. Осуществления рекламной деятельности с согласия Пользователя.\r\n			<br>\r\n			4.1.10. Предоставления доступа Пользователю на сайты или сервисы партнеров сайта с целью получения продуктов, обновлений и услуг.\r\n			<br>\r\n			<br>\r\n			<strong>5. СПОСОБЫ И СРОКИ ОБРАБОТКИ ПЕРСОНАЛЬНОЙ ИНФОРМАЦИИ</strong>\r\n			<br>\r\n			5.1. Обработка персональных данных Пользователя осуществляется без ограничения срока, любым законным способом, в том числе в информационных системах персональных данных с использованием средств автоматизации или без использования таких средств.\r\n			<br>\r\n			5.2. Пользователь соглашается с тем, что Администрация сайта вправе передавать персональные данные третьим лицам, в частности, курьерским службам, организациями почтовой связи, операторам электросвязи, исключительно в целях выполнения заказа Пользователя, оформленного на Сайте ООО «Консалтинг-Юг».\r\n			<br>\r\n			5.3. Персональные данные Пользователя могут быть переданы уполномоченным органам государственной власти Российской Федерации только по основаниям и в порядке, установленным законодательством Российской Федерации.\r\n			<br>\r\n			5.4. При утрате или разглашении персональных данных Администрация сайта информирует Пользователя об утрате или разглашении персональных данных.\r\n			<br>\r\n			5.5. Администрация сайта принимает необходимые организационные и технические меры для защиты персональной информации Пользователя от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий третьих лиц.\r\n			<br>\r\n			<br>\r\n			<strong>6. ОБЯЗАТЕЛЬСТВА СТОРОН</strong>\r\n			<br>\r\n			6.1. Пользователь обязан:\r\n			<br>\r\n			6.1.1. Предоставить информацию о персональных данных, необходимую для пользования Сайтом.\r\n			<br>\r\n			6.1.2. Обновить, дополнить предоставленную информацию о персональных данных в случае изменения данной информации.\r\n			<br>\r\n			6.2. Администрация сайта обязана:\r\n			<br>\r\n			6.2.1. Использовать полученную информацию исключительно для целей, указанных в п. 4 настоящей Политики конфиденциальности.\r\n			<br>\r\n			6.2.2. Обеспечить хранение конфиденциальной информации в тайне, не разглашать без предварительного письменного разрешения Пользователя, а также не осуществлять продажу, обмен, опубликование, либо разглашение иными\r\nвозможными способами переданных персональных данных Пользователя, за исключением п.п. 5.2. и 5.3. настоящей Политики Конфиденциальности.\r\n			<br>\r\n			6.2.3. Принимать меры предосторожности для защиты конфиденциальности персональных данных Пользователя согласно порядку, обычно используемого для защиты такого рода информации в существующем деловом обороте.\r\n			<br>\r\n			6.2.4. Осуществить блокирование персональных данных, относящихся к соответствующему Пользователю, с момента обращения или запроса Пользователя, или его законного представителя либо уполномоченного органа по защите прав субъектов персональных данных на период проверки, в случае выявления недостоверных персональных данных или неправомерных действий.\r\n			<br>\r\n			<br>\r\n			<strong>7. ОТВЕТСТВЕННОСТЬ СТОРОН</strong>\r\n			<br>\r\n			7.1. Администрация сайта, не исполнившая свои обязательства, несёт ответственность в соответствии с законодательством Российской Федерации, за исключением случаев, предусмотренных п.п. 5.2., 5.3. и 7.2. настоящей Политики Конфиденциальности.\r\n			<br>\r\n			7.2. В случае утраты или разглашения Конфиденциальной информации Администрация сайта не несёт ответственность, если данная конфиденциальная информация:\r\n			<br>\r\n			7.2.1. Стала публичным достоянием до её утраты или разглашения.\r\n			<br>\r\n			7.2.2. Была получена от третьей стороны до момента её получения Администрацией сайта.\r\n			<br>\r\n			7.2.3. Была разглашена с согласия Пользователя.\r\n			<br>\r\n			<br>\r\n			<strong>8. РАЗРЕШЕНИЕ СПОРОВ</strong>\r\n			<br>\r\n			8.1. До обращения в суд с иском по спорам, возникающим из отношений между Пользователем сайта и Администрацией сайта, обязательным является предъявление претензии (письменного предложения о добровольном урегулировании спора).\r\n			<br>\r\n			8.2. Получатель претензии в течение 30 календарных дней со дня получения претензии, письменно уведомляет заявителя претензии о результатах рассмотрения претензии.\r\n			<br>\r\n			8.3. При не достижении соглашения спор будет передан на рассмотрение в судебный орган в соответствии с действующим законодательством Российской Федерации.\r\n			<br>\r\n			8.4. К настоящей Политике конфиденциальности и отношениям между Пользователем и Администрацией сайта применяется действующее законодательство Российской Федерации.\r\n			<br>\r\n			<br>\r\n			<strong>9. ДОПОЛНИТЕЛЬНЫЕ УСЛОВИЯ</strong>\r\n			<br>\r\n			9.1. Администрация сайта вправе вносить изменения в настоящую Политику конфиденциальности без согласия Пользователя.\r\n			<br>\r\n			9.2. Новая Политика конфиденциальности вступает в силу с момента ее размещения на Сайте, если иное не предусмотрено новой редакцией Политики конфиденциальности.\r\n		</p>\r\n	</div></div>', 'politika-konfidencialnosti', 'сайта, персональных, данных, конфиденциальности, пользователя, информации, администрация, предоставления, политики, настоящей', 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ   Настоящая Политика конфиденциальности персональных данных (далее – Политика конфиденциальности) действует в отношении всей информации, которую сайт общества с ограниченной ответственностью «Консалтинг-Юг» (', NULL, NULL, '2017-11-10 19:53:41', '2017-11-15 11:13:30', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-10 19:54:54', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -560,6 +1464,21 @@ CREATE TABLE `cms_con_pages_cats_bind` (
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `cms_con_pages_cats_bind`
+--
+
+INSERT INTO `cms_con_pages_cats_bind` (`item_id`, `category_id`) VALUES
+(4, 1),
+(5, 1),
+(3, 1),
+(6, 1),
+(7, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -594,7 +1513,7 @@ CREATE TABLE `cms_con_pages_fields` (
 --
 
 INSERT INTO `cms_con_pages_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
-(1, 1, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 1, 1, 1, NULL, 1, 1, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 100\nis_required: true\n', NULL, NULL, NULL),
+(1, 1, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 0, 0, 1, NULL, 1, 1, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 100\nis_required: true\n', NULL, NULL, NULL),
 (2, 1, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', NULL, NULL, NULL, NULL, 1, NULL, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\n', '---\n- 0\n', '---\n- 0\n', NULL),
 (3, 1, 'user', 'Автор', NULL, 3, NULL, 'user', NULL, NULL, NULL, NULL, 1, NULL, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\n', '---\n- 0\n', '---\n- 0\n', NULL),
 (4, 1, 'content', 'Текст страницы', NULL, 4, NULL, 'html', NULL, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\neditor: redactor\nis_html_filter: null\nlabel_in_list: none\nlabel_in_item: none\nis_required: 1\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\n', '---\n- 0\n', '---\n- 0\n', NULL),
@@ -639,6 +1558,196 @@ CREATE TABLE `cms_con_pages_props_bind` (
 CREATE TABLE `cms_con_pages_props_values` (
   `prop_id` int(11) DEFAULT NULL,
   `item_id` int(11) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners`
+--
+
+CREATE TABLE `cms_con_partners` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `content` text,
+  `photo` text,
+  `slug` varchar(100) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `tags` varchar(1000) DEFAULT NULL,
+  `date_pub` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_last_modified` timestamp NULL DEFAULT NULL,
+  `date_pub_end` timestamp NULL DEFAULT NULL,
+  `is_pub` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `hits_count` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `parent_type` varchar(32) DEFAULT NULL,
+  `parent_title` varchar(100) DEFAULT NULL,
+  `parent_url` varchar(255) DEFAULT NULL,
+  `is_parent_hidden` tinyint(1) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL DEFAULT '1',
+  `folder_id` int(11) UNSIGNED DEFAULT NULL,
+  `is_comments_on` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `comments` int(11) UNSIGNED NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_approved` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `approved_by` int(11) UNSIGNED DEFAULT NULL,
+  `date_approved` timestamp NULL DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `outurl` varchar(500) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_partners`
+--
+
+INSERT INTO `cms_con_partners` (`id`, `title`, `content`, `photo`, `slug`, `seo_keys`, `seo_desc`, `seo_title`, `tags`, `date_pub`, `date_last_modified`, `date_pub_end`, `is_pub`, `hits_count`, `user_id`, `parent_id`, `parent_type`, `parent_title`, `parent_url`, `is_parent_hidden`, `category_id`, `folder_id`, `is_comments_on`, `comments`, `rating`, `is_deleted`, `is_approved`, `approved_by`, `date_approved`, `is_private`, `outurl`) VALUES
+(1, 'Сбербанк', 'Сбербанк открыт для сотрудничества с широким кругом поставщиков качественных товаров и услуг, заинтересован в покупке и аренде объектов коммерческой недвижимости для своих офисов и подразделений, а также предлагает приобрести или арендовать пул собственных объектов недвижимости.', '---\noriginal: 000/u2/02/22/fdd021b9.png\nbig: 000/u2/73/06/sberbank-photo-big.png\nnormal: 000/u2/ff/e8/sberbank-photo-normal.png\nsmall: 000/u2/e2/d5/sberbank-photo-small.png\nmicro: 000/u2/73/55/sberbank-photo-micro.png\n', '1-sberbank', 'недвижимости, объектов, заинтересован, услуг, товаров, качественных, открыт, сотрудничества, широким, поставщиков', 'Сбербанк открыт для сотрудничества с широким кругом поставщиков качественных товаров и услуг, заинтересован в покупке и аренде объектов коммерческой недвижимости для своих офисов и подразделений, а также предлагает приобрести или арендовать пул собст', NULL, NULL, '2017-11-09 18:57:02', '2017-11-11 19:54:52', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:41', 0, 'http://www.sberbank.ru'),
+(2, 'Кубанькредит', 'Коммерческий банк «Кубань Кредит» общество с ограниченной ответственностью — один из самых активно развивающихся банков Краснодарского края, успешно работающий на финансовом рынке региона с 1993 года. Генеральная лицензия № 2518 Банка России.', '---\noriginal: 000/u2/ff/00/478cfba3.png\nbig: 000/u2/8e/d6/kubankredit-photo-big.png\nnormal: >\n  000/u2/f6/25/kubankredit-photo-normal.png\nsmall: 000/u2/1e/21/kubankredit-photo-small.png\nmicro: 000/u2/3f/af/kubankredit-photo-micro.png\n', '2-kubankredit', 'коммерческий, самых, активно, развивающихся, ответственностью, ограниченной, «кубань, кредит», общество, банков', 'Коммерческий банк «Кубань Кредит» общество с ограниченной ответственностью — один из самых активно развивающихся банков Краснодарского края, успешно работающий на финансовом рынке региона с 1993 года. Генеральная лицензия № 2518 Банка России.', NULL, NULL, '2017-11-09 18:58:24', '2017-11-11 19:55:03', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:35', 0, 'http://www.kubankredit.ru'),
+(3, 'Центр инвест', 'Банк «Центр-инвест» — крупнейший региональный банк Юга России. Миссия банка «Центр-инвест» — предоставление максимально широкого спектра услуг для населения и предпринимателей Юга России в соответствии с международными стандартами современных банковских технологий.', '---\noriginal: 000/u2/1b/7f/bc22a703.png\nbig: 000/u2/5e/d9/centr-invest-photo-big.png\nnormal: >\n  000/u2/1c/3c/centr-invest-photo-normal.png\nsmall: >\n  000/u2/12/4e/centr-invest-photo-small.png\nmicro: >\n  000/u2/8a/c1/centr-invest-photo-micro.png\n', '3-centr-invest', '«центринвест», россии, максимально, предоставление, широкого, банка, миссия, крупнейший, региональный, спектра', 'Банк «Центр-инвест» — крупнейший региональный банк Юга России.', NULL, NULL, '2017-11-09 19:06:00', '2017-11-11 19:55:14', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:28', 0, 'http://www.centrinvest.ru'),
+(4, 'Россельхоз банк', 'Акционерное общество «Российский Сельскохозяйственный банк»* — один из крупнейших банков в России. Созданный в 2000 году в целях развития национальной кредитно-финансовой системы агропромышленного сектора и сельских территорий Российской Федерации, сегодня это универсальный коммерческий банк, предоставляющий все виды банковских услуг и занимающий лидирующие позиции в финансировании агропромышленного комплекса России. 100% голосующих акций Банка принадлежат Российской Федерации в лице Федерального агентства по управлению государственным имуществом.', '---\noriginal: 000/u2/a4/42/40ec7756.png\nbig: 000/u2/a2/a4/ad7244e8.png\nnormal: 000/u2/66/52/ef0d359e.png\nsmall: 000/u2/e6/10/66ff99cf.png\nmicro: 000/u2/1d/23/c9bcc899.png\n', '4-rosselhoz-bank', 'российской, агропромышленного, россии, федерации, агентства, национальной, развития, кредитнофинансовой, системы, сельских', 'Акционерное общество «Российский Сельскохозяйственный банк»* — один из крупнейших банков в России.', NULL, NULL, '2017-11-09 19:07:27', '2017-11-11 19:55:23', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:21', 0, 'http://www.rshb.ru'),
+(5, 'Липецккомбанк', 'Публичное акционерное общество банк социального развития и строительства \"Липецккомбанк\" (ПАО \"Липецккомбанк\") — один из наиболее динамично развивающихся российских банков. По основным показателям входит в число семнадцати крупнейших региональных банков страны.', '---\noriginal: 000/u2/75/54/84067454.png\nbig: 000/u2/a2/87/420b188c.png\nnormal: 000/u2/a8/58/9255f1a7.png\nsmall: 000/u2/77/05/b2f39db1.png\nmicro: 000/u2/d6/ca/35df1c9b.png\n', '5-lipeckkombank', 'банков, липецккомбанк, динамично, развивающихся, строительства, развития, акционерное, общество, социального, российских', 'Публичное акционерное общество банк социального развития и строительства \"Липецккомбанк\" (ПАО \"Липецккомбанк\") — один из наиболее динамично развивающихся российских банков.', NULL, NULL, '2017-11-09 19:09:46', '2017-11-11 19:55:33', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 0, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:14', 0, 'http://www.kombank.ru'),
+(6, 'Юг-инвест банк', 'ОАО «ЮГ-Инвестбанк» является универсальной кредитной организацией, которая осуществляет свою деятельность на рынке банковских услуг более 23 лет. Банк предоставляет полный спектр банковских услуг, в число которых входит расчетно-кассовое обслуживание, кредитование юридических и физических лиц, прием вкладов от населения, переводы граждан, валютно-обменные операции, выпуск именных пластиковых карт систем Visa и MasterCard, карты Мир, продажа монет из ценных металлов и золотых мерных слитков, прием коммунальных и других платежей.', '---\noriginal: 000/u2/8b/3d/8698a615.png\nbig: 000/u2/e4/93/31b83d29.png\nnormal: 000/u2/2d/de/5ca9267d.png\nsmall: 000/u2/79/ab/5217f9c7.png\nmicro: 000/u2/e0/94/fe9d80c2.png\n', '6-yug-invest-bank', 'услуг, банковских, прием, слитков, число, спектр, полный, входит, расчетнокассовое, юридических', 'ОАО «ЮГ-Инвестбанк» является универсальной кредитной организацией, которая осуществляет свою деятельность на рынке банковских услуг более 23 лет.', NULL, NULL, '2017-11-09 19:10:32', '2017-11-11 19:55:41', NULL, 1, 0, 2, NULL, NULL, NULL, NULL, NULL, 1, NULL, 1, 0, 0, NULL, 1, NULL, '2017-11-11 19:54:06', 0, 'http://www.invb.ru/');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_cats`
+--
+
+CREATE TABLE `cms_con_partners_cats` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `parent_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `description` text,
+  `slug` varchar(255) DEFAULT NULL,
+  `slug_key` varchar(255) DEFAULT NULL,
+  `seo_keys` varchar(256) DEFAULT NULL,
+  `seo_desc` varchar(256) DEFAULT NULL,
+  `seo_title` varchar(256) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `ns_left` int(11) UNSIGNED DEFAULT NULL,
+  `ns_right` int(11) UNSIGNED DEFAULT NULL,
+  `ns_level` int(11) UNSIGNED DEFAULT NULL,
+  `ns_differ` varchar(32) NOT NULL DEFAULT '',
+  `ns_ignore` tinyint(4) UNSIGNED NOT NULL DEFAULT '0',
+  `allow_add` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_partners_cats`
+--
+
+INSERT INTO `cms_con_partners_cats` (`id`, `parent_id`, `title`, `description`, `slug`, `slug_key`, `seo_keys`, `seo_desc`, `seo_title`, `ordering`, `ns_left`, `ns_right`, `ns_level`, `ns_differ`, `ns_ignore`, `allow_add`) VALUES
+(1, 0, '---', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 2, 0, '', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_cats_bind`
+--
+
+CREATE TABLE `cms_con_partners_cats_bind` (
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
+  `category_id` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_partners_cats_bind`
+--
+
+INSERT INTO `cms_con_partners_cats_bind` (`item_id`, `category_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_fields`
+--
+
+CREATE TABLE `cms_con_partners_fields` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `hint` varchar(200) DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_list` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_item` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_private` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_fixed_type` tinyint(1) UNSIGNED DEFAULT NULL,
+  `is_system` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text,
+  `groups_read` text,
+  `groups_edit` text,
+  `filter_view` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_con_partners_fields`
+--
+
+INSERT INTO `cms_con_partners_fields` (`id`, `ctype_id`, `name`, `title`, `hint`, `ordering`, `fieldset`, `type`, `is_in_list`, `is_in_item`, `is_in_filter`, `is_private`, `is_fixed`, `is_fixed_type`, `is_system`, `values`, `options`, `groups_read`, `groups_edit`, `filter_view`) VALUES
+(1, 14, 'title', 'Заголовок', NULL, 1, NULL, 'caption', 0, 0, 1, NULL, 1, 1, 0, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\nmin_length: 3\nmax_length: 255\nis_required: true\n', NULL, NULL, NULL),
+(2, 14, 'date_pub', 'Дата публикации', NULL, 2, NULL, 'date', 0, 0, 1, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\nshow_time: true\n', NULL, NULL, NULL),
+(3, 14, 'user', 'Автор', NULL, 3, NULL, 'user', 0, 0, 0, NULL, 1, 1, 1, NULL, '---\nlabel_in_list: none\nlabel_in_item: left\n', NULL, NULL, NULL),
+(4, 14, 'photo', 'Изображение', NULL, 4, NULL, 'image', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nsize_teaser: normal\nsize_full: normal\nsize_modal:\nsizes:\n  - normal\n  - micro\n  - small\n  - big\n  - original\nallow_import_link: null\nrelation_id: 0\nlabel_in_list: none\nlabel_in_item: none\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n'),
+(5, 14, 'content', 'Описание', NULL, 5, NULL, 'text', 1, 1, NULL, NULL, 1, NULL, NULL, NULL, '---\nlabel_in_list: none\nlabel_in_item: none\n', NULL, NULL, NULL),
+(6, 14, 'outurl', 'Внешняя ссылка', 'ссылка на сайт контрагента', 6, NULL, 'url', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '---\nredirect: null\nauto_http: 1\nmax_length: 500\nnofollow: null\ntitle: null\ncss_class:\nrelation_id: 0\nlabel_in_list: left\nlabel_in_item: left\nwrap_type: auto\nwrap_width:\nis_required: null\nis_digits: null\nis_alphanumeric: null\nis_email: null\nis_unique: null\nprofile_value:\n', '---\n- 0\n', '---\n- 0\n', '---\n- 0\n');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_props`
+--
+
+CREATE TABLE `cms_con_partners_props` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ctype_id` int(11) UNSIGNED DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `fieldset` varchar(32) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `is_in_filter` tinyint(1) UNSIGNED DEFAULT NULL,
+  `values` text,
+  `options` text
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_props_bind`
+--
+
+CREATE TABLE `cms_con_partners_props_bind` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `cat_id` int(11) UNSIGNED DEFAULT NULL,
+  `ordering` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_con_partners_props_values`
+--
+
+CREATE TABLE `cms_con_partners_props_values` (
+  `prop_id` int(11) UNSIGNED DEFAULT NULL,
+  `item_id` int(11) UNSIGNED DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -778,6 +1887,133 @@ INSERT INTO `cms_events` (`id`, `event`, `listener`, `ordering`, `is_enabled`) V
 (115, 'content_before_list', 'rating', 115, 1),
 (116, 'content_before_list', 'groups', 116, 1),
 (117, 'content_validate', 'groups', 117, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_feedback_camps`
+--
+
+CREATE TABLE `cms_feedback_camps` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `ip` bigint(20) NOT NULL,
+  `utm_source` varchar(255) DEFAULT NULL,
+  `utm_campaign` varchar(255) DEFAULT NULL,
+  `utm_content` varchar(255) DEFAULT NULL,
+  `utm_term` varchar(255) DEFAULT NULL,
+  `ref` varchar(500) DEFAULT NULL,
+  `date` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_feedback_handlings`
+--
+
+CREATE TABLE `cms_feedback_handlings` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `date_pub` timestamp NULL DEFAULT NULL,
+  `is_enabled` tinyint(1) UNSIGNED DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `ordering` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `date_handing` datetime DEFAULT NULL,
+  `button_click` varchar(100) DEFAULT NULL COMMENT 'нажатая кнопка'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_feedback_handlings`
+--
+
+INSERT INTO `cms_feedback_handlings` (`id`, `date_pub`, `is_enabled`, `user_id`, `parent_id`, `category_id`, `ordering`, `name`, `phone`, `url`, `date_handing`, `button_click`) VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, 'gdfgfdgfdgfd', 'gfdgdsfgfdgfds', 'http://webmans.ru', NULL, NULL),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, 'hjhjkhkj', 'jkljljlkjlkjlkjkl', 'jjkljlk', NULL, NULL),
+(3, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(5, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(6, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(8, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(9, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(10, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(11, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', NULL, NULL, NULL),
+(12, NULL, NULL, NULL, NULL, NULL, NULL, 'undefined', '0', NULL, NULL, NULL),
+(13, NULL, NULL, NULL, NULL, NULL, NULL, 'gffdgdf', '0', NULL, NULL, NULL),
+(14, NULL, NULL, NULL, NULL, NULL, NULL, 'uuuuuuuuuuu,feedback-phone= 7 (777) 777-77-77', '0', NULL, NULL, NULL),
+(15, NULL, NULL, NULL, NULL, NULL, NULL, 'uuuuuuuuuuu,feedback-phone= 7 (777) 777-77-77', '0', NULL, NULL, NULL),
+(16, NULL, NULL, NULL, NULL, NULL, NULL, 'rrrrrrrrrr', '7 (888) 888-88-88', NULL, NULL, NULL),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, 'папва', '7 (555) 555-55-55', NULL, NULL, NULL),
+(18, NULL, NULL, NULL, NULL, NULL, NULL, 'апвыав', '7 (777) 777-77-77', NULL, '0000-00-00 00:00:00', NULL),
+(19, NULL, NULL, NULL, NULL, NULL, NULL, 'gfgfd', '7 (888) 888-88-88', NULL, '0000-00-00 00:00:00', NULL),
+(20, NULL, NULL, NULL, NULL, NULL, NULL, 'gfg', '7 (777) 777-77-77', NULL, NULL, NULL),
+(21, NULL, NULL, NULL, NULL, NULL, NULL, 'ggggg', '7 (777) 777-77-77', NULL, '0000-00-00 00:00:00', NULL),
+(22, NULL, NULL, NULL, NULL, NULL, NULL, 'rrrrrrrrr', '7 (111) 111-11-11', NULL, '2017-11-14 12:02:34', NULL),
+(23, NULL, NULL, NULL, NULL, NULL, NULL, 'Александр', '7 (888) 888-88-88', '/pages/test.html', '2017-11-14 13:44:10', NULL),
+(24, NULL, NULL, NULL, NULL, NULL, NULL, 'tjggjk', '7 (999) 999-99-99', '/pages/test.html', '2017-11-14 14:03:19', NULL),
+(25, NULL, NULL, NULL, NULL, NULL, NULL, 'hgfhg', '7 (555) 555-55-55', '/pages/test.html', '2017-11-14 14:04:14', NULL),
+(26, NULL, NULL, NULL, NULL, NULL, NULL, 'ghgfhf', '7 (999) 999-99-99', '/pages/test.html', '2017-11-14 14:06:56', NULL),
+(27, NULL, NULL, NULL, NULL, NULL, NULL, 'hhhhhhhhhh', '7 (111) 111-11-11', '/pages/test.html', '2017-11-14 14:29:30', NULL),
+(28, NULL, NULL, NULL, NULL, NULL, NULL, 'hhhhhhhhhh', '7 (111) 111-11-11', '/pages/test.html', '2017-11-14 14:29:38', NULL),
+(29, NULL, NULL, NULL, NULL, NULL, NULL, 'hhhhhhhhhh', '7 (111) 111-11-11', '/pages/test.html', '2017-11-14 14:30:21', NULL),
+(30, NULL, NULL, NULL, NULL, NULL, NULL, 'uuuuuuuuuuuuuuuuu', '7 (222) 222-22-22', '/pages/test.html', '2017-11-14 14:30:42', NULL),
+(31, NULL, NULL, NULL, NULL, NULL, NULL, 'gfg', '7 (777) 777-77-77', '/pages/test.html', '2017-11-14 14:41:42', NULL),
+(32, NULL, NULL, NULL, NULL, NULL, NULL, 'fgfdgsdf', '7 (444) 444-44-44', '/pages/test.html', '2017-11-14 14:44:31', NULL),
+(33, NULL, NULL, NULL, NULL, NULL, NULL, 'hggggggggg', '7 (888) 888-88-88', '/pages/test.html', '2017-11-14 14:46:30', NULL),
+(34, NULL, NULL, NULL, NULL, NULL, NULL, 'hgfhg', '7 (555) 555-55-55', '/pages/test.html', '2017-11-14 15:00:54', NULL),
+(35, NULL, NULL, NULL, NULL, NULL, NULL, 'gfdgfd', '7 (666) 666-66-66', '/pages/test.html', '2017-11-14 15:03:24', NULL),
+(36, NULL, NULL, NULL, NULL, NULL, NULL, 'ytrytr', '7 (555) 555-55-55', '/pages/test.html', '2017-11-14 15:04:35', NULL),
+(37, NULL, NULL, NULL, NULL, NULL, NULL, 'bnbnb', '7 (666) 666-66-66', '/pages/test.html', '2017-11-14 21:58:49', 'Заказать звонок'),
+(38, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '2017-11-14 22:24:12', '0'),
+(39, NULL, NULL, NULL, NULL, NULL, NULL, 'nmnm,n,m', '7 (777) 777-77-77', '/estimats/ocenka-kvartiry.html', '2017-11-14 22:33:43', NULL),
+(40, NULL, NULL, NULL, NULL, NULL, NULL, 'nn,mn,m', '7 (444) 444-44-44', '/estimats/ocenka-kvartiry.html', '2017-11-14 22:44:23', NULL),
+(41, NULL, NULL, NULL, NULL, NULL, NULL, 'nbmbmn', '7 (333) 333-33-33', '/estimats/ocenka-kvartiry.html', '2017-11-14 22:45:39', 'Заказать отчет об оценке со скидкой 5%'),
+(42, NULL, NULL, NULL, NULL, NULL, NULL, 'Евгений', '7 (861) 235-54-45', '/estimats/ocenka-kvartiry.html', '2017-11-14 22:55:55', 'Заказать отчет об оценке со скидкой 5%'),
+(43, NULL, NULL, NULL, NULL, NULL, NULL, 'Екатерина', '7 (800) 588-88-88', '/estimats/ocenka-kvartiry.html', '2017-11-14 22:59:19', 'Заказать отчет об оценке со скидкой 5%'),
+(44, NULL, NULL, NULL, NULL, NULL, NULL, 'Екатерина', '7 (324) 234-23-42', '/estimats/ocenka-kvartiry.html', '2017-11-14 23:01:05', 'Заказать отчет об оценке со скидкой 5%'),
+(45, NULL, NULL, NULL, NULL, NULL, NULL, 'Володя', '7 (900) 255-54-77', '/', '2017-11-14 23:02:10', 'Заказать бесплатную консультацию'),
+(46, NULL, NULL, NULL, NULL, NULL, NULL, 'Володя', '7 (900) 255-54-77', '/', '2017-11-14 23:03:26', 'Заказать бесплатную консультацию'),
+(47, NULL, NULL, NULL, NULL, NULL, NULL, 'Володя и', '7 (900) 255-54-77', '/', '2017-11-14 23:03:37', 'Заказать бесплатную консультацию'),
+(48, NULL, NULL, NULL, NULL, NULL, NULL, 'Володя и', '7 (900) ___-__-__', '/', '2017-11-14 23:20:53', 'Заказать бесплатную консультацию'),
+(49, NULL, NULL, NULL, NULL, NULL, NULL, 'Володя и', '7 (900) ___-__-__', '/', '2017-11-14 23:21:30', 'Заказать бесплатную консультацию'),
+(50, NULL, NULL, NULL, NULL, NULL, NULL, '2', NULL, '/', '2017-11-14 23:21:45', 'Заказать отчет об оценке со скидкой 5%'),
+(51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/', '2017-11-14 23:23:29', 'Заказать отчет об оценке со скидкой 5%'),
+(52, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/', '2017-11-14 23:23:48', 'Заказать звонок'),
+(53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '/', '2017-11-14 23:25:57', 'Заказать звонок'),
+(54, NULL, NULL, NULL, NULL, NULL, NULL, 'Евгений', '7 (222) 222-22-22', '/', '2017-11-15 00:07:52', 'Заказать звонок'),
+(55, NULL, NULL, NULL, NULL, NULL, NULL, 'Петр', '7 (888) 888-88-88', '/', '2017-11-15 00:11:24', 'Заказать звонок'),
+(56, NULL, NULL, NULL, NULL, NULL, NULL, 'Иван', '7 (899) 999-99-99', '/', '2017-11-15 00:13:47', 'Заказать звонок'),
+(57, NULL, NULL, NULL, NULL, NULL, NULL, 'иван', '7 (433) 333-33-33', '/', '2017-11-15 00:16:01', 'Заказать звонок'),
+(58, NULL, NULL, NULL, NULL, NULL, NULL, 'Лидия', '7 (877) 777-77-77', '/', '2017-11-15 00:16:52', 'Заказать звонок'),
+(59, NULL, NULL, NULL, NULL, NULL, NULL, 'Ирина', '7 (898) 989-89-89', '/', '2017-11-15 00:21:49', 'Заказать звонок'),
+(60, NULL, NULL, NULL, NULL, NULL, NULL, 'Елена', '7 (787) 778-78-78', '/', '2017-11-15 00:23:34', 'Заказать звонок'),
+(61, NULL, NULL, NULL, NULL, NULL, NULL, 'Николай', '7 (444) 345-34-53', '/', '2017-11-15 00:25:09', 'Заказать отчет об оценке со скидкой 5%'),
+(62, NULL, NULL, NULL, NULL, NULL, NULL, 'Иван', '7 (788) 888-88-88', '/pages/politika-konfidencialnosti.html', '2017-11-15 00:26:43', 'Заказать звонок'),
+(63, NULL, NULL, NULL, NULL, NULL, NULL, 'Петр', '7 (777) 777-77-77', '/pages/politika-konfidencialnosti.html', '2017-11-15 09:58:48', 'Заказать звонок'),
+(64, NULL, NULL, NULL, NULL, NULL, NULL, 'Игорь333', '7 (985) 235-85-55', '/', '2017-11-15 14:24:23', 'Заказать отчет об оценке со скидкой 5%'),
+(65, NULL, NULL, NULL, NULL, NULL, NULL, '121asdsaa11111', '7 (898) 989-89-89', '/estimats/ocenka-domovladenija.html', '2017-11-15 14:35:58', 'Заказать отчет об оценке со скидкой 5%');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_feedback_orders`
+--
+
+CREATE TABLE `cms_feedback_orders` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `price` decimal(11,2) UNSIGNED DEFAULT NULL,
+  `phone` varchar(255) NOT NULL,
+  `date_order` int(10) UNSIGNED NOT NULL,
+  `date_confirm` int(10) UNSIGNED DEFAULT NULL,
+  `date_pay` int(10) UNSIGNED DEFAULT NULL,
+  `date_cancel` int(10) UNSIGNED DEFAULT NULL,
+  `camp_id` int(10) UNSIGNED DEFAULT NULL,
+  `split` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -13036,7 +14272,8 @@ INSERT INTO `cms_menu` (`id`, `name`, `title`, `is_fixed`) VALUES
 (2, 'personal', 'Персональное меню', 1),
 (4, 'toolbar', 'Меню действий', 1),
 (5, 'header', 'Верхнее меню', NULL),
-(6, 'notices', 'Уведомления', NULL);
+(6, 'notices', 'Уведомления', NULL),
+(7, 'menu2', 'Второе меню', NULL);
 
 -- --------------------------------------------------------
 
@@ -13065,16 +14302,22 @@ INSERT INTO `cms_menu_items` (`id`, `menu_id`, `parent_id`, `title`, `url`, `ord
 (14, 2, 0, 'Мои сообщения', '{messages:view}', 2, '---\nclass: messages messages-counter ajax-modal\n', '---\n- 0\n', NULL),
 (24, 2, 0, 'Создать', '{content:add}', 6, '---\nclass: add\n', NULL, NULL),
 (25, 2, 0, 'Панель управления', '{admin:menu}', 7, '---\nclass: cpanel\n', '---\n- 6\n', NULL),
-(29, 1, 0, 'Люди', 'users', 9, '---\nclass: \n', '---\n- 0\n', NULL),
+(29, 1, 0, 'Вопрос - ответ', '#', 9, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL),
 (30, 6, 0, 'Уведомления', '{messages:notices}', 1, '---\ntarget: _self\nclass: bell ajax-modal notices-counter\n', '---\n- 0\n', '---\n- 1\n'),
-(31, 1, 0, 'Активность', 'activity', 7, '---\nclass:', '---\n- 0\n', NULL),
-(32, 1, 0, 'Группы', 'groups', 6, '---\nclass:', '---\n- 0\n', NULL),
+(31, 1, 0, 'Арбитражное управление', '#', 7, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL),
+(32, 1, 0, 'Оценка', '#', 6, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL),
 (33, 2, 0, 'Мои группы', '{groups:my}', 5, '---\nclass: group', '---\n- 0\n', NULL),
 (34, 5, 0, 'Войти', 'auth/login', 9, '---\nclass: ajax-modal key', '---\n- 1\n', NULL),
 (35, 5, 0, 'Регистрация', 'auth/register', 10, '---\nclass: user_add', '---\n- 1\n', NULL),
 (37, 2, 0, 'Модерация', '{moderation:panel}', 4, '---\nclass: checklist', '---\n- 5\n- 6\n', NULL),
-(38, 1, 0, 'Комментарии', 'comments', 8, '---\nclass:', '---\n- 0\n', NULL),
-(43, 2, 0, 'Выйти', 'auth/logout', 12, '---\ntarget: _self\nclass: logout', '---\n- 0\n', NULL);
+(38, 1, 0, 'О нас', '#', 8, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL),
+(43, 2, 0, 'Выйти', 'auth/logout', 12, '---\ntarget: _self\nclass: logout', '---\n- 0\n', NULL),
+(44, 1, 0, 'Статьи', 'articles', 13, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL),
+(45, 7, 0, 'Недвижимость', '#', 14, '---\ntarget: _self\nclass: g-d_ib\n', '---\n- 0\n', NULL),
+(46, 7, 0, 'Транспорт', '#', 15, '---\ntarget: _self\nclass: g-d_ib\n', '---\n- 0\n', NULL),
+(47, 7, 0, 'Оборудование', '#', 16, '---\ntarget: _self\nclass: g-d_ib\n', '---\n- 0\n', NULL),
+(48, 7, 0, 'Бизнес и финансы', '#', 17, '---\ntarget: _self\nclass: g-d_ib\n', '---\n- 0\n', NULL),
+(49, 1, 0, 'Дипломы', 'diploms', 18, '---\ntarget: _self\nclass: g-d_ib g-pl_3p\n', '---\n- 0\n', NULL);
 
 -- --------------------------------------------------------
 
@@ -13111,6 +14354,13 @@ CREATE TABLE `cms_moderators_logs` (
   `target_subject` varchar(32) DEFAULT NULL,
   `data` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_moderators_logs`
+--
+
+INSERT INTO `cms_moderators_logs` (`id`, `moderator_id`, `author_id`, `action`, `date_pub`, `date_expired`, `target_id`, `target_controller`, `target_subject`, `data`) VALUES
+(1, 2, 1, 0, '2017-11-08 11:36:49', NULL, 1, 'content', 'pages', '---\ntitle: Оценка квартиры\nslug: p1\n');
 
 -- --------------------------------------------------------
 
@@ -13262,6 +14512,52 @@ INSERT INTO `cms_perms_users` (`rule_id`, `group_id`, `subject`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `cms_photobattles`
+--
+
+CREATE TABLE `cms_photobattles` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `date_created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_start` timestamp NULL DEFAULT NULL,
+  `date_end` timestamp NULL DEFAULT NULL,
+  `min_users` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `users_count` int(11) NOT NULL DEFAULT '0',
+  `logo` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_photobattles_photos`
+--
+
+CREATE TABLE `cms_photobattles_photos` (
+  `id` int(11) NOT NULL,
+  `battle_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `image` text,
+  `score` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cms_photobattles_votes`
+--
+
+CREATE TABLE `cms_photobattles_votes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `photo_id` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `cms_photos`
 --
 
@@ -13335,7 +14631,12 @@ CREATE TABLE `cms_rss_feeds` (
 
 INSERT INTO `cms_rss_feeds` (`id`, `ctype_id`, `ctype_name`, `title`, `description`, `image`, `mapping`, `limit`, `is_enabled`, `is_cache`, `cache_interval`, `date_cached`, `template`) VALUES
 (1, NULL, 'comments', 'Комментарии', NULL, NULL, '---\r\ntitle: target_title\r\ndescription: content_html\r\npubDate: date_pub\r\n', 15, 1, NULL, 60, NULL, 'feed'),
-(4, 7, 'albums', 'Фотоальбомы', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage: cover_image\nimage_size: normal\n', 15, 1, NULL, 60, NULL, 'feed');
+(4, 7, 'albums', 'Фотоальбомы', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage: cover_image\nimage_size: normal\n', 15, 1, NULL, 60, NULL, 'feed'),
+(5, 8, 'articles', 'Статьи', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage:\nimage_size: normal\n', 15, NULL, NULL, 60, NULL, 'feed'),
+(8, 11, 'diploms', 'Сканы документов', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage:\nimage_size: normal\n', 15, NULL, NULL, 60, NULL, 'feed'),
+(9, 12, 'estimats', 'Оценка', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage:\nimage_size: normal\n', 15, NULL, NULL, 60, NULL, 'feed'),
+(11, 14, 'partners', 'Контрагенты', NULL, NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage:\nimage_size: normal\n', 15, NULL, NULL, 60, NULL, 'feed'),
+(12, 15, 'answer', 'Вопрос-ответ', 'Страница с популярными вопросами и ответами', NULL, '---\ntitle: title\ndescription: content\npubDate: date_pub\nimage:\nimage_size: normal\n', 15, NULL, NULL, 60, NULL, 'feed');
 
 -- --------------------------------------------------------
 
@@ -13360,7 +14661,7 @@ CREATE TABLE `cms_scheduler_tasks` (
 
 INSERT INTO `cms_scheduler_tasks` (`id`, `title`, `controller`, `hook`, `period`, `date_last_run`, `is_active`, `is_new`) VALUES
 (1, 'Перевод пользователей между группами', 'users', 'migration', 1440, NULL, 1, 0),
-(2, 'Создание карты сайта', 'sitemap', 'generate', 1440, NULL, 1, 0),
+(2, 'Создание карты сайта', 'sitemap', 'generate', 1440, '2017-11-10 19:47:00', 1, 0),
 (3, 'Выдача приглашений пользователям', 'auth', 'send_invites', 1440, NULL, 1, 0),
 (4, 'Публикация контента по расписанию', 'content', 'publication', 1440, NULL, 1, 1),
 (5, 'Очистка удалённых личных сообщений', 'messages', 'clean', 1440, NULL, 1, 1),
@@ -13384,7 +14685,7 @@ CREATE TABLE `cms_sessions_online` (
 --
 
 INSERT INTO `cms_sessions_online` (`session_id`, `user_id`, `date_created`) VALUES
-('d9a0823fadikn3r5v7j282v1bhsepoor', 2, '2017-12-02 18:56:54');
+('3a69kskfdkh5hcnd8uh4pprsqilb46vc', 2, '2017-12-04 18:22:22');
 
 -- --------------------------------------------------------
 
@@ -13487,8 +14788,8 @@ CREATE TABLE `cms_users` (
 --
 
 INSERT INTO `cms_users` (`id`, `groups`, `email`, `password`, `password_salt`, `is_admin`, `nickname`, `date_reg`, `date_log`, `date_group`, `ip`, `is_deleted`, `is_locked`, `lock_until`, `lock_reason`, `pass_token`, `date_token`, `files_count`, `friends_count`, `time_zone`, `karma`, `rating`, `theme`, `notify_options`, `privacy_options`, `status_id`, `status_text`, `inviter_id`, `invites_count`, `date_invites`, `birth_date`, `city`, `city_cache`, `hobby`, `avatar`, `icq`, `skype`, `phone`, `music`, `movies`, `site`) VALUES
-(1, '---\n- 6\n', 'Lukoyanov_aa@webmans.ru', '191e5a06dd0d0b48d9faa98af059a9b5', 'da1dc38d2c2f2d78', 1, 'admin', '2017-12-01 19:14:56', '2017-12-02 18:56:29', '2017-12-01 19:14:56', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 'Europe/Moscow', 0, 0, '---\nbg_img: null\nbg_color: \'#ffffff\'\nbg_repeat: no-repeat\nbg_pos_x: left\nbg_pos_y: top\nmargin_top: 0\n', '---\nusers_friend_add: both\nusers_friend_delete: both\ncomments_new: both\ncomments_reply: email\nusers_friend_aссept: pm\ngroups_invite: email\nusers_wall_write: email\n', '---\nusers_profile_view: anyone\nmessages_pm: anyone\n', NULL, NULL, NULL, 0, NULL, '1985-10-15 00:00:00', 4400, 'Москва', 'Ротор векторного поля, очевидно, неоднозначен. По сути, уравнение в частных производных масштабирует нормальный лист Мёбиуса, при этом, вместо 13 можно взять любую другую константу.', NULL, '987654321', 'admin', '100-20-30', 'Disco House, Minimal techno', 'разные интересные', 'instantcms.ru'),
-(2, '---\n- 6\n', 'kirichenko_ev@webmans.ru', '5b7a5394aabfcc04d4c30fc815fd58f0', '0670529a1a313031', 1, 'Kirichenko', '2017-12-02 18:56:22', '2017-12-02 18:56:48', '2017-12-02 18:56:23', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 'Europe/Moscow', 0, 0, NULL, '---\ncomments_new: email\ncomments_reply: email\ngroups_invite: both\nmessages_new: email\nusers_friend_add: email\nusers_friend_accept: pm\nusers_friend_delete: email\nusers_wall_write: email\n', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, '---\n- 6\n', 'Lukoyanov_aa@mail.ru', 'c199975a43bb61d7e5ef2cf2ef4f5fcd', '57c40fe52d0730b3', 1, 'web_admin', '2017-10-14 15:38:22', '2017-11-27 09:41:23', '2017-10-14 15:38:22', '85.175.98.203', NULL, NULL, NULL, NULL, '58a66016e40794eef1691f7a9176fff9', '2017-11-09 07:29:54', 0, 0, 'Europe/Moscow', 0, 0, '---\nbg_img: null\nbg_color: \'#ffffff\'\nbg_repeat: no-repeat\nbg_pos_x: left\nbg_pos_y: top\nmargin_top: 0\n', '---\nusers_friend_add: both\nusers_friend_delete: both\ncomments_new: both\ncomments_reply: email\nusers_friend_aссept: pm\ngroups_invite: email\nusers_wall_write: email\n', '---\nusers_profile_view: anyone\nmessages_pm: anyone\n', NULL, NULL, NULL, 0, NULL, '1985-10-15 00:00:00', 4400, 'Москва', 'Ротор векторного поля, очевидно, неоднозначен. По сути, уравнение в частных производных масштабирует нормальный лист Мёбиуса, при этом, вместо 13 можно взять любую другую константу.', NULL, '987654321', 'admin', '100-20-30', 'Disco House, Minimal techno', 'разные интересные', 'instantcms.ru'),
+(2, '---\n- 6\n', 'Sytnikov_DA@mail.ru', '57133123c2bce0b7923e744f49561c79', 'f28fe1ff5dad9c93', 1, 'Regga', '2017-10-26 12:57:54', '2017-11-28 13:26:03', '2017-10-26 12:57:54', '2.95.24.81', NULL, NULL, NULL, NULL, NULL, '2017-11-09 07:34:05', 0, 0, 'Europe/Moscow', 0, 0, NULL, '---\ncomments_new: email\ncomments_reply: email\ngroups_invite: both\nmessages_new: email\nusers_friend_add: email\nusers_friend_accept: pm\nusers_friend_delete: email\nusers_wall_write: email\n', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -13505,6 +14806,13 @@ CREATE TABLE `cms_users_auth_tokens` (
   `access_type` varchar(100) DEFAULT NULL,
   `ip` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `cms_users_auth_tokens`
+--
+
+INSERT INTO `cms_users_auth_tokens` (`id`, `auth_token`, `date_auth`, `date_log`, `user_id`, `access_type`, `ip`) VALUES
+(1, '168a7a227ac8c4bc223db4c5c7083899', '2017-10-26 12:59:03', '2017-11-28 13:26:02', 2, '---\ntype: desktop\nsubj: null\n', 2152101175);
 
 -- --------------------------------------------------------
 
@@ -13745,7 +15053,30 @@ CREATE TABLE `cms_users_personal_settings` (
 --
 
 INSERT INTO `cms_users_personal_settings` (`id`, `user_id`, `skey`, `settings`) VALUES
-(1, 1, 'admin.grid_filter.users', 'page=1&perpage=30&order_by=id&order_to=asc&id=&nickname=&email=&ip=&date_reg=&karma=&rating=&advanced_filter=');
+(1, 1, 'admin.grid_filter.ctypes', 'page=1&perpage=30&order_by=id&order_to=asc&id=&title=&name=&description=&advanced_filter='),
+(2, 1, 'admin.grid_filter.content.pages', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(3, 1, 'admin.grid_filter.content.articles', 'page=1&perpage=30&order_by=title&order_to=asc&id=&title=&advanced_filter=&ctype_changed=0'),
+(4, 1, 'admin.grid_filter.content.as', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(5, 1, 'admin.grid_filter.controllers', 'order_by=title&order_to=asc&title=&version=&author=&advanced_filter='),
+(6, 1, 'admin.grid_filter.users', 'page=1&perpage=30&order_by=id&order_to=asc&id=&nickname=&email=&ip=&date_reg=&karma=&rating=&advanced_filter='),
+(7, 1, 'admin.grid_filter.content.diploms', 'page=1&perpage=30&order_by=title&order_to=asc&id=&title=&advanced_filter=&ctype_changed=0'),
+(8, 1, 'admin.grid_filter.content.estimats', 'page=1&perpage=30&order_by=title&order_to=asc&id=&title=&advanced_filter=&ctype_changed=0'),
+(9, 2, 'admin.grid_filter.users', 'page=1&perpage=30&order_by=id&order_to=asc&id=&nickname=&email=&ip=&date_reg=&karma=&rating=&advanced_filter='),
+(10, 2, 'admin.grid_filter.content.pages', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(11, 2, 'admin.grid_filter.content.albums', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=1'),
+(12, 2, 'admin.grid_filter.content.articles', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(13, 2, 'admin.grid_filter.content.diploms', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(14, 2, 'admin.grid_filter.content.estimats', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(15, 1, 'admin.grid_filter.content.policies', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(16, 1, 'admin.grid_filter.content.albums', 'page=1&perpage=30&order_by=title&order_to=asc&id=&title=&advanced_filter=&ctype_changed=1'),
+(17, 2, 'admin.grid_filter.ctypes', 'page=1&perpage=30&order_by=id&order_to=asc&id=&title=&name=&description=&advanced_filter='),
+(18, 1, 'feedback.handlings_list', 'order_by=ordering&order_to=asc&advanced_filter='),
+(19, 1, 'admin.install.ftp', '---\nhost: 91.221.71.76\nport: 21\npath: /consultug/\nis_pasv: 1'),
+(20, 2, 'admin.grid_filter.controllers', 'order_by=title&order_to=asc&title=&version=&author=&advanced_filter='),
+(21, 2, 'admin.grid_filter.content.policies', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(22, 2, 'admin.grid_filter.content.partners', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(23, 2, 'admin.grid_filter.content.answer', 'page=1&perpage=30&order_by=id&order_to=desc&id=&title=&advanced_filter=&ctype_changed=0'),
+(24, 2, 'admin.grid_filter.set_scheduler', 'page=1&perpage=30&order_by=id&order_to=asc&advanced_filter=');
 
 -- --------------------------------------------------------
 
@@ -13849,7 +15180,18 @@ INSERT INTO `cms_widgets` (`id`, `controller`, `name`, `title`, `author`, `url`,
 (13, 'search', 'search', 'Поиск', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', NULL, NULL, NULL),
 (14, NULL, 'html', 'HTML блок', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', NULL, NULL, NULL),
 (15, 'content', 'filter', 'Фильтр контента', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', NULL, NULL, NULL),
-(16, 'photos', 'list', 'Список фотографий', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', NULL, NULL, NULL);
+(16, 'photos', 'list', 'Список фотографий', 'InstantCMS Team', 'http://www.instantcms.ru', '2.0', NULL, NULL, NULL),
+(17, NULL, 'popular_services', 'Популярные услуги', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(18, NULL, 'menu_webmans_style', 'Меню с ul стилем', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(19, NULL, 'menu_consultug', 'специальное меню для consultug', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(20, NULL, 'futer_consultug', 'специальный футер для consultug', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(21, NULL, 'mmenu_consultug', 'специальное мобильное меню для consultug', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(22, '', 'writeme', 'WriteMe', 'Rossoman', 'http://www.instantcms.ru/users/Rossoman', '1.0.1', 1, '---\najax:\n  - sender.php\ntemplates:\n  default:\n    widgets:\n      writeme:\n        - writeme.tpl.php\n    css:\n      - layout_writeme.css\n    images:\n      - text_left.png\n      - text_right.png\nsystem:\n  languages:\n    ru:\n      widgets:\n        - writeme.php\n      letters:\n        - writeme.txt\n  widgets:\n    writeme:\n      - widget.php\n      - options.form.php\n', 153),
+(23, NULL, 'arbitrmenu_consultug', 'арбитражное меню для consultug', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(24, NULL, 'historymenu_consultug', 'не арбитражное меню для consultug', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(25, 'feedback', 'form', 'форма обратной связи', 'webmans', 'http://www.webmans.ru', '1.0', NULL, NULL, NULL),
+(26, NULL, 'formcontact', 'Форма обратной связи', 'ПОИНТЕР', 'http://pointerstudio.ru', '1.0', 1, '---\ntemplates:\n  default:\n    js:\n      - formcontact.js\n    widgets:\n      formcontact:\n        - formcontact.tpl.php\n    css:\n      - formcontact.css\nsystem:\n  languages:\n    ru:\n      widgets:\n        - formcontact.php\n  widgets:\n    formcontact:\n      - widget.php\n      - options.form.php\n0: mailformcontact.php\n', NULL),
+(27, NULL, 'baner_consultug', 'Банер с предложениями', 'webmans', 'http://www.webmans.ru', '1.0', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -13886,12 +15228,55 @@ CREATE TABLE `cms_widgets_bind` (
 --
 
 INSERT INTO `cms_widgets_bind` (`id`, `template`, `template_layouts`, `widget_id`, `title`, `links`, `class`, `class_title`, `class_wrap`, `is_title`, `is_enabled`, `is_tab_prev`, `groups_view`, `groups_hide`, `options`, `page_id`, `position`, `ordering`, `tpl_body`, `tpl_wrap`, `device_types`) VALUES
-(1, 'default', NULL, 3, 'Главное меню', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\nmenu: main\nis_detect: 1\nmax_items: 8\n', 0, 'top', 1, NULL, NULL, NULL),
+(1, 'default', NULL, 3, 'Главное меню', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\nmenu: null\nis_detect: 1\nmax_items: 8\n', 0, 'top', 1, NULL, NULL, NULL),
 (2, 'default', NULL, 3, 'Меню авторизации', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 1\n', NULL, '---\nmenu: header\nis_detect: 1\nmax_items: 0\n', 0, 'header', 1, NULL, NULL, NULL),
 (5, 'default', NULL, 3, 'Меню действий', NULL, NULL, NULL, 'fixed_actions_menu', NULL, 1, NULL, '---\n- 0\n', NULL, '---\nmenu: toolbar\ntemplate: menu\nis_detect: null\nmax_items: 0\n', 0, 'left-top', 1, 'menu', 'wrapper', NULL),
 (20, 'default', NULL, 12, 'Войти на сайт', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, '', 0, 'right-center', 1, NULL, NULL, NULL),
 (22, 'default', NULL, 9, 'Меню пользователя', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', '---\n- 1\n', '---\nmenu: personal\nis_detect: 1\nmax_items: 0\n', 0, 'header', 3, 'avatar', 'wrapper', NULL),
-(23, 'default', NULL, 3, 'Уведомления', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', '---\n- 1\n', '---\nmenu: notices\ntemplate: menu\nis_detect: null\nmax_items: 0\n', 0, 'header', 3, 'menu', 'wrapper', NULL);
+(23, 'default', NULL, 3, 'Уведомления', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', '---\n- 1\n', '---\nmenu: notices\ntemplate: menu\nis_detect: null\nmax_items: 0\n', 0, 'header', 3, 'menu', 'wrapper', NULL),
+(68, 'consultug', '---\n- 0\n', 19, 'специальное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 1, 'header', 1, 'menuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(69, 'consultug', '---\n- 0\n', 14, 'Мобильное меню', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\"js-sw-menu\r\n                  m-p-header-menu-mobile\r\n                  p-header-menu-main\r\n                  g-d_n g-w_100p g-z_3 g-pos_f g-bgc_white\">\r\n          <div class=\"g-w_1170 g-pos_r\">\r\n              <div class=\"g-d_tb g-w_100p g-pt_10 g-pb_10\">\r\n                  <div class=\"g-d_tbc g-va_m g-ta_l g-pl_5\">\r\n                      <div class=\"js-p-header-button-menu\r\n                                  m-p-header-button-menu\r\n                                  p-header-button-menu\r\n                                  g-bgc_white g-bdrs_5 g-d_ib\">\r\n                          <p class=\"g-cur_p g-d_b g-pt_10 g-pb_10 g-ta_c g-pr_15 g-pl_15 g-whs_nw g-td_n g-ff_reg g-fz_16 g-c_blue\">\r\n                              Меню</p>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\"m-p-header-logo-mobile\r\n                              p-header-logo-mobile\r\n                              g-d_tbc g-va_m g-ta_c g-pos_a \">\r\n                      <a class=\"g-d_ib\" href=\"/\">\r\n                          <img class=\" g-bxz_bb g-d_b\" src=\"/upload/consultug/logo.png\" alt=\"Логотип\">\r\n                      </a>\r\n                  </div>\r\n                  <div class=\"m-p-header-call\r\n                              p-header-call\r\n                              g-d_tbc g-ta_r g-va_m \">\r\n  <a href=\'tel:+79184439903\' class=\'g-td_n g-pr_5 g-va_m g g-whs_nw g-d_ib g-ff_reg g-fz_2_0r g-c_dk_blue g-lh_08 \'>\r\n                          8-918-443-99-03\r\n                      </a>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\n', 0, 'header', 1, 'html', 'wrapper_plain', '---\n- 0\n'),
+(26, 'consultug', '---\n- 0\n', 14, 'город', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'m-sw-panorama\r\n                  sw-panorama\r\n                  g-bxz_bb\'>\r\n          <div class=\'g-w_1170 g-bd_trans g-h_100p g-pt_100 g-pos_r\'>\r\n                  <div class=\'sw-panorama-text\r\n                              g-bxz_bb g-d_ib g-pos_r\'>\r\n                      <h1 class=\'g-pl_15 g-pt_20 g-pb_15 g-fz_4_5r g-lh_12 g-c_dk_blue g-ff_bold\'>\r\n                          Оценка стоимости\r\n                          <span class=\'g-pt_20 g-pr_15 g-lh_16 g-d_b g-ff_lt g-fz_2_4r g-c_dk_blue\'>\r\n                              Недвижимости Транспорта Оборудования Бизнеса и финансов</span>\r\n                          <span class=\'g-lh_16 g-d_b g-ff_lt g-fz_2_4r g-c_dk_blue\'>\r\n                              Наш опыт на службе Ваших интересов</span>\r\n                      </h1>\r\n                  </div>\r\n          </div>\r\n      </div>\n', 1, 'left-top', 1, 'html', 'wrapper_plain', '---\n- 0\n'),
+(33, 'consultug', '---\n- 0\n', 14, 'нам доверяют', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'g-w_100p g-bgc_white\'>\r\n      <div class=\'g-w_1170\'>\r\n          <div class=\'m-p-block-pb\r\n                      p-block-pb g-pb_40\'>\r\n              <h2 class=\'g-pt_80 g-pb_55 g-ta_c g-ff_reg g-c_dk_blue g-fz_3_6r g-lh_5_3r\'>\r\n                  Нам доверяют</h2>\r\n              <p class=\'g-pb_90 g-pl_8p g-pr_8p g-ta_c g-ff_lt g-c_dk_blue g-fz_1_8r g-lh_2_6r\'>\r\n                  Мы всегда стремимся повысить уровень комфорта наших клиентов, для этого  мы постоянно расширяем портфель партнерских соглашений. Сегодня мы взаимодействуем с крупнейшими банками в Краснодарском крае.</p>\r\n              <div class=\'js-table-banks\r\n                          m-table-banks\'>\r\n                  <div class=\'m-tu-banks-table\r\n                              tu-banks-table\r\n                              g-d_tb g-ta_c \'>\r\n                      <div class=\'g-d_tbr \'>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.centrinvest.ru\' target=\"_blank\">\r\n                                  <img class=\'g-bxz_bb g-d_b\' src=\'/upload/consultug/b_logo_blue_1.png\' alt=\'Банк Центр-Инвест\' />\r\n                              </a>\r\n                          </div>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.sberbank.ru\' target=\"_blank\">\r\n                                  <img class=\'g-bxz_bb g-d_b\' src=\'/upload/consultug/b_logo_blue_2.png\' alt=\'Сбербанк\' />\r\n                              </a>\r\n                          </div>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.kubankredit.ru\' target=\"_blank\">\r\n                                  <img class=\'g-bxz_bb g-d_b\' src=\'/upload/consultug/b_logo_blue_3.png\' alt=\'Кубань Кредит\' />\r\n                              </a>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\'g-d_tbr\'>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.rshb.ru\' target=\"_blank\">\r\n                                  <img class=\'g-bxz_bb g-d_b\' src=\'/upload/consultug/b_logo_blue_4.png\' alt=\'Россельхозбанк\' />\r\n                              </a>\r\n                          </div>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.invb.ru/\' target=\"_blank\">\r\n                                  <img class=\'g-bxz_bb g-d_b\' src=\'/upload/consultug/b_logo_blue_5.png\' alt=\'Юг-инвестбанк\' />\r\n                              </a>\r\n                          </div>\r\n                          <div class=\'m-tu-banks-table-cell\r\n                                      tu-banks-table-cell\r\n                                      g-d_tbc\'>\r\n                              <a class=\'g-d_ib\' href=\'http://www.kombank.ru\' target=\"_blank\">\r\n                                  <img src=\'/upload/consultug/b_logo_blue_6.png\' alt=\'ЛКБ\' />\r\n                              </a>\r\n                          </div>\r\n                      </div>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>\n', 1, 'left-top', 4, 'html', 'wrapper_plain', '---\n- 0\n'),
+(34, 'consultug', '---\n- 0\n', 14, 'ведущие специалисты', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'ls-background g-w_100p g-bgc_lt_blue g-first g-pos_r\'>\r\n          <div class=\'g-w_1170\'>\r\n              <div class=\'m-p-block-pb\r\n                          p-block-pb\r\n                          g-ta_c g-pb_40\'>\r\n                  <h2 class=\'g-bd_trans g-pt_80 g-pb_55 g-ta_c g-ff_reg g-c_dk_blue g-fz_3_6r\'>\r\n                      Ведущие специалисты</h2>\r\n                  <div class=\'m-ls-one\r\n                              ls-one\r\n                              g-d_ib g-va_b g-pt_20\'>\r\n                      <div class=\'m-ls-one-photo\r\n                                  ls-one-photo\'>\r\n                          <img src=\'/upload/consultug/person_1.png\' alt=\'Сотрудник 1\' >\r\n                      </div>\r\n                      <div class=\'m-ls-one-content\r\n                                  ls-one-content\'>\r\n                          <p class=\'m-ls-one-content_name\r\n                                    g-ta_l g-lh_15 g-ff_reg g-fz_2_4r g-c_dk_blue\'>\r\n                          Шарунов Игорь Владленович</p>\r\n                          <p class=\'ls-one-content_phone\r\n                                    g-ta_l g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue\'>\r\n                              8-918-443-99-03\r\n                          </p>\r\n                          <a href=\'mailto:sharunov_iv@antispam.ru?subject=Консультация\' class=\'js-email ls-one-content_mail\r\n                                    g-d_b g-ta_l g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue g-cur_p g-td_n\'>\r\n                              sharunov_iv@antispam.ru\r\n                          </a>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\'m-ls-one\r\n                              ls-one\r\n                              g-d_ib g-va_b g-pt_20 g-pl_8p\'>\r\n                      <div class=\'m-ls-one-photo ls-one-photo\'>\r\n                          <img src=\'/upload/consultug/person_2.png\' alt=\'Сотрудник 2\' >\r\n                      </div>\r\n                      <div class=\'m-ls-one-content\r\n                                  ls-one-content\'>\r\n                          <p class=\'m-ls-one-content_name\r\n                                    g-ta_l g-lh_15 g-ff_reg g-fz_2_4r g-c_dk_blue\'>\r\n                          Бондарь Анна Викторовна</p>\r\n                          <p class=\'ls-one-content_phone\r\n                                    g-ta_l g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue\'>\r\n                              8-918-999-96-13\r\n                          </p>\r\n                          <a href=\'mailto:bondar_av@antispam.ru?subject=Консультация\' class=\'js-email ls-one-content_mail\r\n                                    g-d_b g-ta_l g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue g-cur_p g-td_n\'>\r\n                              bondar_av@antispam.ru\r\n                          </a>\r\n                      </div>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div\n', 1, 'left-top', 5, 'html', 'wrapper_plain', '---\n- 0\n'),
+(32, 'consultug', '---\n- 0\n', 14, 'о компании', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <!-- Блок О компании -->\r\n      <div class=\'ac-background\r\n                  g-w_100p g-pos_r\'>\r\n          <div class=\'g-w_1170\'>\r\n              <div class=\'g-pb_60\'>\r\n                  <h2 class=\'g-pt_80 g-pb_55 g-ta_c g-ff_reg g-c_dk_blue g-fz_3_6r g-lh_5_3r\'>\r\n                      О компании</h2>\r\n                  <p class=\'g-pb_90 g-pr_8p g-pl_8p g-ta_c g-ff_lt g-c_dk_blue g-fz_1_8r g-lh_2_6r\'>\r\n                      ООО «Консалтинг-Юг» с 2007 года занимается оценочной деятельностью - оценкой недвижимости, транспорта, оборудования, бизнеса и др. За нашу <a href=\'/pages/history.html\' class=\'g-ff_lt g-fz_1_8r g-c_dk_blue\'>историю</a> выполнено более 2000 оценок объектов имущества</p>\r\n                  <div class=\'m-ac-adv\r\n                              g-ta_c\'>\r\n                      <div class=\'js-ac-one\r\n                                  m-ac-adv-one\r\n                                  ac-adv-one\r\n                                  g-v_h g-ta_c g-d_ib g-va_t g-pb_20\'>\r\n                          <div>\r\n                              <img class=\'g-d_ib\' src=\'/upload/consultug/advantage_1.png\' alt=\'Преимущество 1\'>\r\n                          </div>\r\n                              <p class=\'g-pt_30 g-ff_reg g-c_white g-fz_1_8r g-lh_2_6r\'>\r\n                                  Работаем <br class=\'m-ac-adv-one-br\'/>без предоплаты</p>\r\n                      </div>\r\n                      <div class=\'js-ac-one\r\n                                  m-ac-adv-one\r\n                                  ac-adv-one\r\n                                  g-v_h g-animdelay_0_5 g-ta_c g-d_ib g-va_t g-pb_20\'>\r\n                          <div>\r\n                              <img class=\'g-d_ib \' src=\'/upload/consultug/advantage_2.png\' alt=\'Преимущество 1\'>\r\n                          </div>\r\n                              <p class=\'g-pt_30 g-ff_reg g-c_white g-fz_1_8r g-lh_2_6r\'>\r\n                                  Выезд на осмотр <br class=\'m-ac-adv-one-br\'/>бесплатно</p>\r\n                      </div>\r\n                      <div class=\'js-ac-one\r\n                                  m-ac-adv-one\r\n                                  ac-adv-one\r\n                                  g-v_h g-animdelay_1 g-ta_c g-d_ib g-va_t g-pb_20\'>\r\n                          <div>\r\n                              <img class=\'g-d_ib \' src=\'/upload/consultug/advantage_3.png\' alt=\'Преимущество 1\'>\r\n                          </div>\r\n                              <p class=\'g-pt_30 g-ff_reg g-c_white g-fz_1_8r g-lh_2_6r\'>\r\n                                  Целевой подход - <br class=\'m-ac-adv-one-br\'/>проверяем необходимость<br class=\'m-ac-adv-one-br\'/>оценки</p>\r\n                      </div>\r\n                      <div class=\'js-ac-one\r\n                                  m-ac-adv-one\r\n                                  ac-adv-one\r\n                                  g-v_h g-animdelay_1_5 g-ta_c g-d_ib g-va_t g-pb_20\'>\r\n                          <div>\r\n                              <img class=\'g-d_ib \' src=\'/upload/consultug/advantage_4.png\' alt=\'Преимущество 1\'>\r\n                          </div>\r\n                              <p class=\'g-pt_30 g-ff_reg g-c_white g-fz_1_8r g-lh_2_6r\'>\r\n                                  Гарантия результата -<br class=\'m-ac-adv-one-br\'/>наш отчет имеет 100%<br class=\'m-ac-adv-one-br\'/>одобрения</p>\r\n                      </div>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\n', 1, 'left-top', 3, 'html', 'wrapper_plain', '---\n- 0\n'),
+(31, 'consultug', '---\n- 0\n', 17, 'Популярные услуги', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 1, 'left-top', 2, 'popularServices', 'wrapper_plain', '---\n- 0\n'),
+(35, 'consultug', '---\n- 0\n', 14, 'ответы на популярные вопросы', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'g-w_100p g-bgc_white\'>\r\n          <div class=\'g-w_1170\'>\r\n              <div class=\'g-pb_100\'>\r\n                  <h2 class=\'g-pt_80 g-pb_55 g-bd_trans g-pl_8p g-ta_l g-ff_reg g-c_dk_blue g-fz_3_6r g-lh_3_5r\'>\r\n                      Ответы на популярные вопросы</h2>\r\n                  <div class=\'js-accordion js-answers\r\n                                  p-page-title-main\r\n                                  g-pl_8p\'>\r\n                      <p class=\'js-accordion-header\r\n                                g-cur_p g-pb_20 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\'>\r\n                          Что является основанием для проведения оценки?</p>\r\n                      <p class=\'js-accordion-content\r\n                                g-pt_15 g-pb_45 g-lh_16 g-ff_lt g-fz_1_4r g-c_dk_blue\'>\r\n                          Согласно 135-ФЗ \"Об оценочной деятельности в РФ\" основанием для проведения оценки\r\n                          является договор на проведение оценки для указанных объектов,\r\n                          заключенный заказчиком с оценщиком.\r\n                      </p>\r\n                      <p class=\'js-accordion-header\r\n                                g-cur_p g-pb_20 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\'>\r\n                          Какие у Вас этапы взаимодействия Заказчика и Оценщика?</p>\r\n                      <p class=\'js-accordion-content\r\n                                g-pt_15 g-pb_45 g-lh_16 g-ff_lt g-fz_1_4r g-c_dk_blue\'>\r\n                          Процесс оценки предполагает несколько этапов, первый из которых - это желание Заказчика\r\n                          получить на руки профессионально подготовленный пакет документов, в котором учтены\r\n                          все факторы оценки, а сам отчет выполнен в соответствии с нормами ФСО и Федеральных законов РФ.\r\n                          Если мы понимаем, что Ваш случай не предполагает выполнение такого отчета, то мы останавливаемся\r\n                          на этапе бесплатной консультации, иначе - Вы предоставляете все необходимые документы и мы в\r\n                          указанный в договоре срок отдаем Вам готовый результат.\r\n                          </p>\r\n                      <p class=\'js-accordion-header\r\n                                g-cur_p g-pb_20 g-ff_reg g-fz_1_8r g-lh_2_6r g-c_blue\'>\r\n                          Застрахована ли Ваша деятельность?</p>\r\n                      <p class=\'js-accordion-content\r\n                                g-pt_15 g-pb_45 g-lh_16 g-ff_lt g-fz_1_4r g-c_dk_blue\'>\r\n                         Да, консолидированная ответственность компании «Консалтинг-Юг» застрахована на общую сумму 160 млн. рублей. Более подробно с данной информацией Вы можете ознакомиться на странице «Аккредитация и партнеры»\r\n                      </p>\r\n                      <a href=\'/pages/answer.html\' class=\' g-pt_30 g-d_b g-ff_lt g-fz_1_6r g-c_dk_blue\'>\r\n                          <span class=\'aq-line\r\n                                       g-d_ib g-lh_08\' >\r\n                              Посмотреть другие вопросы</span>\r\n                      </a>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\n', 1, 'left-top', 6, 'html', 'wrapper_plain', '---\n- 0\n'),
+(71, 'consultug', '---\n- 0\n', 20, 'футер', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 0, 'footer', 1, 'futerConsultug', 'wrapper_plain', '---\n- 0\n'),
+(36, 'consultug', '---\n- 0\n', 14, 'Стикер карты', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <!-- Блок Карта -->\r\n      <div class=\'g-w_1170 g-pos_r \'>\r\n          <div class=\'js-map-content\r\n                      m-map-info\r\n                      map-info\r\n                      g-z_2 g-bxz_bb g-bgc_white\'>\r\n              <p class=\'js-map-city js-map-city_krasnodar\r\n                        map-city-active\r\n                        g-cur_p g-pr_40 g-d_ib g-ff_reg g-fz_1_8r g-c_dk_blue\'>\r\n                  г. Краснодар</p>\r\n              <p class=\'js-map-city js-map-city_tuapse\r\n                        g-cur_p g-d_ib g-ff_reg g-fz_1_8r g-c_dk_blue\'>\r\n                  г. Туапсе</p>\r\n              <p class=\'js-map-сity_addr\r\n                        g-pt_35 g-pb_35 g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_16\'>\r\n                  350089,<br/>\r\n                  г. Краснодар, <br/>\r\n                  Рождественская набережная д.3,<br/>\r\n                  подъезд 5, офис 92.\r\n              <p class=\'g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue \'>\r\n                  <img class=\'g-pr_10 g-va_t\' src=\'/upload/consultug/ico_phone.png\' alt=\'Телефон\'>\r\n                  8-918-443-99-03\r\n              </p>\r\n          </div>\r\n      </div>\n', 1, 'left-top', 7, 'html', 'wrapper_plain', '---\n- 0\n'),
+(37, 'consultug', '---\n- 0\n', 14, 'Подвал', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'m-p-filler-footer\r\n                  p-filler-footer\r\n                  g-w_100p\'>\r\n  \r\n      </div>\r\n      <div class=\'js-baner-stop\r\n                  p-footer-main\r\n                  g-bgc_dk_blue g-w_100p\'>\r\n          <div class=\'g-w_1170\'>\r\n              <div class=\'g-d_tb g-pb_60 g-pt_60 g-w_100p\'>\r\n                  <div class=\'p-footer-logo\r\n                              m-p-footer-logo\r\n                              g-d_tbc g-va_m\'>\r\n                      <a class=\'g-d_ib \' href=\'index.html\'>\r\n                          <img class=\'g-bxz_bb g-pl_10 g-d_b\' src=\'/upload/consultug/logo_white.png\' alt=\'Логотип\'>\r\n                      </a>\r\n                  </div>\r\n                  <div class=\'g-d_tbc g-va_m\'>\r\n                      <p class=\'g-lh_16  g-pl_10 g-c_white g-fz_1_4r g-ff_lt\'>\r\n                          &copy; 2007-2017 Консалтинг-Юг\r\n                          <br />Профессиональная оценка в Краснодаре и крае\r\n                      </p>\r\n                  </div>\r\n                  <div class=\'g-d_tbc g-va_m \'>\r\n                      <a class=\'g-pl_15 g-pr_15 g-d_ib g-ta_c g-fz_1_4r g-ff_reg g-c_white g-whs_nw\' href=\'#\'>Карта сайта</a>\r\n                  </div>\r\n                  <div class=\'g-d_tbc g-va_t g-pr_10 \'>\r\n                      <p class=\'m-p-footer-contacts\r\n                                p-footer-contacts\r\n                                g-ta_r g-whs_nw g-ta_r g-lh_15 g-c_white g-fz_1_4r g-ff_lt\'>\r\n                          <img class=\'p-footer-mail\r\n                                      g-va_m g-d_ib \' src=\'/upload/consultug/ico_mail_white.png\' alt=\'Почта\'>\r\n                          admin@c-ug.ru<br />\r\n                          <img class=\'g-pr_10 g-va_m g-d_ib \' src=\'/upload/consultug/ico_phone_white.png\' alt=\'Телефон\'>\r\n                          8-861-23-33-303<br />\r\n                          г.Краснодар, Рождественская набережная д.3<br />\r\n                          подъезд 5, офис 92\r\n                      </p>\r\n                  </div>\r\n              </div>\r\n          </div>\r\n      </div>\n', NULL, '_unused', 1, 'html', 'wrapper_plain', '---\n- 0\n'),
+(45, 'consultug', '---\n- 0\n', 14, 'Карта', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div id=\'map\' class=\'map g-pos_r\'>\r\n      </div>\n', 1, 'left-top', 8, 'html', 'wrapper_plain', '---\n- 0\n'),
+(56, 'consultug', '---\n- 0\n', 19, 'специальное меню для consultug', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 0, 'header-center', 1, 'menuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(39, 'consultug', '---\n- 0\n', 14, 'logo', NULL, NULL, NULL, 'p-header-logo  g-d_tbc g-va_m', 1, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <a class=\'g-d_ib\' href=\'/\'>\r\n                          <img class=\'g-bxz_bb g-d_b g-pl_10\' src=\'/upload/consultug/logo.png\' alt=\'Логотип\'>\r\n                      </a>\n', 0, 'header-left', 1, 'html', 'wrapper', '---\n- 0\n'),
+(40, 'consultug', '---\n- 0\n', 14, 'right logo', NULL, NULL, NULL, 'm-p-header-call p-header-call g-d_tbc g-ta_r g-va_m', NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <p class=\'g-pr_5 g-va_m g g-whs_nw g-d_ib g-ff_reg g-fz_2_4r g-c_dk_blue \'>\r\n                          8-861-23-33-303\r\n                      </p>\n', 0, 'header-right', 1, 'html', 'wrapper', '---\n- 0\n'),
+(114, 'consultug', '---\n- 0\n', 14, 'Кнопка назад к списку статей', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\"g-w_100p g-bgc_lt_blue\">\r\n          <div class=\"g-w_1170\">\r\n  <div class=\'g-pl_10 g-pb_10 g-pt_40\'>\r\n                  <a class=\'g-ff_lt g-fz_14 g-c_blue\' href=\"/articles\">← Назад к списку статей</a>\r\n              </div>\r\n  </div>\r\n  </div>\n', 203, 'left-top', 1, 'html', 'wrapper_plain', '---\n- 0\n'),
+(73, 'consultug', '---\n- 0\n', 21, 'специальное мобильное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 0, 'super-header', 1, 'mmenuConsultug', 'wrapper', '---\n- 0\n'),
+(78, 'consultug', '---\n- 0\n', 19, 'специальное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 217, 'header', 1, 'menuConsultug', 'wrapper', '---\n- 0\n'),
+(65, 'consultug', '---\n- 0\n', 14, 'Кнопка заказать звонок', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <!-- Кнопка Заказать звонок -->\r\n      <div class=\'p-button-get_call-cover\r\n                  g-pos_f g-z_2 g-w_100p\'>\r\n          <div class=\'g-w_1170 g-ta_r g-pr_5\'>\r\n              <div class=\'js-form-show\r\n                          m-p-button-get_call\r\n                          p-button-get_call\r\n                          g-bgc_red g-bdrs_5 g-cur_p g-d_ib g-pos_r\'>\r\n                  <p class=\'g-d_ib g-pt_10 g-pb_10 g-ta_c g-pr_20 g-pl_20 g-whs_nw g-td_n g-ff_lt g-fz_14 g-c_white\'>\r\n                      Заказать звонок</p>\r\n                  <img class=\'g-d_n g-pos_a g-bxz_bb\' src=\"/upload/consultug/ico_phone_white_big.png\" alt=\"Звонок\">\r\n              </div>\r\n          </div>\r\n      </div>\n', 0, 'super-header', 3, 'html', 'wrapper_plain', '---\n- 0\n'),
+(67, 'consultug', '---\n- 0\n', 14, 'Свёрнутое мобильное меню', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <!-- Форма мобильного меню -->\r\n  <div class=\'js-sw-menu\r\n              m-p-header-menu-mobile\r\n              p-header-menu-main\r\n              g-d_n g-w_100p g-z_3 g-pos_f g-bgc_white\'>\r\n      <div class=\'g-w_1170 g-pos_r\'>\r\n          <div class=\'g-d_tb g-w_100p g-pt_10 g-pb_10\'>\r\n              <div class=\'g-d_tbc g-va_m g-ta_l g-pl_5\'>\r\n                  <div class=\'js-p-header-button-menu\r\n                              m-p-header-button-menu\r\n                              p-header-button-menu\r\n                              g-bgc_white g-bdrs_5 g-d_ib\'>\r\n                      <a class=\'g-d_b g-pt_5 g-pb_5 g-ta_c g-pr_15 g-pl_15 g-whs_nw g-td_n g-ff_reg g-fz_16 g-c_blue\' href=\'#\'>\r\n                          Меню</a>\r\n                  </div>\r\n              </div>\r\n              <div class=\'m-p-header-logo-mobile\r\n                          p-header-logo-mobile\r\n                          g-d_tbc g-va_m g-ta_c g-pos_a \'>\r\n                  <a class=\'g-d_ib\' href=\'index.html\'>\r\n                      <img class=\' g-bxz_bb g-d_b\' src=\'/upload/consultug/logo.png\' alt=\'Логотип\'>\r\n                  </a>\r\n              </div>\r\n              <div class=\'m-p-header-call\r\n                          p-header-call\r\n                          g-d_tbc g-ta_r g-va_m \'>\r\n                  <p class=\'g-pr_5 g-va_m g g-whs_nw g-d_ib g-ff_reg g-fz_2_0r g-c_dk_blue g-lh_08\'>\r\n                      8-861-23-33-303\r\n                  </p>\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>\n', 0, 'header-center', 2, 'html', 'wrapper_plain', '---\n- 0\n'),
+(108, 'consultug', '---\n- 0\n', 14, 'Заголовок контрагентов', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'g-bgc_white\'>\r\n          <div class=\'g-w_1170\'>\r\n                  <h2 class=\'g-pt_80 g-pb_55 g-ta_c g-pl_8p g-pr_8p g-ff_reg g-c_dk_blue g-fz_3_6r\'>\r\n                      Нам доверяют\r\n                  </h2>\r\n                  <p class=\'g-pb_40 g-lh_15 g-ta_c g-pl_8p g-pr_8p g-ff_lt g-c_dk_blue g-fz_1_8r\'>\r\n                      Мы всегда стремимся повысить уровень комфорта наших клиентов, для этого  мы постоянно расширяем портфель партнерских соглашений. Сегодня мы взаимодействуем с крупнейшими банками в Краснодарском крае.\r\n                  </p>\r\n          </div>\r\n      </div>\n', 233, 'left-bottom', 5, 'html', 'wrapper_plain', '---\n- 0\n'),
+(92, 'consultug', '---\n- 0\n', 14, 'Стикер карты', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <!-- Блок Карта -->\r\n      <div class=\'g-w_1170 g-pos_r \'>\r\n          <div class=\'m-map-info\r\n                      map-info\r\n                      g-z_2 g-bxz_bb g-bgc_white\'>\r\n              <p class=\'js-map-city js-map-city_krasnodar\r\n                        map-city-active\r\n                        g-cur_p g-pr_40 g-d_ib g-ff_reg g-fz_1_8r g-c_dk_blue\'>\r\n                  г. Краснодар</p>\r\n              <p class=\'js-map-city js-map-city_tuapse\r\n                        g-cur_p g-d_ib g-ff_reg g-fz_1_8r g-c_dk_blue\'>\r\n                  г. Туапсе</p>\r\n              <p class=\'js-map-сity_addr\r\n                        g-pt_35 g-pb_35 g-ff_lt g-fz_1_6r g-c_dk_blue g-lh_16\'>\r\n                  350089,<br/>\r\n                  г. Краснодар, <br/>\r\n                  Рождественская набережная д.3,<br/>\r\n                  подъезд 5, офис 92.\r\n              <p class=\'g-lh_15 g-ff_lt g-fz_1_8r g-c_dk_blue \'>\r\n                  <img class=\'g-pr_10 g-va_t\' src=\'/upload/consultug/ico_phone.png\' alt=\'Телефон\'>\r\n                  8-918-443-99-03\r\n              </p>\r\n          </div>\r\n      </div>\n', 231, 'left-bottom', 2, 'html', 'wrapper_plain', '---\n- 0\n'),
+(89, 'consultug', '---\n- 0\n', 23, 'арбитражное меню для consultug', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 229, 'top', 1, 'arbitrmenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(88, 'consultug', '---\n- 0\n', 23, 'арбитражное меню для consultug', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 230, 'top', 1, 'arbitrmenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(87, 'consultug', '---\n- 0\n', 23, 'арбитражное меню для consultug', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 228, 'top', 1, 'arbitrmenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(120, 'consultug', '---\n- 0\n', 14, 'Кнопки \"Поделиться\"', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div class=\'g-w_100p\'>\r\n          <div class=\'g-w_1170 g-pb_30 g-pl_8p\'>\r\n  <script src=\"//yastatic.net/es5-shims/0.0.2/es5-shims.min.js\"></script>\r\n  <script src=\"//yastatic.net/share2/share.js\"></script>\r\n  <div class=\"ya-share2\" data-services=\"vkontakte,facebook,odnoklassniki,twitter,viber,whatsapp,telegram\"></div>\r\n  </div>\r\n  </div>\n', 203, 'left-bottom', 1, 'html', 'wrapper', '---\n- 0\n'),
+(102, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 233, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(93, 'consultug', '---\n- 0\n', 14, 'карта', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\ncontent: |\n  <div id=\'map\' class=\'js-baner-stop map g-pos_r\'>\r\n      </div>\n', 231, 'left-bottom', 3, 'html', 'wrapper_plain', '---\n- 0\n'),
+(94, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 231, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(113, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 201, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(99, 'consultug', '---\n- 0\n', 25, 'форма обратной связи', NULL, NULL, NULL, NULL, 1, 1, NULL, '---\n- 0\n', NULL, NULL, 0, 'super-header', 2, 'form', 'wrapper', '---\n- 0\n'),
+(100, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 232, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(98, 'consultug', '---\n- 0\n', 27, 'Банер с предложениями', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 231, 'left-bottom', 1, 'banerConsultug', 'wrapper_plain', '---\n- 0\n'),
+(106, 'consultug', '---\n- 0\n', 4, 'Дипломы', NULL, NULL, 'g-wos_0 g-ff_reg g-c_blue g-fz_2_4r g-ta_c', 'g-bgc_lt_blue g-pt_60', 1, 1, NULL, '---\n- 0\n', NULL, '---\nwidget_type: list\nctype_id: 11\ncategory_id: 5\ndataset: 0\nrelation_id: 0\nimage_field: photo\nteaser_field: content\nstyle:\nshow_details: null\nteaser_len:\nlimit: 10\n', 233, 'left-bottom', 2, 'list_consultug_check', 'wrapper', '---\n- 0\n'),
+(105, 'consultug', '---\n- 0\n', 4, 'Полисы страхования ответственности', NULL, NULL, 'g-wos_0 g-ff_reg g-c_blue g-fz_2_4r g-ta_c g-lh_3_5r', 'g-bgc_lt_blue g-pt_60', 1, 1, NULL, '---\n- 0\n', NULL, '---\nwidget_type: list\nctype_id: 11\ncategory_id: 4\ndataset: 0\nrelation_id:\nimage_field: photo\nteaser_field: content\nstyle:\nshow_details: null\nteaser_len:\nlimit: 10\n', 233, 'left-bottom', 1, 'list_consultug_check', 'wrapper', '---\n- 0\n'),
+(107, 'consultug', '---\n- 0\n', 4, 'Свидетельства', NULL, NULL, 'g-wos_0 g-ff_reg g-c_blue g-fz_2_4r g-ta_c', 'g-bgc_lt_blue g-pt_60', 1, 1, NULL, '---\n- 0\n', NULL, '---\nwidget_type: list\nctype_id: 11\ncategory_id: 6\ndataset: 0\nrelation_id: 0\nimage_field: photo\nteaser_field: content\nstyle:\nshow_details: null\nteaser_len:\nlimit: 10\n', 233, 'left-bottom', 3, 'list_consultug_check', 'wrapper', '---\n- 0\n'),
+(110, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 242, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(109, 'consultug', '---\n- 0\n', 4, 'Список контрагентов', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\nwidget_type: list\nctype_id: 14\ncategory_id: 1\ndataset: 0\nrelation_id:\nimage_field: photo\nteaser_field: content\nstyle:\nshow_details: null\nteaser_len:\nlimit: 10\n', 233, 'left-bottom', 6, 'list_partners_consultug', 'wrapper', '---\n- 0\n'),
+(111, 'consultug', '---\n- 0\n', 4, 'Список контента', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, '---\nwidget_type: list\nctype_id: 15\ncategory_id: 1\ndataset: null\nrelation_id: 0\nimage_field:\nteaser_field: content\nstyle:\nshow_details: null\nteaser_len:\nlimit: 10\n', 242, 'left-bottom', 1, 'list_answer_consultug', 'wrapper_plain', '---\n- 0\n'),
+(112, 'consultug', '---\n- 0\n', 27, 'Банер с предложениями', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 242, 'left-bottom', 2, 'banerConsultug', 'wrapper_plain', '---\n- 0\n'),
+(116, 'consultug', '---\n- 0\n', 27, 'Банер с предложениями', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 203, 'left-bottom', 2, 'banerConsultug', 'wrapper_plain', '---\n- 0\n'),
+(118, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 244, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n'),
+(119, 'consultug', '---\n- 0\n', 24, 'не арбитражное меню для consultug', NULL, NULL, NULL, NULL, NULL, 1, NULL, '---\n- 0\n', NULL, NULL, 243, 'top', 1, 'historymenuConsultug', 'wrapper_plain', '---\n- 0\n');
 
 -- --------------------------------------------------------
 
@@ -13926,7 +15311,37 @@ INSERT INTO `cms_widgets_pages` (`id`, `controller`, `name`, `title_const`, `tit
 (158, 'content', 'albums.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'albums/add\nalbums/add/%\nalbums/edit/*', NULL, NULL, NULL),
 (167, 'photos', 'item', 'LANG_PHOTOS_WP_ITEM', NULL, NULL, 'photos/*.html', NULL, NULL, NULL),
 (168, 'photos', 'upload', 'LANG_PHOTOS_WP_UPLOAD', NULL, NULL, 'photos/upload/%\r\nphotos/upload', NULL, NULL, NULL),
-(0, NULL, 'all', 'LANG_WP_ALL_PAGES', NULL, NULL, NULL, NULL, NULL, NULL);
+(0, NULL, 'all', 'LANG_WP_ALL_PAGES', NULL, NULL, NULL, NULL, NULL, NULL),
+(201, 'content', 'articles.all', 'LANG_WP_CONTENT_ALL_PAGES', NULL, NULL, 'articles\narticles-*\narticles/*', NULL, NULL, NULL),
+(202, 'content', 'articles.list', 'LANG_WP_CONTENT_LIST', NULL, NULL, 'articles\narticles-*\narticles/*', 'articles/*/view-*\narticles/*.html\narticles/add\narticles/add/%\narticles/addcat\narticles/addcat/%\narticles/editcat/%\narticles/edit/*', NULL, NULL),
+(203, 'content', 'articles.item', 'LANG_WP_CONTENT_ITEM', NULL, NULL, 'articles/*.html', NULL, NULL, NULL),
+(204, 'content', 'articles.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'articles/add\narticles/add/%\narticles/edit/*', NULL, NULL, NULL),
+(213, 'content', 'diploms.all', 'LANG_WP_CONTENT_ALL_PAGES', NULL, NULL, 'diploms\ndiploms-*\ndiploms/*', NULL, NULL, NULL),
+(214, 'content', 'diploms.list', 'LANG_WP_CONTENT_LIST', NULL, NULL, 'diploms\ndiploms-*\ndiploms/*', 'diploms/*/view-*\ndiploms/*.html\ndiploms/add\ndiploms/add/%\ndiploms/addcat\ndiploms/addcat/%\ndiploms/editcat/%\ndiploms/edit/*', NULL, NULL),
+(215, 'content', 'diploms.item', 'LANG_WP_CONTENT_ITEM', NULL, NULL, 'diploms/*.html', NULL, NULL, NULL),
+(216, 'content', 'diploms.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'diploms/add\ndiploms/add/%\ndiploms/edit/*', NULL, NULL, NULL),
+(217, 'content', 'estimats.all', 'LANG_WP_CONTENT_ALL_PAGES', NULL, NULL, 'estimats\nestimats-*\nestimats/*', NULL, NULL, NULL),
+(218, 'content', 'estimats.list', 'LANG_WP_CONTENT_LIST', NULL, NULL, 'estimats\nestimats-*\nestimats/*', 'estimats/*/view-*\nestimats/*.html\nestimats/add\nestimats/add/%\nestimats/addcat\nestimats/addcat/%\nestimats/editcat/%\nestimats/edit/*', NULL, NULL),
+(219, 'content', 'estimats.item', 'LANG_WP_CONTENT_ITEM', NULL, NULL, 'estimats/*.html', NULL, NULL, NULL),
+(220, 'content', 'estimats.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'estimats/add\nestimats/add/%\nestimats/edit/*', NULL, NULL, NULL),
+(221, NULL, NULL, NULL, NULL, 'test', 'pages/test.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(237, 'content', 'partners.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'partners/add\npartners/add/%\npartners/edit/*', NULL, NULL, NULL),
+(234, 'content', 'partners.all', 'LANG_WP_CONTENT_ALL_PAGES', NULL, NULL, 'partners\npartners-*\npartners/*', NULL, NULL, NULL),
+(235, 'content', 'partners.list', 'LANG_WP_CONTENT_LIST', NULL, NULL, 'partners\npartners-*\npartners/*', 'partners/*/view-*\npartners/*.html\npartners/add\npartners/add/%\npartners/addcat\npartners/addcat/%\npartners/editcat/%\npartners/edit/*', NULL, NULL),
+(236, 'content', 'partners.item', 'LANG_WP_CONTENT_ITEM', NULL, NULL, 'partners/*.html', NULL, NULL, NULL),
+(238, 'content', 'answer.all', 'LANG_WP_CONTENT_ALL_PAGES', NULL, NULL, 'answer\nanswer-*\nanswer/*', NULL, NULL, NULL),
+(239, 'content', 'answer.list', 'LANG_WP_CONTENT_LIST', NULL, NULL, 'answer\nanswer-*\nanswer/*', 'answer/*/view-*\nanswer/*.html\nanswer/add\nanswer/add/%\nanswer/addcat\nanswer/addcat/%\nanswer/editcat/%\nanswer/edit/*', NULL, NULL),
+(228, NULL, NULL, NULL, NULL, 'Арбитражное управление кредиторы', 'pages/vzyskanie-zadolzhennosti-bankrotstvo.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(229, NULL, NULL, NULL, NULL, 'Арбитражное управление ЮЛ', 'pages/bankrotstvo-yuridicheskogo-lica.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(230, NULL, NULL, NULL, NULL, 'Арбитражное управление ФЛ', 'pages/bankrotstvo-fizicheskih-lic.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(231, NULL, NULL, NULL, NULL, 'Реквизиты и контакты', 'pages/rekvizity-i-kontakty.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(232, NULL, NULL, NULL, NULL, 'История компании', 'pages/history.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(233, NULL, NULL, NULL, NULL, 'Аккредитация и партнеры', 'pages/akkreditaciya-i-partnery.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(240, 'content', 'answer.item', 'LANG_WP_CONTENT_ITEM', NULL, NULL, 'answer/*.html', NULL, NULL, NULL),
+(241, 'content', 'answer.edit', 'LANG_WP_CONTENT_ITEM_EDIT', NULL, NULL, 'answer/add\nanswer/add/%\nanswer/edit/*', NULL, NULL, NULL),
+(242, NULL, NULL, NULL, NULL, 'Вопрос-ответ', 'pages/answer.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(243, NULL, NULL, NULL, NULL, 'Карта сайта', 'pages/karta-sajta.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n'),
+(244, NULL, NULL, NULL, NULL, 'Политика конфидициальности', 'pages/politika-konfidencialnosti.html', NULL, '---\nview:\n  - 0\nhide: null\n', '---\nview:\n  - 0\nhide: null\n');
 
 --
 -- Индексы сохранённых таблиц
@@ -14108,6 +15523,255 @@ ALTER TABLE `cms_con_albums_props_values`
   ADD KEY `item_id` (`item_id`);
 
 --
+-- Индексы таблицы `cms_con_answer`
+--
+ALTER TABLE `cms_con_answer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `date_pub` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`,`date_pub`),
+  ADD KEY `parent_id` (`parent_id`,`parent_type`,`date_pub`),
+  ADD KEY `user_id` (`user_id`,`date_pub`),
+  ADD KEY `date_pub_end` (`date_pub_end`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `folder_id` (`folder_id`),
+  ADD KEY `approved_by` (`approved_by`);
+ALTER TABLE `cms_con_answer` ADD FULLTEXT KEY `title` (`title`);
+
+--
+-- Индексы таблицы `cms_con_answer_cats`
+--
+ALTER TABLE `cms_con_answer_cats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `parent_id` (`parent_id`,`ns_left`),
+  ADD KEY `ns_left` (`ns_level`,`ns_right`,`ns_left`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_answer_cats_bind`
+--
+ALTER TABLE `cms_con_answer_cats_bind`
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `cms_con_answer_fields`
+--
+ALTER TABLE `cms_con_answer_fields`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_answer_props`
+--
+ALTER TABLE `cms_con_answer_props`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `is_in_filter` (`is_in_filter`);
+
+--
+-- Индексы таблицы `cms_con_answer_props_bind`
+--
+ALTER TABLE `cms_con_answer_props_bind`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_answer_props_values`
+--
+ALTER TABLE `cms_con_answer_props_values`
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Индексы таблицы `cms_con_articles`
+--
+ALTER TABLE `cms_con_articles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `date_pub` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`,`date_pub`),
+  ADD KEY `parent_id` (`parent_id`,`parent_type`,`date_pub`),
+  ADD KEY `user_id` (`user_id`,`date_pub`),
+  ADD KEY `date_pub_end` (`date_pub_end`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `folder_id` (`folder_id`),
+  ADD KEY `approved_by` (`approved_by`);
+ALTER TABLE `cms_con_articles` ADD FULLTEXT KEY `title` (`title`);
+
+--
+-- Индексы таблицы `cms_con_articles_cats`
+--
+ALTER TABLE `cms_con_articles_cats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `parent_id` (`parent_id`,`ns_left`),
+  ADD KEY `ns_left` (`ns_level`,`ns_right`,`ns_left`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_articles_cats_bind`
+--
+ALTER TABLE `cms_con_articles_cats_bind`
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `cms_con_articles_fields`
+--
+ALTER TABLE `cms_con_articles_fields`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_articles_props`
+--
+ALTER TABLE `cms_con_articles_props`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `is_in_filter` (`is_in_filter`);
+
+--
+-- Индексы таблицы `cms_con_articles_props_bind`
+--
+ALTER TABLE `cms_con_articles_props_bind`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_articles_props_values`
+--
+ALTER TABLE `cms_con_articles_props_values`
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Индексы таблицы `cms_con_diploms`
+--
+ALTER TABLE `cms_con_diploms`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `date_pub` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`,`date_pub`),
+  ADD KEY `parent_id` (`parent_id`,`parent_type`,`date_pub`),
+  ADD KEY `user_id` (`user_id`,`date_pub`),
+  ADD KEY `date_pub_end` (`date_pub_end`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `folder_id` (`folder_id`),
+  ADD KEY `approved_by` (`approved_by`),
+  ADD KEY `dataset_ocenka_kvart` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`);
+ALTER TABLE `cms_con_diploms` ADD FULLTEXT KEY `title` (`title`);
+
+--
+-- Индексы таблицы `cms_con_diploms_cats`
+--
+ALTER TABLE `cms_con_diploms_cats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `parent_id` (`parent_id`,`ns_left`),
+  ADD KEY `ns_left` (`ns_level`,`ns_right`,`ns_left`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_diploms_cats_bind`
+--
+ALTER TABLE `cms_con_diploms_cats_bind`
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `cms_con_diploms_fields`
+--
+ALTER TABLE `cms_con_diploms_fields`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_diploms_props`
+--
+ALTER TABLE `cms_con_diploms_props`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `is_in_filter` (`is_in_filter`);
+
+--
+-- Индексы таблицы `cms_con_diploms_props_bind`
+--
+ALTER TABLE `cms_con_diploms_props_bind`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_diploms_props_values`
+--
+ALTER TABLE `cms_con_diploms_props_values`
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Индексы таблицы `cms_con_estimats`
+--
+ALTER TABLE `cms_con_estimats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `date_pub` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`,`date_pub`),
+  ADD KEY `parent_id` (`parent_id`,`parent_type`,`date_pub`),
+  ADD KEY `user_id` (`user_id`,`date_pub`),
+  ADD KEY `date_pub_end` (`date_pub_end`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `folder_id` (`folder_id`),
+  ADD KEY `approved_by` (`approved_by`);
+ALTER TABLE `cms_con_estimats` ADD FULLTEXT KEY `title` (`title`);
+
+--
+-- Индексы таблицы `cms_con_estimats_cats`
+--
+ALTER TABLE `cms_con_estimats_cats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `parent_id` (`parent_id`,`ns_left`),
+  ADD KEY `ns_left` (`ns_level`,`ns_right`,`ns_left`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_estimats_cats_bind`
+--
+ALTER TABLE `cms_con_estimats_cats_bind`
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `cms_con_estimats_fields`
+--
+ALTER TABLE `cms_con_estimats_fields`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_estimats_props`
+--
+ALTER TABLE `cms_con_estimats_props`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `is_in_filter` (`is_in_filter`);
+
+--
+-- Индексы таблицы `cms_con_estimats_props_bind`
+--
+ALTER TABLE `cms_con_estimats_props_bind`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_estimats_props_values`
+--
+ALTER TABLE `cms_con_estimats_props_values`
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Индексы таблицы `cms_con_pages`
 --
 ALTER TABLE `cms_con_pages`
@@ -14175,6 +15839,68 @@ ALTER TABLE `cms_con_pages_props_values`
   ADD KEY `item_id` (`item_id`);
 
 --
+-- Индексы таблицы `cms_con_partners`
+--
+ALTER TABLE `cms_con_partners`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `date_pub` (`is_pub`,`is_parent_hidden`,`is_deleted`,`is_approved`,`date_pub`),
+  ADD KEY `parent_id` (`parent_id`,`parent_type`,`date_pub`),
+  ADD KEY `user_id` (`user_id`,`date_pub`),
+  ADD KEY `date_pub_end` (`date_pub_end`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `folder_id` (`folder_id`),
+  ADD KEY `approved_by` (`approved_by`);
+ALTER TABLE `cms_con_partners` ADD FULLTEXT KEY `title` (`title`);
+
+--
+-- Индексы таблицы `cms_con_partners_cats`
+--
+ALTER TABLE `cms_con_partners_cats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `parent_id` (`parent_id`,`ns_left`),
+  ADD KEY `ns_left` (`ns_level`,`ns_right`,`ns_left`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_partners_cats_bind`
+--
+ALTER TABLE `cms_con_partners_cats_bind`
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Индексы таблицы `cms_con_partners_fields`
+--
+ALTER TABLE `cms_con_partners_fields`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_partners_props`
+--
+ALTER TABLE `cms_con_partners_props`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `is_in_filter` (`is_in_filter`);
+
+--
+-- Индексы таблицы `cms_con_partners_props_bind`
+--
+ALTER TABLE `cms_con_partners_props_bind`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `cat_id` (`cat_id`),
+  ADD KEY `ordering` (`ordering`);
+
+--
+-- Индексы таблицы `cms_con_partners_props_values`
+--
+ALTER TABLE `cms_con_partners_props_values`
+  ADD KEY `prop_id` (`prop_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Индексы таблицы `cms_events`
 --
 ALTER TABLE `cms_events`
@@ -14182,6 +15908,12 @@ ALTER TABLE `cms_events`
   ADD KEY `hook` (`event`),
   ADD KEY `listener` (`listener`),
   ADD KEY `is_enabled` (`is_enabled`,`ordering`);
+
+--
+-- Индексы таблицы `cms_feedback_handlings`
+--
+ALTER TABLE `cms_feedback_handlings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `cms_geo_cities`
@@ -14323,6 +16055,32 @@ ALTER TABLE `cms_perms_rules`
 ALTER TABLE `cms_perms_users`
   ADD KEY `rule_id` (`rule_id`),
   ADD KEY `group_id` (`group_id`);
+
+--
+-- Индексы таблицы `cms_photobattles`
+--
+ALTER TABLE `cms_photobattles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `status` (`status`),
+  ADD KEY `users_count` (`users_count`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Индексы таблицы `cms_photobattles_photos`
+--
+ALTER TABLE `cms_photobattles_photos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `score` (`score`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `battle_id` (`battle_id`);
+
+--
+-- Индексы таблицы `cms_photobattles_votes`
+--
+ALTER TABLE `cms_photobattles_votes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `vote_user_id` (`photo_id`);
 
 --
 -- Индексы таблицы `cms_photos`
@@ -14600,7 +16358,7 @@ ALTER TABLE `cms_activity`
 -- AUTO_INCREMENT для таблицы `cms_activity_types`
 --
 ALTER TABLE `cms_activity_types`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `cms_comments`
 --
@@ -14620,7 +16378,7 @@ ALTER TABLE `cms_comments_tracks`
 -- AUTO_INCREMENT для таблицы `cms_content_datasets`
 --
 ALTER TABLE `cms_content_datasets`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `cms_content_folders`
 --
@@ -14630,22 +16388,22 @@ ALTER TABLE `cms_content_folders`
 -- AUTO_INCREMENT для таблицы `cms_content_relations`
 --
 ALTER TABLE `cms_content_relations`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `cms_content_relations_bind`
 --
 ALTER TABLE `cms_content_relations_bind`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `cms_content_types`
 --
 ALTER TABLE `cms_content_types`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT для таблицы `cms_controllers`
 --
 ALTER TABLE `cms_controllers`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT для таблицы `cms_con_albums`
 --
@@ -14672,10 +16430,110 @@ ALTER TABLE `cms_con_albums_props`
 ALTER TABLE `cms_con_albums_props_bind`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `cms_con_answer`
+--
+ALTER TABLE `cms_con_answer`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_answer_cats`
+--
+ALTER TABLE `cms_con_answer_cats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_answer_fields`
+--
+ALTER TABLE `cms_con_answer_fields`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_answer_props`
+--
+ALTER TABLE `cms_con_answer_props`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_answer_props_bind`
+--
+ALTER TABLE `cms_con_answer_props_bind`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_articles`
+--
+ALTER TABLE `cms_con_articles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_articles_cats`
+--
+ALTER TABLE `cms_con_articles_cats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_articles_fields`
+--
+ALTER TABLE `cms_con_articles_fields`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_articles_props`
+--
+ALTER TABLE `cms_con_articles_props`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_articles_props_bind`
+--
+ALTER TABLE `cms_con_articles_props_bind`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_diploms`
+--
+ALTER TABLE `cms_con_diploms`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_diploms_cats`
+--
+ALTER TABLE `cms_con_diploms_cats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_diploms_fields`
+--
+ALTER TABLE `cms_con_diploms_fields`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_diploms_props`
+--
+ALTER TABLE `cms_con_diploms_props`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_diploms_props_bind`
+--
+ALTER TABLE `cms_con_diploms_props_bind`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_estimats`
+--
+ALTER TABLE `cms_con_estimats`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_estimats_cats`
+--
+ALTER TABLE `cms_con_estimats_cats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_estimats_fields`
+--
+ALTER TABLE `cms_con_estimats_fields`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_estimats_props`
+--
+ALTER TABLE `cms_con_estimats_props`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_estimats_props_bind`
+--
+ALTER TABLE `cms_con_estimats_props_bind`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `cms_con_pages`
 --
 ALTER TABLE `cms_con_pages`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `cms_con_pages_cats`
 --
@@ -14697,10 +16555,40 @@ ALTER TABLE `cms_con_pages_props`
 ALTER TABLE `cms_con_pages_props_bind`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT для таблицы `cms_con_partners`
+--
+ALTER TABLE `cms_con_partners`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_partners_cats`
+--
+ALTER TABLE `cms_con_partners_cats`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_partners_fields`
+--
+ALTER TABLE `cms_con_partners_fields`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_partners_props`
+--
+ALTER TABLE `cms_con_partners_props`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_con_partners_props_bind`
+--
+ALTER TABLE `cms_con_partners_props_bind`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `cms_events`
 --
 ALTER TABLE `cms_events`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+--
+-- AUTO_INCREMENT для таблицы `cms_feedback_handlings`
+--
+ALTER TABLE `cms_feedback_handlings`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT для таблицы `cms_geo_cities`
 --
@@ -14745,12 +16633,12 @@ ALTER TABLE `cms_images_presets`
 -- AUTO_INCREMENT для таблицы `cms_menu`
 --
 ALTER TABLE `cms_menu`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `cms_menu_items`
 --
 ALTER TABLE `cms_menu_items`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT для таблицы `cms_moderators`
 --
@@ -14760,7 +16648,7 @@ ALTER TABLE `cms_moderators`
 -- AUTO_INCREMENT для таблицы `cms_moderators_logs`
 --
 ALTER TABLE `cms_moderators_logs`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `cms_moderators_tasks`
 --
@@ -14771,6 +16659,21 @@ ALTER TABLE `cms_moderators_tasks`
 --
 ALTER TABLE `cms_perms_rules`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+--
+-- AUTO_INCREMENT для таблицы `cms_photobattles`
+--
+ALTER TABLE `cms_photobattles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_photobattles_photos`
+--
+ALTER TABLE `cms_photobattles_photos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `cms_photobattles_votes`
+--
+ALTER TABLE `cms_photobattles_votes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT для таблицы `cms_photos`
 --
@@ -14785,7 +16688,7 @@ ALTER TABLE `cms_rating_log`
 -- AUTO_INCREMENT для таблицы `cms_rss_feeds`
 --
 ALTER TABLE `cms_rss_feeds`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT для таблицы `cms_scheduler_tasks`
 --
@@ -14815,7 +16718,7 @@ ALTER TABLE `cms_users`
 -- AUTO_INCREMENT для таблицы `cms_users_auth_tokens`
 --
 ALTER TABLE `cms_users_auth_tokens`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `cms_users_contacts`
 --
@@ -14870,7 +16773,7 @@ ALTER TABLE `cms_users_notices`
 -- AUTO_INCREMENT для таблицы `cms_users_personal_settings`
 --
 ALTER TABLE `cms_users_personal_settings`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT для таблицы `cms_users_statuses`
 --
@@ -14890,17 +16793,17 @@ ALTER TABLE `cms_wall_entries`
 -- AUTO_INCREMENT для таблицы `cms_widgets`
 --
 ALTER TABLE `cms_widgets`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT для таблицы `cms_widgets_bind`
 --
 ALTER TABLE `cms_widgets_bind`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- AUTO_INCREMENT для таблицы `cms_widgets_pages`
 --
 ALTER TABLE `cms_widgets_pages`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;COMMIT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
