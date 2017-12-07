@@ -23,6 +23,23 @@ class modelPhotobattle extends cmsModel {
         
         return $this->update('photobattles', $id, $battle);
     }
+    
+    public function deleteBattle($id){
+        
+        $config = cmsConfig::getInstance();
+        
+        $battle = $this->getBattle($id);
+        
+        $logo = self::yamlToArray($battle['logo']);
+        if (is_array($logos)){
+            foreach($logos as $pach){
+                
+                unlink( $config->upload_path . $path);
+            }
+        }
+        
+        return $this->delete('photobattles', $id);
+    }
 }
 
 ?>
