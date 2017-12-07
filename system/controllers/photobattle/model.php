@@ -17,6 +17,12 @@ class modelPhotobattle extends cmsModel {
                                     ,$id
         );
     }
+    
+    //функция обновления записи
+    public function updateBattle($id, $battle){
+        
+        return $this->update('photobattles', $id, $battle);
+    }
 }
 
 ?>
