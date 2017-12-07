@@ -4,8 +4,9 @@
     if ($do == 'edit') {$page_title = LANG_PHOTOBATTLE_EDIT;}
     
     $this->setPageTitle($page_title);
-    
+    //добавляем глубиномер самого компонента
     $this->addBreadcrumb(LANG_PHOTOBATTLE_CONTROLLER, href_to('photobattle', ''));
+    //добавляем глубиномер действия
     $this->addBreadcrumb($page_title);
 
 ?>
