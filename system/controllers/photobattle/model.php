@@ -30,9 +30,9 @@ class modelPhotobattle extends cmsModel {
         
         $battle = $this->getBattle($id);
         
-        $logo = self::yamlToArray($battle['logo']);
+        $logos = self::yamlToArray($battle['logo']);
         if (is_array($logos)){
-            foreach($logos as $pach){
+            foreach($logos as $path){
                 
                 unlink( $config->upload_path . $path);
             }
