@@ -48,7 +48,7 @@ class actionPhotobattleEdit extends cmsAction{
         }
         
         $template->render('form_battle', array( //рендерим шаблон и передаем в него ряд параметров
-            'do' => 'add', // параметр с информацией о действии add - добавление, edit - редактирование
+            'do' => 'edit', // параметр с информацией о действии add - добавление, edit - редактирование
             'form' => $form, // обект формы form_battle
             'errors' => $errors,
             'battle' => $battle
