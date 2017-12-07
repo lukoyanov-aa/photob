@@ -3,7 +3,7 @@
     $this->addBreadcrumb(LANG_PHOTOBATTLE_CONTROLLER);
     
     if (cmsUser::isAdmin()/*проверяем что текущий пользователь Администратор*/){
-    
+        //добавляем кнопку
         $this->addToolButton(array(
             'class' => 'add',
             'title' => LANG_PHOTOBATTLE_ADD,
