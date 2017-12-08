@@ -5,9 +5,11 @@ class actionPhotobattleIndex extends cmsAction{
     public function run(){
         
         $template = cmsTemplate::getInstance();
-        $battles = array();
+        $total = $this->model->getBattlesCount();
+        $battles = $this->model->getBattles();
         $template->render('index', array(
-            'battles' => $battles
+            'battles' => $battles,
+            'total' => $total
         ));
     }
 
