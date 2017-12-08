@@ -13,9 +13,21 @@ class modelPhotobattle extends cmsModel {
     //функция получения одной битвы по id
     public function getBattle($id){
         
-        return $this->getItemById('photobattles'
-                                    ,$id
-        );
+        $battle = $this->getItemById('photobattles', $id);
+		
+		$this->filterEqual('battle_id', $id);
+		
+		$this->orderBy('score', 'desc');
+		
+		$this->join('{users}', 'u', 'u.id = i.user_id');
+		
+		$this->select('u.nickname', 'user_nickname');
+		
+		$battle['photos'] = $this->get('photobattles_photos');
+		
+		return $battle;
+        
+        return $battle;
     }
     
     //функция одной битвы
@@ -52,6 +64,19 @@ class modelPhotobattle extends cmsModel {
     public function getBattlesCount(){
         
         return $this->getCount('photobattles');
+    }
+    
+    public function addPhoto($photo){
+        
+        $photo_id = $this->insert('photobattles_photos' //имя таблицы куда будем вставлять без префикса cms_
+                                , $photo //массив который будем вставлять
+                            );
+        //устанавливаем фильтр перед действием
+        $this->filterEqual('id', $photo['battle_id']);
+        //увеличиваем поле таблицы на 1
+        $this->increment('photobattles', 'users_count', 1);
+                            
+        return $photo_id;
     }
 }
 
