@@ -1,0 +1,171 @@
+/* Список битв */
+
+.photobattles-list .item { 
+	overflow: hidden;
+	border-bottom: dashed 1px #ECECEC;
+	padding: 10px 0;
+}
+
+.photobattles-list .item:last-child { 
+	border: none;
+}
+
+.photobattles-list .item .logo{
+	width:64px;
+	height:64px;
+	float:left;
+	padding-right:20px;
+}
+
+.photobattles-list .item .details {
+	padding-top: 10px;
+}
+
+.photobattles-list .item .details .title{
+	font-size:18px;	
+}
+
+.photobattles-list .item .details .info {
+	font-size:12px;
+	margin-top:5px;
+}
+
+.photobattles-list .item .details .info .status {
+	padding-right: 10px;
+}
+
+.photobattles-list .item .details .info .status-0 { color:#D36B24; }
+.photobattles-list .item .details .info .status-2 { color:#409D27; }
+.photobattles-list .item .details .info .status-3 { color:#9D272B; }
+
+/* Битва */
+
+.photobattle-status{
+	margin-bottom:30px;
+}
+
+/* Все фотографии в битве */
+
+.photobattle-images ul,
+.photobattle-images ul li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.photobattle-images ul {
+	overflow: hidden;
+}
+
+.photobattle-images ul li {
+	overflow: hidden;
+	float:left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	width:220px;
+	font-size:12px;
+}
+
+.photobattle-images ul li a.image {
+	text-decoration: none;
+	float:left;
+}
+
+.photobattle-images ul li a.image img {
+	display:block;
+}
+
+.photobattle-images ul li .details {
+	margin-left:10px;
+	margin-top:10px;
+	float:left;
+}
+.photobattle-images ul li .user {
+	padding-left:18px;		
+	background:url("../../images/icons/user.png") no-repeat left center;	
+}
+
+.photobattle-images ul li a.delete {
+	color:red;
+}
+
+/* Выбор из двух фотографий */
+
+.photobattle-versus {
+	overflow:hidden;
+	margin-bottom: 50px;
+}
+
+.photobattle-versus .photo { 
+	float: left; 
+	width: 315px;
+	padding:10px;
+	border:solid 1px #B8D6FB;
+	background:#F4F8FD;
+	text-align:center;
+	margin-right: 10px;
+}
+
+.photobattle-versus .photo:last-child {
+	margin-right: 0;
+} 
+
+.photobattle-versus .photo .user{
+	margin-bottom: 10px;
+}
+
+.photobattle-versus .photo .user a {
+	padding-left:18px;
+	background:url("../../images/icons/user.png") no-repeat left center;		
+}
+
+.photobattle-versus .photo .zoom {
+	margin-top:10px;
+}
+
+.photobattle-versus .photo .zoom a {
+	padding-left:18px;
+	background:url("../../images/icons/search.png") no-repeat left center;			
+}
+
+/* Победители битвы */
+
+.photobattle-winners .place {
+	padding:20px;
+	border:solid 1px #B8D6FB;
+	background:#F4F8FD;
+	text-align: center;
+}
+
+.photobattle-winners .place h3{
+	margin:0;
+	margin-bottom:5px;
+	font-weight: bold;
+}
+
+.photobattle-winners .place .user{
+	margin-bottom: 10px;
+}
+
+.photobattle-winners .place .user a {
+	padding-left:18px;
+	background:url("../../images/icons/user.png") no-repeat left center;		
+}
+
+.photobattle-winners .places-2-3 {
+	overflow: hidden;
+	margin:10px 0;
+	margin-bottom:30px;
+}
+
+.photobattle-winners .places-2-3 .place {
+	float:left;
+	margin-right: 10px;
+	width: 298px;
+}
+
+.photobattle-winners .places-2-3 .place:last-child {
+	margin-right: 0;
+}
+
+.photobattle-winners .place-1 { background: #FFFFCC; border-color: #FFCC66; }
