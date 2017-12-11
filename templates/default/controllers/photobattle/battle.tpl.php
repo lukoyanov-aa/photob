@@ -13,15 +13,34 @@
     
     if ($battle['status'] == photobattle::STATUS_PENDING ){
         
-        //добавляем кнопку
-        $this->addToolButton(array(
+        if (!$is_user_in_battle || cmsUser::isAdmin()){
+            
+            //добавляем кнопку
+            $this->addToolButton(array(
             'class' => 'user_add',
             'title' => LANG_PHOTOBATTLE_JOIN,
             'href' => href_to('photobattle', 'join', $battle['id'])
-        ));
+            ));
+        }
     }
     
     if (cmsUser::isAdmin()){
+        
+        if ($battle['status'] != photobattle::STATUS_OPENED){
+			$this->addToolButton(array(
+				'class' => 'accept',
+				'title' => LANG_PHOTOBATTLE_START,
+				'href' => $this->href_to('start', $battle['id'])
+			));			
+		}
+		
+		if ($battle['status'] == photobattle::STATUS_OPENED){
+			$this->addToolButton(array(
+				'class' => 'cancel',
+				'title' => LANG_PHOTOBATTLE_STOP,
+				'href' => $this->href_to('stop', $battle['id'])
+			));			
+		}
         
         //добавляем кнопку
         $this->addToolButton(array(
@@ -36,6 +55,13 @@
             'href' => href_to('photobattle', 'delete', $battle['id'])
         ));
     }
+    
+    $statuses_text = array(
+		0 => LANG_PHOTOBATTLE_STATUS_PENDING,
+		1 => LANG_PHOTOBATTLE_STATUS_MODERATION,
+		2 => LANG_PHOTOBATTLE_STATUS_OPENED,
+		3 => LANG_PHOTOBATTLE_STATUS_CLOSED,		
+	);
 
 ?>
 
@@ -45,13 +71,21 @@
     ?>
 </h1>
 
+<div class="photobattle-status">
+	<strong><?php echo LANG_PHOTOBATTLE_STATUS; ?>:</strong>
+	<?php echo $statuses_text[ $battle['status'] ]; ?> 
+	<?php if ($battle['status'] == photobattle::STATUS_OPENED) { ?>
+		&mdash; <?php echo LANG_PHOTOBATTLE_YOU_VOTED; ?>
+	<?php } ?>
+</div>
+
 <?php if ($battle['photos']) { ?>
 
 	<div class="photobattle-images">
 		<ul>
 			<?php foreach($battle['photos'] as $photo) { ?>
 				<li>
-					<a class="image" href="<?php echo html_image_src($photo['image'], 'big', true); ?>" title="<?php if ($is_show_names) { echo $photo['user_nickname']; } ?>">
+					<a class="image" href="<?php echo html_image_src($photo['image'], 'big', true/*добавлять к пути адрес хоста*/); ?>" title="<?php if ($is_show_names) { echo $photo['user_nickname']; } ?>">
 						<?php echo html_image($photo['image'], 'small'); ?>
 					</a>
 					<div class="details">
